@@ -1,0 +1,40 @@
+﻿@model ColmartCMS.View_Models.LayoutPartials.clsCMSUserDropDownMenuBox
+
+<div id="userbox" class="userbox">
+    <a href="#" data-toggle="dropdown">
+        <figure class="profile-picture">
+            @if (Model.strImagePath != null && Model.strImagePath != "")
+            {
+                <img src="@Model.strImagePath" alt="@Model.strFullName" class="img-circle" data-lock-picture="@Model.strLockScreenImagePath" />
+            }
+            else
+            {
+                <img src="~/Areas/CMS/Content/assets/images/default_image.png" alt="@Model.strFullName" class="img-circle" data-lock-picture="/Content/assets/images/default_image.png" />
+            }
+
+        </figure>
+        <div class="profile-info" data-lock-name="@Model.strFullName" data-lock-email="@Model.strEmailAddress">
+            <span class="name">@Model.strFullName</span>
+            <span class="role">@Model.strRoleType</span>
+        </div>
+
+        <i class="fa custom-caret"></i>
+    </a>
+
+    <div class="dropdown-menu">
+        <ul class="list-unstyled">
+            <li class="divider"></li>
+            <li>
+                <a role="menuitem" tabindex="-1" href="@Url.Action("CMSUserProfile", "CMSUsers")"><i class="fa fa-user"></i> My Profile</a>
+            </li>
+            @*<li>
+                <a role="menuitem" tabindex="-1" href="#" data-lock-screen="true"><i class="fa fa-lock"></i> Lock Screen</a>
+            </li>*@
+            <li>
+                @*@Html.ActionLink("Logout", "Logout", "LayoutPartials", htmlAttributes: new { id = "btnLogout", role = "menuitem", tabindex = "-1" })*@
+                @*<a role="menuitem" tabindex="-1" href="@Html.ActionLink("Logout", "LayoutPartials")"><i class="fa fa-power-off"></i> Logout</a>*@
+                <a role="menuitem" tabindex="-1" href="@Url.Action("Logout", "LayoutPartials")"><i class="fa fa-power-off"></i> Logout</a>
+            </li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,88 @@
+﻿@model ColmartCMS.View_Models.ProductSizes.clsProductSizeAdd
+
+@{
+    ViewBag.Title = "ProductSizeAdd";
+}
+
+<!-- start: page -->
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading">
+                <h2 class="panel-title">Product Size Info</h2>
+            </header>
+            <div class="panel-body">
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmProductSizeAdd", @name = "frmProductSizeAdd" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="form-horizontal">
+                    <h4 class="mb-xlg">Product Size</h4>
+                    <fieldset>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="strTitle">Product Size</label>
+                            <div class="col-md-8">
+                                @Html.EditorFor(Model => Model.clsProductSize.strSize, new { htmlAttributes = new { @id = "strSize", @placeholder = "Product Size", @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.clsProductSize.strSize, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="strTitle">Product Price</label>
+                            <div class="col-md-8">
+                                @Html.EditorFor(Model => Model.clsProductSize.dblPrice, new { htmlAttributes = new { @id = "dblPrice", @placeholder = "Product Price", @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.clsProductSize.dblPrice, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="strTitle">Quantity Available</label>
+                            <div class="col-md-8">
+                                @Html.EditorFor(Model => Model.clsProductSize.iQuantityAvailable, new { htmlAttributes = new { @id = "iQuantityAvailable", @placeholder = "Quantity Available", @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.clsProductSize.iQuantityAvailable, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="strTitle">Product</label>
+                            <div class="col-md-8">
+                                 @if (Model.lstProducts.Count > 0)
+                                    {
+                                        @Html.DropDownListFor(Model => Model.clsProductSize.iProductID, new SelectList(Model.lstProducts, "iProductID", "strTitle"), "-- Select Product --", new { id = "lstProducts", name = "lstProducts" })
+                                        <br />
+                                        @Html.ValidationMessageFor(model => model.clsProductSize.iProductID, "", new { @class = "text-danger" })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownListFor(Model => Model.clsProductSize.iProductID, new SelectList(Model.lstProducts, "iProductID", "strTitle"), "-- No Products Available --", new { id = "lstProducts", name = "lstProducts" })
+                                        <br />
+                                        @Html.ValidationMessageFor(model => model.clsProductSize.iProductID, "", new { @class = "text-danger" })
+                                    }
+                            </div>
+                        </div>
+                    </fieldset>
+                    <div class="row">
+                        <hr />
+                    </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <a href="@Url.Action("ProductSizesView", "ProductSizes")" class="btn btn-default">Back</a>
+                                <button type="submit" class="btn btn-primary">Add</button>
+                            </div>
+                        </div>
+                    </div>
+            }
+                </div>
+        </section>
+    </div>
+</div>
+<!-- end: page -->
+
+@**** CHANGE MASTER PAGE / LAYOUT PAGE HEADER (H2) TEXT AND PAGE TITLE AFTER PAGE LOADS ****@
+<script type="text/javascript">
+    window.onload = function ()
+    {
+        $("#strPageTitle").text("Add Product Size | Colmart CMS");
+        $("#h2PageHeader").text("Add Product Size");
+
+        //Update Breadcrumbs
+        $("#olBreadcrumbs").append("<li><a href='@Url.Action("ProductSizesView", "ProductSizes")'>Product Sizes</a></li>");
+        $("#olBreadcrumbs").append("<li><span>Add Product Size</span></li>");
+    }
+</script>

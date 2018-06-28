@@ -1,0 +1,256 @@
+﻿@model ColmartCMS.View_Models.CMSUsers.clsCMSUserProfileEdit
+
+@{
+    ViewBag.Title = "Profile";
+}
+
+@*Crop Slim Stylesheet*@
+@Styles.Render("~/Content/cms/slimCropStylesheets")
+
+<!-- start: page -->
+<div class="row">
+    <div class="col-md-4 col-lg-3">
+
+        <section class="panel">
+            <div class="panel-body">
+                <div class="thumb-info mb-md">
+                    <div id="cropImageDiv" class="slim"
+                         data-size="500,500"
+                         data-ratio="1:1"
+                         data-label="Click to Upload or Drop Image Here"
+                         data-will-transform="getImageData">
+
+                        <input type="file" name="slim[]"/>
+
+                        @if (Model.strFullImagePath == null)
+                        {
+                            <img src="~/images/defaultImages/default_imageNoTrans.png" class="rounded img-responsive">
+                        }
+                        else
+                        {
+                            <img src="@Model.strFullImagePath" class="rounded img-responsive">
+                        }
+                    </div>
+                </div>
+                <hr class="dotted short">
+            </div>
+        </section>
+
+    </div>
+    <div class="col-md-8 col-lg-9">
+
+        <div class="tabs">
+            <ul class="nav nav-tabs tabs-primary">
+                @*OVERVIEW HIDDEN FOR NOW*@
+                @*<li class="active">
+                        <a href="#overview" data-toggle="tab">Overview</a>
+                    </li>*@
+                <li class="active">
+                    <a href="#divProfile" data-toggle="tab">Profile</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                @*OVERVIEW HIDDEN FOR NOW*@
+                @*<div id="overview" class="tab-pane active">
+
+                        <h4 class="mb-xlg">Timeline</h4>
+
+                        <div class="timeline timeline-simple mt-xlg mb-md">
+                            <div class="tm-body">
+                                <div class="tm-title">
+                                    <h3 class="h5 text-uppercase">October 2017</h3>
+                                </div>
+                                <ol class="tm-items">
+                                    <li>
+                                        <div class="tm-box">
+                                            <p class="text-muted mb-none">7 months ago.</p>
+                                            <p>
+                                                It's awesome when we find a good solution for our projects, Porto Admin is <span class="text-primary">#awesome</span>
+                                            </p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="tm-box">
+                                            <p class="text-muted mb-none">7 months ago.</p>
+                                            <p>
+                                                What is your biggest developer pain point?
+                                            </p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="tm-box">
+                                            <p class="text-muted mb-none">7 months ago.</p>
+                                            <p>
+                                                Checkout! How cool is that!
+                                            </p>
+                                            <div class="thumbnail-gallery">
+                                                <a class="img-thumbnail lightbox" href="~/Content/assets/images/puppy.jpg" data-plugin-options='{ "type":"image" }'>
+                                                    <img class="img-responsive" width="215" src="~/Areas/CMS/Content/assets/images/puppy.jpg">
+                                                    <span class="zoom">
+                                                        <i class="fa fa-search"></i>
+                                                    </span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>*@
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmCMSUserProfileEdit", @name = "frmCMSUserProfileEdit" }))
+            {
+                @Html.AntiForgeryToken()
+                <div id="divProfile" class="tab-pane active">
+                    <div class="form-horizontal">
+                        <h4 class="mb-xlg">Personal Information</h4>
+                        <fieldset>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="strFirstName">First Name</label>
+                                <div class="col-md-8">
+                                    @Html.EditorFor(Model => Model.clsCMSUser.strFirstName, new { htmlAttributes = new { @id = "strFirstName", @placeholder = "First Name", @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => Model.clsCMSUser.strFirstName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="strSurname">Last Name</label>
+                                <div class="col-md-8">
+                                    @Html.EditorFor(Model => Model.clsCMSUser.strSurname, new { htmlAttributes = new { @id = "strSurname", @placeholder = "Last Name", @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => Model.clsCMSUser.strSurname, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="strEmailAddress">Email</label>
+                                <div class="col-md-8">
+                                    @Html.EditorFor(Model => Model.strEmailAddress, new { htmlAttributes = new { @id = "strEmailAddress", @placeholder = "Email", @class = "form-control", @readonly = "readonly" } })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="strContactNumber">Contact Number</label>
+                                <div class="col-md-8">
+                                    @Html.EditorFor(Model => Model.clsCMSUser.strContactNumber, new { htmlAttributes = new { @id = "strContactNumber", @placeholder = "Contact Number", @class = "form-control", @maxlength = "10" } })
+                                    @Html.ValidationMessageFor(model => Model.clsCMSUser.strContactNumber, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </fieldset>
+                        <hr class="dotted tall">
+                        <h4 class="mb-xlg">General Information</h4>
+                        <fieldset>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="strBiographicalInfo">Biographical Info</label>
+                                <div class="col-md-8">
+                                    @Html.TextAreaFor(Model => Model.clsCMSUser.strBiographicalInfo, new { @id = "strBiographicalInfo", @placeholder = "Info", @class = "form-control", @rows = "4" })
+                                </div>
+                            </div>
+                        </fieldset>
+                        @if (Model.strCMSRoleType == "Super Admin")
+                        { 
+                            <hr class="dotted tall">
+                            <h4 class="mb-xlg">Role Type</h4>
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label" for="lstCMSRoleTypes">Role</label>
+                                    <div class="col-md-8">
+                                        @if (Model.lstCMSRoleTypes.Count > 0)
+                                        {
+                                            @Html.DropDownListFor(Model => Model.clsCMSUser.iCMSRoleTypeID, new SelectList(Model.lstCMSRoleTypes, "iCMSRoleTypeID", "strTitle"), "-- Select Role Type --", new { id = "lstCMSRoleTypes", name = "lstCMSRoleTypes" })
+                                            <br />
+                                            @Html.ValidationMessageFor(model => model.clsCMSUser.iCMSRoleTypeID, "", new { @class = "text-danger" })
+                                        }
+                                        else
+                                        {
+                                            @Html.DropDownListFor(Model => Model.clsCMSUser.iCMSRoleTypeID, new SelectList(Model.lstCMSRoleTypes, "iCMSRoleTypeID", "strTitle"), "-- No Role Types Available --", new { id = "lstCMSRoleTypes", name = "lstCMSRoleTypes" })
+                                            <br />
+                                            @Html.ValidationMessageFor(model => model.clsCMSUser.iCMSRoleTypeID, "", new { @class = "text-danger" })
+                                        }
+                                    </div>
+                                </div>
+                            </fieldset>
+                        }
+                        <hr class="dotted tall">
+                        <h4 class="mb-xlg">Password</h4>
+                        <fieldset class="mb-xl">
+                            
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="strOldPassword">Old Password</label>
+                                <div class="col-md-8">
+                                    @Html.EditorFor(Model => Model.strOldPassword, new { htmlAttributes = new { @id = "strOldPassword", @placeholder = "Old Password", @class = "form-control" } })
+                                    @Html.ValidationMessage("passwordError", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label"></label>
+                                <div class="col-md-8">
+                                    <span class="icon"><i class="fa fa-info-circle"></i></span>
+                                    <label>If no password is specified, the user email will be used as the password</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="strNewPassword">New Password</label>
+                                <div class="col-md-8">
+                                    @Html.EditorFor(Model => Model.strNewPassword, new { htmlAttributes = new { @id = "strNewPassword", @placeholder = "New Password", @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.strNewPassword, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="strConfirmPassword">Confirm Password</label>
+                                <div class="col-md-8">
+                                    @Html.EditorFor(Model => Model.strConfirmPassword, new { htmlAttributes = new { @id = "strConfirmPassword", @placeholder = "Confirm Password", @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.strConfirmPassword, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </fieldset>
+                        <div class="row">
+                            <hr />
+                        </div>
+                        <div class="row">
+                            <div class="col-md-9">
+                                <a href="@Url.Action("CMSUserProfile", "CMSUsers")" class="btn btn-default">Back</a>
+                                <button type="submit" class="btn btn-primary">Update</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @Html.HiddenFor(model => model.strCropImageName)
+                @Html.HiddenFor(model => model.strCropImageData)
+            }
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end: page -->
+@*Crop Slim Script*@
+@Scripts.Render("~/bundles/cms/slimCropScripts")
+
+@**** CHANGE MASTER PAGE / LAYOUT PAGE HEADER (H2) TEXT AND PAGE TITLE AFTER PAGE LOADS ****@
+<script type="text/javascript">
+    window.onload = function ()
+    {
+        $("#strPageTitle").text("Edit CMS User Profile | Colmart CMS");
+        $("#h2PageHeader").text("Edit CMS User Profile");
+
+        //Update Breadcrumbs
+        $("#olBreadcrumbs").append("<li><a href='@Url.Action("CMSUserProfile", "CMSUsers")'>CMS User Profile</a></li>");
+        $("#olBreadcrumbs").append("<li><span>Edit CMS User Profile</span></li>");
+
+        //CLEAR IMAGE DATA ON DELETE
+        $(".slim-btn-remove").click(function () {
+            $("#strCropImageName").val(null);
+            $("#strCropImageData").val(null);
+        });
+    }
+</script>
+
+@**** CROP IMAGE FUNCTION ****@
+<script type="text/javascript">
+
+        function getImageData(data, ready) {
+            var dataString = data.output.image.toDataURL();
+            $("#strCropImageName").val(data.input.name);
+            $("#strCropImageData").val(dataString);
+            // continue saving the data
+            ready(data);
+        }
+</script>
+
+
+

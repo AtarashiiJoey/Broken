@@ -1,0 +1,287 @@
+﻿@model ColmartCMS.View_Models.CMSUsers.clsCMSUserProfile
+
+@{
+    ViewBag.Title = "Profile";
+}
+
+@*Crop Slim Stylesheet*@
+@Styles.Render("~/Content/cms/slimCropStylesheets")
+
+<!-- start: page -->
+<div class="row">
+    <div class="col-md-4 col-lg-3">
+
+        <section class="panel">
+            <div class="panel-body">
+                <div class="thumb-info mb-md">
+                    @if (Model.strFullImagePath == null || Model.strFullImagePath == "")
+                        {
+                            <img src="../../../../images/defaultImages/default_imageNoTrans.png" class="rounded img-responsive" alt="John Doe">
+                        }
+                        else
+                        {
+                            <img src="@Model.strFullImagePath" class="rounded img-responsive" alt="@Model.strFullName">
+                        }
+                    <div class="thumb-info-title">
+                        <span class="thumb-info-inner">@Model.strFullName</span>
+                        <span class="thumb-info-type">@Model.clsCMSUser.clsCMSRoleType.strTitle</span>
+                    </div>
+                </div>
+
+                <hr class="dotted short">
+
+                <h6 class="text-muted">About</h6>
+                <p>@Model.clsCMSUser.strBiographicalInfo</p>
+            </div>
+        </section>
+
+    </div>
+    <div class="col-md-8 col-lg-9">
+
+        <div class="tabs">
+            <ul class="nav nav-tabs tabs-primary">
+                @*OVERVIEW HIDDEN FOR NOW*@
+                @*<li class="active">
+                    <a href="#overview" data-toggle="tab">Overview</a>
+                </li>*@
+                <li class="active">
+                    <a href="#divProfile" data-toggle="tab">Profile</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                @*OVERVIEW HIDDEN FOR NOW*@
+                @*<div id="overview" class="tab-pane active">
+
+                    <h4 class="mb-xlg">Timeline</h4>
+
+                    <div class="timeline timeline-simple mt-xlg mb-md">
+                        <div class="tm-body">
+                            <div class="tm-title">
+                                <h3 class="h5 text-uppercase">October 2017</h3>
+                            </div>
+                            <ol class="tm-items">
+                                <li>
+                                    <div class="tm-box">
+                                        <p class="text-muted mb-none">7 months ago.</p>
+                                        <p>
+                                            It's awesome when we find a good solution for our projects, Porto Admin is <span class="text-primary">#awesome</span>
+                                        </p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="tm-box">
+                                        <p class="text-muted mb-none">7 months ago.</p>
+                                        <p>
+                                            What is your biggest developer pain point?
+                                        </p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="tm-box">
+                                        <p class="text-muted mb-none">7 months ago.</p>
+                                        <p>
+                                            Checkout! How cool is that!
+                                        </p>
+                                        <div class="thumbnail-gallery">
+                                            <a class="img-thumbnail lightbox" href="~/Content/assets/images/puppy.jpg" data-plugin-options='{ "type":"image" }'>
+                                                <img class="img-responsive" width="215" src="~/Areas/CMS/Content/assets/images/puppy.jpg">
+                                                <span class="zoom">
+                                                    <i class="fa fa-search"></i>
+                                                </span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>*@
+                <div id="divProfile" class="tab-pane active">
+                        @Html.HiddenFor(Model => Model.clsCMSUser.iCMSUserID)
+
+                        <div class="form-horizontal">
+                            <h4 class="mb-xlg">Personal Information</h4>
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label" for="strFirstName">First Name</label>
+                                    <div class="col-md-8">
+                                        @Html.EditorFor(Model => Model.clsCMSUser.strFirstName, new { htmlAttributes = new { @id = "strFirstName", @placeholder = "First Name", @class = "form-control", @readonly = "readonly" } })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label" for="strSurname">Last Name</label>
+                                    <div class="col-md-8">
+                                        @Html.EditorFor(Model => Model.clsCMSUser.strSurname, new { htmlAttributes = new { @id = "strSurname", @placeholder = "Last Name", @class = "form-control", @readonly = "readonly" } })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label" for="strEmailAddress">Email</label>
+                                    <div class="col-md-8">
+                                        @Html.EditorFor(Model => Model.clsCMSUser.strEmailAddress, new { htmlAttributes = new { @id = "strEmailAddress", @placeholder = "Email", @class = "form-control", @readonly = "readonly" } })
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label" for="strContactNumber">Contact Number</label>
+                                    <div class="col-md-8">
+                                        @Html.EditorFor(Model => Model.clsCMSUser.strContactNumber, new { htmlAttributes = new { @id = "strContactNumber", @placeholder = "Contact Number", @class = "form-control", @maxlength = "10", @readonly = "readonly" } })
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <hr class="dotted tall">
+                            <h4 class="mb-xlg">Role Type</h4>
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label" for="strCMSRoleType">Role</label>
+                                    <div class="col-md-8">
+                                        @Html.EditorFor(Model => Model.clsCMSUser.clsCMSRoleType.strTitle, new { htmlAttributes = new { @id = "strCMSRoleType", @placeholder = "Role", @class = "form-control", @readonly = "readonly" } })
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <div class="row">
+                                <hr />
+                            </div>
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <a href="@Url.Action("CMSUserProfileEdit", "CMSUsers")" class="btn btn-primary">Edit</a>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*DISPLAY STATS - HIDE*@
+    <div id="divSaleStats" class="col-md-12 col-lg-3" style="display:none;">
+
+        <h4 class="mb-md">Sale Stats</h4>
+        <ul class="simple-card-list mb-xlg">
+            <li class="primary">
+                <h3>488</h3>
+                <p>Nullam quris ris.</p>
+            </li>
+            <li class="primary">
+                <h3>$ 189,000.00</h3>
+                <p>Nullam quris ris.</p>
+            </li>
+            <li class="primary">
+                <h3>16</h3>
+                <p>Nullam quris ris.</p>
+            </li>
+        </ul>
+
+        <h4 class="mb-md">Projects</h4>
+        <ul class="simple-bullet-list mb-xlg">
+            <li class="red">
+                <span class="title">Porto Template</span>
+                <span class="description truncate">Lorem ipsom dolor sit.</span>
+            </li>
+            <li class="green">
+                <span class="title">Tucson HTML5 Template</span>
+                <span class="description truncate">Lorem ipsom dolor sit amet</span>
+            </li>
+            <li class="blue">
+                <span class="title">Porto HTML5 Template</span>
+                <span class="description truncate">Lorem ipsom dolor sit.</span>
+            </li>
+            <li class="orange">
+                <span class="title">Tucson Template</span>
+                <span class="description truncate">Lorem ipsom dolor sit.</span>
+            </li>
+        </ul>
+
+        <h4 class="mb-md">Messages</h4>
+        <ul class="simple-user-list mb-xlg">
+            <li>
+                <figure class="image rounded">
+                    <img src="~/Areas/CMS/Content/assets/images/default_image.png" alt="Joseph Doe Junior" class="img-circle">
+                </figure>
+                <span class="title">Joseph Doe Junior</span>
+                <span class="message">Lorem ipsum dolor sit.</span>
+            </li>
+            <li>
+                <figure class="image rounded">
+                    <img src="~/Areas/CMS/Content/assets/images/default_image.png" alt="Joseph Junior" class="img-circle">
+                </figure>
+                <span class="title">Joseph Junior</span>
+                <span class="message">Lorem ipsum dolor sit.</span>
+            </li>
+            <li>
+                <figure class="image rounded">
+                    <img src="~/Areas/CMS/Content/assets/images/default_image.png" alt="Joe Junior" class="img-circle">
+                </figure>
+                <span class="title">Joe Junior</span>
+                <span class="message">Lorem ipsum dolor sit.</span>
+            </li>
+            <li>
+                <figure class="image rounded">
+                    <img src="~/Areas/CMS/Content/assets/images/default_image.png" alt="Joseph Doe Junior" class="img-circle">
+                </figure>
+                <span class="title">Joseph Doe Junior</span>
+                <span class="message">Lorem ipsum dolor sit.</span>
+            </li>
+        </ul>
+    </div>
+</div>
+<!-- end: page -->
+
+@*Crop Slim Script*@
+@Scripts.Render("~/bundles/cms/slimCropScripts")
+
+<!-- update item success -->
+<script type="text/javascript">
+    function updatedItemSuccess() {
+
+        var notice = new PNotify({
+			title: 'Click to Close',
+			text: 'User profile updated successfully.',
+			type: 'success',
+			addclass: 'click-2-close',
+			hide: false,
+			buttons: {
+				closer: false,
+				sticker: false
+			}
+		});
+
+		notice.get().click(function() {
+			notice.remove();
+		});
+    }
+</script>
+
+@**** CHANGE MASTER PAGE / LAYOUT PAGE HEADER (H2) TEXT AND PAGE TITLE AFTER PAGE LOADS ****@
+@**** DISPLAY SUCCESS ON USER PROFILE UPDATE ****@
+<script type="text/javascript">
+    window.onload = function ()
+    {
+        $("#strPageTitle").text("CMS User Profile | Colmart CMS");
+        $("#h2PageHeader").text("CMS User Profile");
+
+        //Update Breadcrumbs
+        $("#olBreadcrumbs").append("<li><span>CMS User Profile</span></li>");
+
+        @{
+            //PROFILE UPDATE SUCCESS NOTIFICATION
+            if (TempData["bIsCMSUserProfileUpdated"] != null)
+            {
+                if ((bool)TempData["bIsCMSUserProfileUpdated"] == true)
+                {
+                    <text>
+                        updatedItemSuccess();
+                    </text>
+                }
+            }
+        }
+    }
+</script>
+
+@**** CROP IMAGE FUNCTION ****@
+<script type="text/javascript">
+
+        function getImageData(data, ready) {
+            // continue saving the data
+            ready(data);
+        }
+</script>
+

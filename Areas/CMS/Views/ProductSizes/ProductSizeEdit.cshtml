@@ -1,0 +1,110 @@
+﻿@model ColmartCMS.View_Models.ProductSizes.clsProductSizeEdit
+
+@{
+    ViewBag.Title = "ProductSizeEdit";
+}
+
+<!-- start: page -->
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading">
+                <h2 class="panel-title">Product Size Info</h2>
+            </header>
+            <div class="panel-body">
+                @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmProductSizeEdit", @name = "frmProductSizeEdit" }))
+            {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(Model => Model.clsProductSize.iProductSizeID)
+                    <div class="form-horizontal">
+                        <h4 class="mb-xlg">Product Info</h4>
+                        <fieldset>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="strTitle">Product</label>
+                                <div class="col-md-8">
+                                    @Html.EditorFor(Model => Model.clsProductSize.clsProduct.strTitle, new { htmlAttributes = new { @id = "strTitle", @placeholder = "Product", @class = "form-control", @readonly = "readonly" } })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="strStyleCode">Style Code</label>
+                                <div class="col-md-8">
+                                    @Html.EditorFor(Model => Model.clsProductSize.clsProduct.strStyleCode, new { htmlAttributes = new { @id = "strStyleCode", @placeholder = "Style Code", @class = "form-control", @readonly = "readonly" } })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="strProductColour">Product Colour</label>
+                                <div class="col-md-8">
+                                    @Html.EditorFor(Model => Model.clsProductSize.clsProduct.strProductColour, new { htmlAttributes = new { @id = "strProductColour", @placeholder = "Product Colour", @class = "form-control", @readonly = "readonly" } })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="strFullDescription">Product Description</label>
+                                <div class="col-md-8">
+                                    @Html.EditorFor(Model => Model.clsProductSize.clsProduct.strFullDescription, new { htmlAttributes = new { @id = "strFullDescription", @placeholder = "Description", @class = "form-control", @readonly = "readonly" } })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="strFullDescription">Full Description</label>
+                                <div class="col-md-8">
+                                    @Html.TextAreaFor(Model => Model.clsProductSize.clsProduct.strFullDescription, new { @id = "strFullDescription", @placeholder = "Full Description", @class = "form-control", @rows = "4", @readonly = "readonly" })
+                                </div>
+                            </div>
+                        </fieldset>
+                        <div class="row">
+                            <hr />
+                        </div>
+
+                        <h4 class="mb-xlg">Product Size</h4>
+                        <fieldset>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="strTitle">Product Size</label>
+                                <div class="col-md-8">
+                                    @Html.EditorFor(Model => Model.clsProductSize.strSize, new { htmlAttributes = new { @id = "strSize", @placeholder = "Product Size", @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.clsProductSize.strSize, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="strTitle">Product Price</label>
+                                <div class="col-md-8">
+                                    @Html.EditorFor(Model => Model.clsProductSize.dblPrice, new { htmlAttributes = new { @id = "dblPrice", @placeholder = "Product Price", @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.clsProductSize.dblPrice, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="strTitle">Quantity Available</label>
+                                <div class="col-md-8">
+                                    @Html.EditorFor(Model => Model.clsProductSize.iQuantityAvailable, new { htmlAttributes = new { @id = "iQuantityAvailable", @placeholder = "Quantity Available", @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.clsProductSize.iQuantityAvailable, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            @Html.HiddenFor(Model => Model.clsProductSize.iProductID)
+                        </fieldset>
+                        <div class="row">
+                            <hr />
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <a href="@Url.Action("ProductSizesView", "ProductSizes")" class="btn btn-default">Back</a>
+                                <button type="submit" class="btn btn-primary">Update</button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </section>
+    </div>
+</div>
+<!-- end: page -->
+
+@**** CHANGE MASTER PAGE / LAYOUT PAGE HEADER (H2) TEXT AND PAGE TITLE AFTER PAGE LOADS ****@
+<script type="text/javascript">
+    window.onload = function ()
+    {
+        $("#strPageTitle").text("Edit Product Size | Colmart CMS");
+        $("#h2PageHeader").text("Edit Product Size");
+
+        //Update Breadcrumbs
+        $("#olBreadcrumbs").append("<li><a href='@Url.Action("ProductSizesView", "ProductSizes")'>Product Sizes</a></li>");
+        $("#olBreadcrumbs").append("<li><span>Edit Product Size</span></li>");
+    }
+</script>

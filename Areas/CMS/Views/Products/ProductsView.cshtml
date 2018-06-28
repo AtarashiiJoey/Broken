@@ -1,0 +1,366 @@
+﻿@model ColmartCMS.View_Models.Products.clsProductsView
+
+@{
+    ViewBag.Title = "ProductsView";
+}
+
+@*Tables Stylesheet*@
+@Styles.Render("~/Content/cms/tableStylesheets")
+
+<!-- start: page -->
+
+<section class="panel">
+    <header class="panel-heading">
+        <div class="panel-actions">
+            @*<a href="#" class="panel-action panel-action-toggle" data-panel-toggle></a>*@
+            @*<a href="#" class="panel-action panel-action-dismiss" data-panel-dismiss></a>*@
+        </div>
+
+        <h2 class="panel-title">Products (@Model.lstProducts.Count)</h2>
+    </header>
+    <div class="panel-body">
+        <table class="table table-bordered table-striped mb-none" id="datatable-default">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Style Code</th>
+                    <th>Colour</th>
+                    <th>Product Category</th>
+                    <th>Product Sub Category</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.lstProducts)
+                {
+                    <tr data-item-id="@item.iProductID" id="@item.iProductID">
+                        <td style="vertical-align: middle;">@item.strTitle</td>
+                        <td style="vertical-align: middle;">@item.strStyleCode</td>
+                        <td style="vertical-align: middle;">@item.strProductColour</td>
+                        <td style="vertical-align: middle;">@item.clsProductCategory.strTitle</td>
+                        <td style="vertical-align: middle;">@item.clsProductSubCategory.strTitle</td>
+                        <td class="actions" style="font-size:2em; text-align:center;vertical-align:central">
+                            <a href="@Url.Action("ProductEdit", "Products", new { @id = @item.iProductID })"><i class="fa fa-pencil"></i></a>
+                            &nbsp;&nbsp;&nbsp;
+                            <a id="@item.iProductID" class="modal-with-zoom-anim modal-basic" href="#deleteItemModal" onclick="deleteItemConfirm(@item.iProductID)"><i class="fa fa-trash-o"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="row">
+            <hr />
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="mb-md keep-right" style="float:right;">
+                    <a id="btnImportProducts" class="modal-with-zoom-anim modal-basic btn btn-primary" href="#confirmImportProductsModal">Import Products <i class="fa fa-plus"></i></a>
+                    <a id="btnProductAdd" href="@Url.Action("ProductAdd", "Products")" class="btn btn-primary">Add Product <i class="fa fa-plus"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Html.HiddenFor(Model => Model.iProductID)
+<!-- end: page -->
+<!-- Modal Animation -->
+<!-- import modal popup -->
+<div id="confirmImportProductsModal" class="zoom-anim-dialog modal-block modal-block-primary mfp-hide">
+    <section class="panel">
+        <header class="panel-heading">
+            <h2 class="panel-title">Are you sure?</h2>
+        </header>
+        <div class="panel-body">
+            <div class="modal-wrapper">
+                <div class="modal-icon">
+                    <i class="fa fa-question-circle"></i>
+                </div>
+                <div class="modal-text">
+                    <p>Would you like to import the Products list?</p>
+                </div>
+            </div>
+        </div>
+        <footer class="panel-footer">
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    <button class="btn btn-primary modal-confirm-close" onclick="ImportProducts()">Confirm</button>
+                    <button class="btn btn-default modal-dismiss">Cancel</button>
+                </div>
+            </div>
+        </footer>
+    </section>
+</div>
+<!-- delete item modal popup -->
+<!-- delete modal popup -->
+<div id="deleteItemModal" class="zoom-anim-dialog modal-block modal-block-primary mfp-hide">
+    <section class="panel">
+        <header class="panel-heading">
+            <h2 class="panel-title">Are you sure?</h2>
+        </header>
+        <div class="panel-body">
+            <div class="modal-wrapper">
+                <div class="modal-icon">
+                    <i class="fa fa-question-circle"></i>
+                </div>
+                <div class="modal-text">
+                    <p>Are you sure that you want to delete this Product?</p>
+                </div>
+            </div>
+        </div>
+        <footer class="panel-footer">
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    <button class="btn btn-primary modal-confirm-close" onclick="deleteItem()">Confirm</button>
+                    <button class="btn btn-default modal-dismiss">Cancel</button>
+                </div>
+            </div>
+        </footer>
+    </section>
+</div>
+<!-- delete item modal popup -->
+<!-- information modal popup -->
+<a id="infoItemModalAnchor" style="display:none;" class="mb-xs mt-xs mr-xs modal-basic btn btn-info" href="#infoItemModal"></a>
+
+<div id="infoItemModal" class="modal-block modal-block-info mfp-hide">
+    <section class="panel">
+        <header class="panel-heading">
+            <h2 class="panel-title">Information</h2>
+        </header>
+        <div class="panel-body">
+            <div class="modal-wrapper">
+                <div class="modal-icon">
+                    <i class="fa fa-info-circle"></i>
+                </div>
+                <div class="modal-text">
+                    <p>There cannot be no Products.</p>
+                </div>
+            </div>
+        </div>
+        <footer class="panel-footer">
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    <button class="btn btn-info modal-dismiss">OK</button>
+                </div>
+            </div>
+        </footer>
+    </section>
+</div>
+<!-- information modal popup -->
+<!-- add item success -->
+<script type="text/javascript">
+    function addItemSuccess() {
+
+        var notice = new PNotify({
+			title: 'Click to Close',
+			text: 'Product added successfully.',
+			type: 'success',
+			addclass: 'click-2-close',
+			hide: false,
+			buttons: {
+				closer: false,
+				sticker: false
+			}
+		});
+
+		notice.get().click(function() {
+			notice.remove();
+		});
+    }
+</script>
+
+<!-- update item success -->
+<script type="text/javascript">
+    function updatedItemSuccess() {
+
+        var notice = new PNotify({
+			title: 'Click to Close',
+			text: 'Product updated successfully.',
+			type: 'success',
+			addclass: 'click-2-close',
+			hide: false,
+			buttons: {
+				closer: false,
+				sticker: false
+			}
+		});
+
+		notice.get().click(function() {
+			notice.remove();
+		});
+    }
+</script>
+
+<!-- delete item success -->
+<script type="text/javascript">
+    function deleteItemSuccess() {
+
+        var notice = new PNotify({
+			title: 'Click to Close',
+			text: 'Product deleted successfully.',
+			type: 'success',
+			addclass: 'click-2-close',
+			hide: false,
+			buttons: {
+				closer: false,
+				sticker: false
+			}
+		});
+
+		notice.get().click(function() {
+			notice.remove();
+		});
+    }
+</script>
+
+<!-- import products success -->
+<script type="text/javascript">
+    function importProductsSuccess() {
+
+        var notice = new PNotify({
+			title: 'Click to Close',
+			text: 'Products imported successfully.',
+			type: 'success',
+			addclass: 'click-2-close',
+			hide: false,
+			buttons: {
+				closer: false,
+				sticker: false
+			}
+		});
+
+		notice.get().click(function() {
+			notice.remove();
+		});
+    }
+</script>
+
+<!-- import products not successful -->
+<script type="text/javascript">
+    function importProductsNotSuccessful() {
+
+        var notice = new PNotify({
+			title: 'Click to Close',
+			text: 'Could not import products.',
+			type: 'info',
+			addclass: 'click-2-close',
+			hide: false,
+			buttons: {
+				closer: false,
+				sticker: false
+			}
+		});
+
+		notice.get().click(function() {
+			notice.remove();
+		});
+    }
+</script>
+
+<script type="text/javascript">
+    function deleteItemConfirm(iItemID) {
+        //SET ITEM ID TO DELETE
+        $('#iProductID').val(iItemID);
+    }
+</script>
+
+<!-- import products -->
+<script type="text/javascript">
+    function ImportProducts() {
+
+        $.ajax({
+            url: '@Url.Action("ProductsImport", "Products")',
+            type: "POST",
+            success: function (info) {
+                // states is your JSON array
+                if (info.bIsSuccess == true) {
+                    window.location.href = "/CMS/Products/ProductsView/";
+                }
+                else {
+                    window.location.href = "/CMS/Products/ProductsView/";
+                }
+            }
+        });
+    }
+</script>
+
+<!-- delete item -->
+<script type="text/javascript">
+    function deleteItem() {
+
+        var iProductID = $('#iProductID').val();
+
+        if (iProductID != 0) {
+            $.ajax({
+                url: '@Url.Action("ProductDelete", "Products")',
+                type: "POST",
+                data: { "iProductID": iProductID },
+                success: function (info) {
+                    // states is your JSON array
+                    if (info.bIsSuccess == true) {
+                        window.location.href = "/CMS/Products/ProductsView/";
+                    }
+                }
+            });
+        }
+    }
+</script>
+
+@**** CHANGE MASTER PAGE / LAYOUT PAGE HEADER (H2) TEXT AND PAGE TITLE AFTER PAGE LOADS ****@
+<script type="text/javascript">
+    window.onload = function () {
+        $("#strPageTitle").text("Products | Colmart CMS");
+        $("#h2PageHeader").text("Products");
+
+        //Update Breadcrumbs
+        $("#olBreadcrumbs").append("<li><span>Products</span></li>");
+
+         @{
+             //ADD SUCCESS NOTIFICATION
+            if (TempData["bIsProductAdded"] != null)
+            {
+                if ((bool)TempData["bIsProductAdded"] == true)
+                {
+                    <text>
+                        addItemSuccess();
+                    </text>
+                }
+            }
+             //UPDATE SUCCESS NOTIFICATION
+            if (TempData["bIsProductUpdated"] != null)
+            {
+                if ((bool)TempData["bIsProductUpdated"] == true)
+                {
+                    <text>
+                        updatedItemSuccess();
+                    </text>
+                }
+            }
+             //DELETE SUCCESS NOTIFICATION
+            if (TempData["bIsProductDeleted"] != null)
+            {
+                if ((bool)TempData["bIsProductDeleted"] == true)
+                {
+                    <text>
+                        deleteItemSuccess();
+                    </text>
+                }
+            }
+              //IMPORT SUCCESS NOTIFICATION
+            if (TempData["bIsProductsImported"] != null)
+            {
+                if ((bool)TempData["bIsProductsImported"] == true)
+                {
+                    <text>
+                        importProductsSuccess();
+                    </text>
+                }
+                else if ((bool)TempData["bIsProductsImported"] == false)
+                {
+                    <text>
+                        importProductsNotSuccessful();
+                    </text>
+                }
+            }
+        }
+    }
+</script>

@@ -1,0 +1,131 @@
+﻿@model ColmartCMS.View_Models.UserAccess.clsUserAccessEdit
+
+@{
+    ViewBag.Title = "UserAccessEdit";
+}
+
+<!-- start: page -->
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading">
+                <h2 class="panel-title">User Access</h2>
+            </header>
+            <div class="panel-body">
+                @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmUserAccessEdit", @name = "frmUserAccessEdit" }))
+            {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(Model => Model.clsUserAccess.iUserAccessID)
+                    <div class="form-horizontal">
+                        <h4 class="mb-xlg">User Access</h4>
+                        <fieldset>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="strTitle">User</label>
+                                <div class="col-md-8">
+                                    @Html.EditorFor(Model => Model.strFullName, new { htmlAttributes = new { @id = "strFullName", @placeholder = "User", @class = "form-control", @readonly = "readonly" } })
+                                </div>
+                            </div>
+                            @Html.HiddenFor(Model => Model.iUserID)
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="strSurname">Page</label>
+                                <div class="col-md-8">
+                                    @Html.EditorFor(Model => Model.strPageName, new { htmlAttributes = new { @id = "strPageName", @placeholder = "Last Name", @class = "form-control", @readonly = "readonly" } })
+                                </div>
+                            </div>
+                            @Html.HiddenFor(Model => Model.iPageID)
+                        </fieldset>
+
+                        <hr class="dotted tall">
+                        <h4 class="mb-xlg">Read Write</h4>
+                        <fieldset>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="bIsSetRead"></label>
+                                <div class="col-sm-8">
+                                    <div class="checkbox-custom checkbox-default">
+                                        <input type="checkbox" id="bIsSetRead" onclick="jsSetRead()" />
+                                        <label for="bIsSetRead">Read Access</label>
+                                        @Html.HiddenFor(Model => Model.clsUserAccess.bIsRead)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="bIsSetWrite"></label>
+                                <div class="col-sm-8">
+                                    <div class="checkbox-custom checkbox-default">
+                                        <input type="checkbox" id="bIsSetWrite" onclick="jsSetWrite()" />
+                                        <label for="bIsSetWrite">Write Access</label>
+                                        @Html.HiddenFor(Model => Model.clsUserAccess.bIsWrite)
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <div class="row">
+                            <hr />
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <a href="@Url.Action("UserAccessView", "UserAccess")" class="btn btn-default">Back</a>
+                                <button type="submit" class="btn btn-primary">Update</button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </section>
+    </div>
+</div>
+<!-- end: page -->
+
+@*SET 'bIsRead' VALUE WITH JQUERY*@
+<script type="text/javascript">
+
+        function jsSetRead() {
+            if ($('#bIsSetRead').is(':checked')) {
+                $("#clsUserAccess_bIsRead").val(true);
+            }
+            else {
+                $("#clsUserAccess_bIsRead").val(false);
+            }
+        }
+</script>
+
+@*SET 'bIsWrite' VALUE WITH JQUERY*@
+<script type="text/javascript">
+
+        function jsSetWrite() {
+            if ($('#bIsSetWrite').is(':checked')) {
+                $("#clsUserAccess_bIsWrite").val(true);
+            }
+            else {
+                $("#clsUserAccess_bIsWrite").val(false);
+            }
+        }
+</script>
+
+@**** CHANGE MASTER PAGE / LAYOUT PAGE HEADER (H2) TEXT AND PAGE TITLE AFTER PAGE LOADS ****@
+<script type="text/javascript">
+    window.onload = function ()
+    {
+        $("#strPageTitle").text("Edit User Access Setting | Colmart CMS");
+        $("#h2PageHeader").text("Edit User Access Setting");
+
+        //Update Breadcrumbs
+        $("#olBreadcrumbs").append("<li><a href='@Url.Action("UserAccessView", "UserAccess")'>User Access</a></li>");
+        $("#olBreadcrumbs").append("<li><span>Edit User Access Setting</span></li>");
+
+        //Check if boxes are ticked
+
+        if ($("#clsUserAccess_bIsRead").val().toString().toLowerCase() == "true") {
+            $("#bIsSetRead").prop("checked", true);
+        }
+        else {
+            $("#bIsSetRead").prop("checked", false);
+        }
+        if ($("#clsUserAccess_bIsWrite").val().toString().toLowerCase() == "true") {
+            $("#bIsSetWrite").prop("checked", true);
+        }
+        else {
+            $("#bIsSetWrite").prop("checked", false);
+        }
+    }
+</script>

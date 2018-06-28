@@ -1,0 +1,58 @@
+﻿@model Colmart.Models.clsProductSubCategories
+
+@{
+    ViewBag.Title = "ProductSubCategoryEdit";
+}
+
+<!-- start: page -->
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading">
+                <h2 class="panel-title">Product Sub Category</h2>
+            </header>
+            <div class="panel-body">
+                @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmProductSubCategoryEdit", @name = "frmProductSubCategoryEdit" }))
+            {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(Model => Model.iProductSubCategoryID)
+                    <div class="form-horizontal">
+                        <h4 class="mb-xlg">Product Sub Category</h4>
+                        <fieldset>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="strTitle">Product Sub Category Title</label>
+                                <div class="col-md-8">
+                                    @Html.EditorFor(Model => Model.strTitle, new { htmlAttributes = new { @id = "strTitle", @placeholder = "Product Sub Categories", @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.strTitle, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </fieldset>
+                        <div class="row">
+                            <hr />
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <a href="@Url.Action("ProductSubCategoriesView", "ProductSubCategories")" class="btn btn-default">Back</a>
+                                <button type="submit" class="btn btn-primary">Update</button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </section>
+    </div>
+</div>
+<!-- end: page -->
+
+@**** CHANGE MASTER PAGE / LAYOUT PAGE HEADER (H2) TEXT AND PAGE TITLE AFTER PAGE LOADS ****@
+<script type="text/javascript">
+    window.onload = function ()
+    {
+        $("#strPageTitle").text("Edit Product Sub Category | Colmart CMS");
+        $("#h2PageHeader").text("Edit Product Sub Category");
+
+        //Update Breadcrumbs
+        $("#olBreadcrumbs").append("<li><a href='@Url.Action("ProductSubCategoriesView", "ProductSubCategories")'>Product Sub Categories</a></li>");
+        $("#olBreadcrumbs").append("<li><span>Edit Product Sub Category</span></li>");
+    }
+</script>

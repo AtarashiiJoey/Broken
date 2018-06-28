@@ -1,0 +1,189 @@
+﻿@model ColmartCMS.View_Models.Account.clsLogin
+
+@{
+    Layout = null;
+}
+
+<!doctype html>
+<html class="fixed">
+<head>
+
+    <!-- Basic -->
+    <meta charset="UTF-8">
+    <title id="strPageTitle">Login | Colmart CMS</title>
+
+    <meta name="keywords" content="Colmart CMS" />
+    <meta name="description" content="Content Management System">
+    <meta name="author" content="https://www.softservedigital.co.za/">
+
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <!-- Web Fonts  -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
+
+    <!-- Icon  -->
+    <link rel="icon" href="@Url.Content("../../images/icon/imgLogoIcon.ico")" />
+
+    @Styles.Render("~/Content/cms/css")
+    @Styles.Render("~/Content/loginStylesheets")
+    @Scripts.Render("~/bundles/cms/modernizr")
+
+</head>
+<body class="cms_login_background">
+    <div class="cms_login_image"></div>
+
+    <!-- start: page -->
+    <section class="body-sign">
+        <div class="center-sign">
+            <a href="/" class="logo pull-left">
+                @*<img src="~/Areas/CMS/Content/assets/images/softserveLogo_Login.png" alt="Softserve Digital" />*@
+            </a>
+
+            <div class="panel panel-sign login_box_style">
+                <div class="panel-title-sign mt-xl text-right">
+                    <h2 class="title text-uppercase text-weight-bold m-none"><i class="fa fa-user mr-xs"></i> Login</h2>
+                </div>
+                <div class="panel-body">
+                    @using (Html.BeginForm(null, null, new { @id = "frmLogin", @name = "frmLogin" }))
+                    {
+                        <div class="center_div">
+                            <img class="login_logo_image" src="/Areas/CMS/Content/assets/images/loginImages/PoweredBySoftserve.svg" />
+                        </div>
+                        <div class="form-group mb-lg">
+                            <label for="strEmail">Email</label>
+                            <div class="input-group input-group-icon">
+                                @Html.EditorFor(Model => Model.strEmail, new { htmlAttributes = new { @id = "strEmail", @placeholder = "Email", @class = "form-control input-lg textbox_font_size", @Value = "admin@admin.co.za" } })
+                                <span class="input-group-addon">
+                                    <span class="icon icon-lg">
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-lg">
+                            <div class="clearfix">
+                                <label class="pull-left" for="strPassword">Password</label>
+                                <a href="@Url.Action("ForgotPassword", "Account")" class="pull-right">Forgot Password?</a>
+                            </div>
+                            <div class="input-group input-group-icon">
+                                @Html.EditorFor(Model => Model.strPassword, new { htmlAttributes = new { @id = "strPassword", @placeholder = "Password", @class = "form-control input-lg textbox_font_size", @Value = "admin@admin.co.za" } })
+                                <span class="input-group-addon">
+                                    <span class="icon icon-lg">
+                                        <i class="fa fa-lock"></i>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <div class="checkbox-custom checkbox-default">
+                                    <input type="checkbox" id="bIsRememberMeChecked" onclick="jsSetbRememberMe()"/>
+                                    <label for="bIsRememberMeChecked">Remember Me</label>
+                                    @Html.HiddenFor(Model => Model.bRememberMe)
+                                </div>
+                            </div>
+                            <div class="col-sm-4 text-right">
+                                <button type="submit" class="btn btn-primary hidden-xs">Login</button>
+                            </div>
+                        </div>
+                        // ** LOGIN ERROR ** 
+                        <span class="mt-lg mb-lg text-center" style="display:block;">
+                            @Html.ValidationMessage("loginError", new { @class = "text-danger" })
+                        </span>
+                    }
+                </div>
+            </div>
+            <div class="center_div">
+                <a class="redirect_style_anchor" href="#">• BACK TO WEBSITE •</a>
+            </div>
+            @*<p class="text-center text-muted mt-md mb-md">&copy; Copyright @DateTime.Now.Year. All Rights Reserved.</p>*@
+        </div>
+    </section>
+    <!-- end: page -->
+    @Scripts.Render("~/bundles/cms/jquery")
+    @Scripts.Render("~/bundles/cms/jqueryval")
+    @Scripts.Render("~/bundles/cms/bootstrap")
+    @Scripts.Render("~/bundles/cms/layout")
+    @Scripts.Render("~/bundles/cms/theme")
+    @Scripts.Render("~/bundles/cms/example")
+
+    @*SET 'bRememberMe' VALUE WITH JQUERY*@
+    <script type="text/javascript">
+
+        function jsSetbRememberMe() {
+            if ($('#bIsRememberMeChecked').is(':checked')) {
+                $("#bRememberMe").val(true);
+            }
+            else {
+                $("#bRememberMe").val(false);
+            }
+        }
+    </script>
+
+    <!-- forgot password email sent success -->
+    <script type="text/javascript">
+        function forgotPasswordEmailSentSuccess() {
+
+        var notice = new PNotify({
+			title: 'Click to Close',
+			text: 'Your password has been reset successfully. An email has been sent with your temporary password.',
+			type: 'success',
+			addclass: 'click-2-close',
+			hide: false,
+			buttons: {
+				closer: false,
+				sticker: false
+			}
+		});
+
+		notice.get().click(function() {
+			notice.remove();
+		});
+    }
+    </script>
+
+    @*UPDATE CHECKBOX ON PAGE LOAD / RELOAD AND LOAD BACKGROUND IMAGE ANIMATION*@
+    <script type="text/javascript">
+        var myMenu = document.querySelector(".cms_login_background");
+        myMenu.addEventListener("transitionend", OnTransitionEnd, false);
+
+        function OnTransitionEnd() {
+            myMenu.classList.remove("cms_login_background--animatable");
+        }
+
+    window.onload = function ()
+    {
+        //UPDATE CHECKBOX ON PAGE LOAD / RELOAD
+        if ($("#bRememberMe").val().toString().toLowerCase() == "true") {
+            $("#bIsRememberMeChecked").prop("checked", true);
+        }
+        else {
+            $("#bIsRememberMeChecked").prop("checked", false);
+        }
+
+        //LOAD BACKGROUND IMAGE ANIMATION
+        myMenu.classList.add("cms_login_background--animatable");
+        if (!myMenu.classList.contains("cms_login_background--visible")) {
+            myMenu.classList.add("cms_login_background--visible");
+        } else {
+            myMenu.classList.remove('cms_login_background--visible');
+        }
+
+        @{
+            //FORGOT PASSWORD EMAIL SENT
+            if (TempData["bSendUserTempPasswordEmail"] != null) {
+                if ((bool)TempData["bSendUserTempPasswordEmail"] == true) {
+                    <text>
+                        forgotPasswordEmailSentSuccess();
+                    </text>
+                }
+            }
+        }
+    }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,26 @@
+/* Add here all your CSS customizations */
+.keep-right {
+    float: right;
+}
+
+.keep-left {
+    float: left;
+}
+
+.image-optimisation-box {
+    border: 12px dashed #ccc;
+    height: 50%;
+}
+
+.drop-image-area {
+    height:100%;
+}
+
+.drop-image-area-text {
+    font-family: Arial;
+    font-size:x-large;
+    font-weight:bold;
+    text-align:center;
+     margin-bottom:15px;
+    color:#aaa;
+}

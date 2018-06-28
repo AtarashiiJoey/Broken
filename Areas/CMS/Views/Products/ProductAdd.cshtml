@@ -1,0 +1,125 @@
+﻿@model ColmartCMS.View_Models.Products.clsProductAdd
+
+@{
+    ViewBag.Title = "ProductAdd";
+}
+
+<!-- start: page -->
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading">
+                <h2 class="panel-title">Product</h2>
+            </header>
+            <div class="panel-body">
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmProductAdd", @name = "frmProductAdd" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="form-horizontal">
+                    <h4 class="mb-xlg">Product</h4>
+                    <fieldset>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="strTitle">Product Title</label>
+                            <div class="col-md-8">
+                                @Html.EditorFor(Model => Model.clsProduct.strTitle, new { htmlAttributes = new { @id = "strTitle", @placeholder = "Product Name", @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.clsProduct.strTitle, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="strStyleCode">Style Code</label>
+                            <div class="col-md-8">
+                                @Html.EditorFor(Model => Model.clsProduct.strStyleCode, new { htmlAttributes = new { @id = "strStyleCode", @placeholder = "Style Code", @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.clsProduct.strStyleCode, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="strProductColour">Colour</label>
+                            <div class="col-md-8">
+                                @Html.EditorFor(Model => Model.clsProduct.strProductColour, new { htmlAttributes = new { @id = "strProductColour", @placeholder = "Colour", @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.clsProduct.strProductColour, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="strImageURL">Image URL</label>
+                            <div class="col-md-8">
+                                @Html.EditorFor(Model => Model.clsProduct.strImageURL, new { htmlAttributes = new { @id = "strImageURL", @placeholder = "Image URL", @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.clsProduct.strImageURL, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="strFullDescription">Full Description</label>
+                            <div class="col-md-8">
+                                @Html.TextAreaFor(Model => Model.clsProduct.strFullDescription, new { @id = "strFullDescription", @placeholder = "Full Description", @class = "form-control", @rows = "4" })
+                            </div>
+                        </div>
+                        
+                    </fieldset>
+                    <div class="row">
+                        <hr />
+                    </div>
+                    <h4 class="mb-xlg">Product Category Info</h4>
+                    <fieldset>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="strFullDescription">Product Categories</label>
+                            <div class="col-md-8">
+                                @if (Model.lstProductCategories.Count > 0)
+                                    {
+                                        @Html.DropDownListFor(Model => Model.clsProduct.iProductCategoryID, new SelectList(Model.lstProductCategories, "iProductCategoryID", "strTitle"), "-- Select Product Category --", new { id = "lstProductCategories", name = "lstProductCategories" })
+                                        <br />
+                                        @Html.ValidationMessageFor(model => model.clsProduct.iProductCategoryID, "", new { @class = "text-danger" })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownListFor(Model => Model.clsProduct.iProductCategoryID, new SelectList(Model.lstProductCategories, "iProductCategoryID", "strTitle"), "-- No Product Categories Available --", new { id = "lstProductCategories", name = "lstProductCategories" })
+                                        <br />
+                                        @Html.ValidationMessageFor(model => model.clsProduct.iProductCategoryID, "", new { @class = "text-danger" })
+                                    }
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="strImageURL">Product Sub Categories</label>
+                            <div class="col-md-8">
+                               @if (Model.lstProductSubCategories.Count > 0)
+                                    {
+                                        @Html.DropDownListFor(Model => Model.clsProduct.iProductSubCategoryID, new SelectList(Model.lstProductSubCategories, "iProductSubCategoryID", "strTitle"), "-- Select Product Sub Category --", new { id = "lstProductSubCategories", name = "lstProductSubCategories" })
+                                        <br />
+                                        @Html.ValidationMessageFor(model => model.clsProduct.iProductSubCategoryID, "", new { @class = "text-danger" })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownListFor(Model => Model.clsProduct.iProductSubCategoryID, new SelectList(Model.lstProductSubCategories, "iProductSubCategoryID", "strTitle"), "-- No Product Sub Categories Available --", new { id = "lstProductSubCategories", name = "lstProductSubCategories" })
+                                        <br />
+                                        @Html.ValidationMessageFor(model => model.clsProduct.iProductSubCategoryID, "", new { @class = "text-danger" })
+                                    }
+                            </div>
+                        </div>
+                    </fieldset>
+                    <div class="row">
+                        <hr />
+                    </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <a href="@Url.Action("ProductsView", "Products")" class="btn btn-default">Back</a>
+                                <button type="submit" class="btn btn-primary">Add</button>
+                            </div>
+                        </div>
+                    </div>
+            }
+                </div>
+        </section>
+    </div>
+</div>
+<!-- end: page -->
+
+@**** CHANGE MASTER PAGE / LAYOUT PAGE HEADER (H2) TEXT AND PAGE TITLE AFTER PAGE LOADS ****@
+<script type="text/javascript">
+    window.onload = function ()
+    {
+        $("#strPageTitle").text("Add Product | Colmart CMS");
+        $("#h2PageHeader").text("Add Product");
+
+        //Update Breadcrumbs
+        $("#olBreadcrumbs").append("<li><a href='@Url.Action("ProductsView", "Products")'>Products</a></li>");
+        $("#olBreadcrumbs").append("<li><span>Add Product</span></li>");
+    }
+</script>

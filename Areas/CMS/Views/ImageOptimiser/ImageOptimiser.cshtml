@@ -1,0 +1,741 @@
+﻿
+@{
+    ViewBag.Title = "ImageOptimiser";
+}
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+
+<!-- start: page -->
+<section class="content-with-menu content-with-menu-has-toolbar media-gallery">
+    <div class="content-with-menu-container">
+        <div class="inner-menu-toggle">
+            <a href="#" class="inner-menu-expand" data-open="inner-menu">
+                Show Bar <i class="fa fa-chevron-right"></i>
+            </a>
+        </div>
+
+        <menu id="content-menu" class="inner-menu" role="menu">
+            <div class="nano">
+                <div class="nano-content">
+
+                    <div class="inner-menu-toggle-inside">
+                        <a href="#" class="inner-menu-collapse">
+                            <i class="fa fa-chevron-up visible-xs-inline"></i><i class="fa fa-chevron-left hidden-xs-inline"></i> Hide Bar
+                        </a>
+                        <a href="#" class="inner-menu-expand" data-open="inner-menu">
+                            Show Bar <i class="fa fa-chevron-down"></i>
+                        </a>
+                    </div>
+
+                    <div class="inner-menu-content">
+
+                        <a id="aOptimiseSelectedImagesID" class="btn btn-block btn-primary btn-md pt-sm pb-sm text-md" onclick="optimiseSelectedImages()">
+                            <i class="fa fa-upload mr-xs"></i>
+                            Optimise Images
+                        </a>
+
+                        <hr class="separator" />
+
+                        <a onclick="downloadAllOptimisedImages()" class="btn btn-block btn-primary btn-md pt-sm pb-sm text-md">
+                            <i class="fa fa-download mr-xs"></i>
+                            Download Images
+                        </a>
+
+                        <hr class="separator" />
+
+                    </div>
+                </div>
+            </div>
+        </menu>
+        <div class="inner-body mg-main">
+
+            <div class="inner-toolbar clearfix">
+                <ul>
+                    <li>
+                        <a href="#" id="mgSelectAllCheckBox" onclick="selectAllImages()"><i class="fa fa-check-square"></i> <span data-all-text="Select All" data-none-text="Select None">Select All</span></a>
+                    </li>
+
+                </ul>
+            </div>
+            <div id="divDropImageArea" class="row mg-files drop-image-area" data-sort-destination data-sort-id="media-gallery" style="position: relative;">
+                <div id="divDropImageAreaText" class="drop-image-area-text">
+                    DRAG AND DROP IMAGES HERE OR CLICK TO UPLOAD
+                </div>
+                @*<input id="inAddedImages" accept="image/*" type="file" multiple name="inAddedImages" />*@
+
+                
+                @*<input id="inAddedImages" accept="image/*" type="file" multiple name="inAddedImages" style="display:none;" />*@
+            </div>
+            
+        </div>       
+    </div>
+
+    @*<div class="isotope-item image col-sm-6 col-md-4 col-lg-3">
+        <div class="thumbnail">
+            <div class="thumb-preview">
+                <a class="thumb-image" href="~/Content/assets/images/projects/project-4.jpg">
+                    <img src="~/Areas/CMS/Content/assets/images/projects/project-4.jpg" class="img-responsive" alt="Project" />
+                </a>
+                <div class="mg-thumb-options">
+                    <div class="mg-zoom"><i class="fa fa-search"></i></div>
+                    <div class="mg-toolbar">
+                        <div class="mg-option checkbox-custom checkbox-inline">
+                            <input type="checkbox" id="file_4" value="1">
+                            <label for="file_4">SELECT</label>
+                        </div>
+                        <div class="mg-group pull-right">
+                            <i class="fa fa-check"> </i>
+                            <button class="dropdown-toggle mg-toggle" type="button" data-toggle="dropdown">
+                                <i class="fa fa-caret-up"></i>
+                            </button>
+                            <ul class="dropdown-menu mg-menu" role="menu">
+                                <li><a href="#"><i class="fa fa-download"></i> Download</a></li>
+                                <li><a href="#"><i class="fa fa-trash-o"></i> Delete</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h5 class="mg-title text-weight-semibold">Life<small>.png</small></h5>
+            <div class="mg-description">
+                <small class="pull-left text-muted">Image</small>
+                <small class="pull-right text-muted">png</small>
+            </div>
+        </div>
+    </div>*@
+    <a id="aOptimseSingleImageID" href="#" style="display:none;"></a>
+</section>
+<!-- end: page -->
+
+@**** CHANGE MASTER PAGE / LAYOUT PAGE HEADER (H2) TEXT AND PAGE TITLE AFTER PAGE LOADS ****@
+<script type="text/javascript">
+    var iImageCount = 0;
+
+    window.onload = function () {
+
+        $("#strPageTitle").text("Image Optimiser | Colmart CMS");
+        $("#h2PageHeader").text("Image Optimiser");
+
+        //Update Breadcrumbs
+        $("#olBreadcrumbs").append("<li><span>Image Optimiser</span></li>");
+
+        //Create Drag and Drop Events
+        $("#divDropImageArea").on('dragenter', function (e) {
+            e.preventDefault();
+            $(this).css('border', '#39b311 1.5px dashed');
+            $(this).css('background', '#f1ffef');
+        });
+
+        $("#divDropImageArea").on('dragover', function (e) {
+            e.preventDefault();
+            $(this).css('border', '#39b311 1.5px dashed');
+            $(this).css('background', '#f1ffef');
+        });
+
+        $("#divDropImageArea").on('dragleave', function (e) {
+            e.preventDefault();
+            $(this).css('border', 'none');
+            $(this).css('background', 'none');
+        });
+
+        $("#divDropImageArea").on('drop', function (e) {
+            //$(this).css('border', '#4571b8 2px dashed');
+            //$(this).css('background', '#FFF');
+            $(this).css('border', 'none');
+            $(this).css('background', 'none');
+            e.preventDefault();
+            var image = e.originalEvent.dataTransfer.files;
+            createImageData(image);
+        });
+
+    }
+</script>
+
+<script type="text/javascript">
+    function createImageData(images) {
+
+        if (images) {
+            if (images.length > 0) {
+                for (var i = 0; i < images.length; i++) {
+
+                    if (!images[i].type.match('image/jpeg') && !images[i].type.match('image/png')) {
+                        continue;
+                    }
+
+                    iImageCount++;
+
+                    //Image reader
+                    var reader = new FileReader();
+
+                    // Closure to capture the file information.
+                    reader.onload = (function (theFile, iImageCount) {
+                        return function (e) {
+                            // Render thumbnail.
+                            //alert(encodeURIComponent(theFile.name)); //Encoded ASCII String
+
+                            var divImageArea = $("#divDropImageArea");
+                            //Main Div
+                            var imageDiv = document.createElement('div');
+                            imageDiv.id = "divImageDivID_" + iImageCount.toString();
+                            imageDiv.classList.add("isotope-item");
+                            imageDiv.classList.add("image");
+                            imageDiv.classList.add("col-sm-6");
+                            imageDiv.classList.add("col-md-4");
+                            imageDiv.classList.add("col-lg-3");
+
+                            // -- Sub Div -- 
+                            var imageDivThumbnail = document.createElement('div');
+                            imageDivThumbnail.classList.add("thumbnail");
+
+                            // -- Sub Div Preview -- 
+                            var imageDivThumbnailPreview = document.createElement('div');
+                            imageDivThumbnailPreview.classList.add("thumb-preview");
+
+                            // -- Image Anchor --
+                            var imageDivAnchor = document.createElement('a');
+                            imageDivAnchor.classList.add("thumb-image");
+                            imageDivAnchor.id = "uploadedImageAnchorID_" + iImageCount.toString();
+                            imageDivAnchor.href = e.target.result;
+
+                            // -- Image --
+                            var imageDivAnchorImage = document.createElement('img');
+                            imageDivAnchorImage.classList.add("img-responsive");
+                            imageDivAnchorImage.id = "uploadedImageID_" + iImageCount.toString();
+                            imageDivAnchorImage.alt = theFile.name;
+                            imageDivAnchorImage.src = e.target.result;
+                            // -- End Image --
+                            // -- End Image Anchor --
+
+                            // -- Div Image Options -- 
+                            var imageDivImageOptions = document.createElement('div');
+                            imageDivImageOptions.classList.add("mg-thumb-options");
+
+
+                            // -- Div Image Zoom Option -- 
+                            var imageDivImageZoomOptions = document.createElement('div');
+                            imageDivImageZoomOptions.classList.add("mg-zoom");
+
+                            // -- i Image Search Option --
+                            var imageDivImageSearchOptions = document.createElement('i');
+                            imageDivImageSearchOptions.classList.add("fa");
+                            imageDivImageSearchOptions.classList.add("fa-search");
+                            // -- End i Image Search Option --
+
+                            // -- End Div Image Zoom Option -- 
+
+                            // -- Div Image Toolbar Option -- 
+                            var imageDivImageToolbarOptions = document.createElement('div');
+                            imageDivImageToolbarOptions.classList.add("mg-toolbar");
+
+                            // -- Div Image Toolbar Checkbox Option -- 
+                            var imageDivImageToolbarCheckboxOptions = document.createElement('div');
+                            imageDivImageToolbarCheckboxOptions.classList.add("mg-option");
+                            imageDivImageToolbarCheckboxOptions.classList.add("checkbox-custom");
+                            imageDivImageToolbarCheckboxOptions.classList.add("checkbox-inline");
+                            imageDivImageToolbarCheckboxOptions.id = "divCheckBoxID_" + iImageCount.toString();
+
+                            // -- Div Image Toolbar Checkbox Item Option 1--
+                            var imageDivImageToolbarCheckboxItemOption1 = document.createElement('input');
+                            imageDivImageToolbarCheckboxItemOption1.classList.add("checkbox-image-select");
+                            imageDivImageToolbarCheckboxItemOption1.type = "checkbox";
+                            imageDivImageToolbarCheckboxItemOption1.id = "imageCheckboxID_" + iImageCount.toString();
+                            // -- End Div Image Toolbar Checkbox Item Option 1--
+
+                            // -- Div Image Toolbar Checkbox Item Option 2--
+                            var imageDivImageToolbarCheckboxItemOption2 = document.createElement('label');
+                            imageDivImageToolbarCheckboxItemOption2.htmlFor = "imageCheckboxID_" + iImageCount.toString();
+                            imageDivImageToolbarCheckboxItemOption2.id = "lblImageCheckboxLabelID_" + iImageCount.toString();
+                            imageDivImageToolbarCheckboxItemOption2.innerHTML = "SELECT";
+                            // -- End Div Image Toolbar Checkbox Item Option 2--
+                            // -- End Div Image Toolbar Checkbox Option -- 
+
+                            // -- Div Image Toolbar Right Option --
+                            var imageDivImageToolbarRightOptions = document.createElement('div');
+                            imageDivImageToolbarRightOptions.classList.add("mg-group");
+                            imageDivImageToolbarRightOptions.classList.add("pull-right");
+
+                            // -- Div Image Toolbar Right Item Option 1 --
+                            var imageDivImageToolbarRightItemOption1Button = document.createElement('button');
+                            imageDivImageToolbarRightItemOption1Button.classList.add("dropdown-toggle");
+                            imageDivImageToolbarRightItemOption1Button.classList.add("mg-toggle");
+                            imageDivImageToolbarRightItemOption1Button.type = "button";
+                            imageDivImageToolbarRightItemOption1Button.setAttribute("data-toggle", "dropdown");
+                            imageDivImageToolbarRightItemOption1Button.setAttribute("aria-expanded", "false");
+
+                            // -- Div Image Toolbar Right Item Option 1 Item --
+                            var imageDivImageToolbarRightItemOption1Item = document.createElement('i');
+                            imageDivImageToolbarRightItemOption1Item.classList.add("fa");
+                            imageDivImageToolbarRightItemOption1Item.classList.add("fa-caret-up");
+                            // -- End Div Image Toolbar Right Item Option 1 Item --
+                            // -- End Div Image Toolbar Right Item Option 1 --
+
+                            // -- Div Image Toolbar Right Item Option 2 --
+                            var imageDivImageToolbarRightItemOption2UL = document.createElement('ul');
+                            imageDivImageToolbarRightItemOption2UL.classList.add("dropdown-menu");
+                            imageDivImageToolbarRightItemOption2UL.classList.add("mg-menu");
+                            imageDivImageToolbarRightItemOption2UL.setAttribute("role", "menu");
+
+                            // -- End Div Image Toolbar Right Item Option 2 Item 1 --
+                            var imageDivImageToolbarRightItemOption2Item1LI = document.createElement('li');
+                            var imageDivImageToolbarRightItemOption2Item1Anchor = document.createElement('a');
+                            imageDivImageToolbarRightItemOption2Item1Anchor.id = "imageDivImageToolbarRightItemOption2Item1AnchorID_" + iImageCount.toString();
+                            imageDivImageToolbarRightItemOption2Item1Anchor.setAttribute("onclick", "optimiseSingleImage('uploadedImageID_" + iImageCount.toString() + "')");
+                            var imageDivImageToolbarRightItemOption2Item1AnchorText = document.createTextNode(' Optimise');
+                            var imageDivImageToolbarRightItemOption2Item1Element = document.createElement('i');
+                            imageDivImageToolbarRightItemOption2Item1Element.classList.add("fa");
+                            imageDivImageToolbarRightItemOption2Item1Element.classList.add("fa-download");
+                            
+                            // -- Element Append --
+                            imageDivImageToolbarRightItemOption2Item1Anchor.appendChild(imageDivImageToolbarRightItemOption2Item1Element);
+                            imageDivImageToolbarRightItemOption2Item1Anchor.appendChild(imageDivImageToolbarRightItemOption2Item1AnchorText);
+                            imageDivImageToolbarRightItemOption2Item1Anchor.style.cursor = "pointer";
+                            //imageDivImageToolbarRightItemOption2Item1Anchor.href = "#"; //Commented Out
+
+                            // -- End Div Image Toolbar Right Item Option 2 Item 1 --
+
+                            // -- End Div Image Toolbar Right Item Option 2 Item 2 --
+                            var imageDivImageToolbarRightItemOption2Item2LI = document.createElement('li');
+                            var imageDivImageToolbarRightItemOption2Item2Anchor = document.createElement('a');
+                            imageDivImageToolbarRightItemOption2Item2Anchor.setAttribute("onclick", "removeSingleImage('divImageDivID_" + iImageCount.toString() + "')");
+                            var imageDivImageToolbarRightItemOption2Item2AnchorText = document.createTextNode(' Remove');
+                            var imageDivImageToolbarRightItemOption2Item2Element = document.createElement('i');
+                            imageDivImageToolbarRightItemOption2Item2Element.classList.add("fa");
+                            imageDivImageToolbarRightItemOption2Item2Element.classList.add("fa-trash-o");
+
+                            // -- Element Append --
+                            imageDivImageToolbarRightItemOption2Item2Anchor.appendChild(imageDivImageToolbarRightItemOption2Item2Element);
+                            imageDivImageToolbarRightItemOption2Item2Anchor.appendChild(imageDivImageToolbarRightItemOption2Item2AnchorText);
+                            imageDivImageToolbarRightItemOption2Item2Anchor.style.cursor = "pointer";
+                            //imageDivImageToolbarRightItemOption2Item2Anchor.href = "#";
+                            // -- End Div Image Toolbar Right Item Option 2 Item 2 --
+
+                            // -- End Div Image Toolbar Right Item Option 2 --
+
+                            // -- End Div Image Toolbar Right Option --
+
+                            // -- End Div Image Toolbar Option -- 
+
+                            // -- End Div Image Options -- 
+
+                            // -- End Sub Div Preview -- 
+
+
+                            // -- Header Div -- 
+                            var imageDivHeader = document.createElement('H6');
+                            var headerText = document.createTextNode(theFile.name);
+                            //var smallHeaderText = document.createTextNode(encodeURIComponent(theFile.name.toString().split('.').pop())); //Hidden small text
+                            imageDivHeader.classList.add("mg-title");
+                            imageDivHeader.classList.add("text-weight-semibold");
+                            imageDivHeader.appendChild(headerText);
+
+                            // -- Header Div Small Item -- 
+                            //var imageDivHeaderSmall = document.createElement('small'); //Hidden small text
+                            //imageDivHeaderSmall.appendChild(smallHeaderText); //Hidden small text
+                            // -- End Header Div Small Item -- 
+                            //imageDivHeader.appendChild(imageDivHeaderSmall); //Hidden small text
+                            // -- End Header Div -- 
+
+
+                            // **** -- APPEND ITEMS -- **** //
+
+                            // **** -- DIV THUMB PREVIEW - THUMB IMAGE ANCHOR IMAGE -- **** //
+
+                            // -- Image Append --
+                            imageDivAnchor.appendChild(imageDivAnchorImage);
+
+                            // **** -- END DIV THUMB PREVIEW - THUMB IMAGE ANCHOR IMAGE -- **** //
+
+
+                            // **** -- DIV IMAGE THUMB OPTIONS - IMAGE SEARCH ICON -- **** //
+                            // -- Image Search Icon Append
+                            imageDivImageZoomOptions.appendChild(imageDivImageSearchOptions);
+                            // **** -- END DIV IMAGE THUMB OPTIONS - IMAGE SEARCH ICON -- **** //
+
+                            // **** -- DIV IMAGE THUMB OPTIONS - IMAGE TOOLBAR -- **** //
+
+                            // -- Image Checkbox Append and Image Checkbox Label Append
+                            imageDivImageToolbarCheckboxOptions.appendChild(imageDivImageToolbarCheckboxItemOption1);
+                            imageDivImageToolbarCheckboxOptions.appendChild(imageDivImageToolbarCheckboxItemOption2);
+
+                            // -- Image Toolbar Button Items Append and Image Toolbar UL Items Append
+                            // -- Image Toolbar Button Items Append
+                            imageDivImageToolbarRightItemOption1Button.appendChild(imageDivImageToolbarRightItemOption1Item);
+                            // -- Image Toolbar LI Items 1 Append
+                            imageDivImageToolbarRightItemOption2Item1LI.appendChild(imageDivImageToolbarRightItemOption2Item1Anchor);
+                            // -- Image Toolbar LI Items 2 Append
+                            imageDivImageToolbarRightItemOption2Item2LI.appendChild(imageDivImageToolbarRightItemOption2Item2Anchor);
+                            // -- Image Toolbar UL Append
+                            imageDivImageToolbarRightItemOption2UL.appendChild(imageDivImageToolbarRightItemOption2Item1LI);
+                            imageDivImageToolbarRightItemOption2UL.appendChild(imageDivImageToolbarRightItemOption2Item2LI);
+
+
+                            // -- Image Toolbar Button Append and Image Toolbar UL Append
+                            imageDivImageToolbarRightOptions.appendChild(imageDivImageToolbarRightItemOption1Button);
+                            imageDivImageToolbarRightOptions.appendChild(imageDivImageToolbarRightItemOption2UL);
+
+
+                            // -- Div Image Toolbar Checkbox Append and Div Image Toolbar Right Append --
+                            imageDivImageToolbarOptions.appendChild(imageDivImageToolbarCheckboxOptions);
+                            imageDivImageToolbarOptions.appendChild(imageDivImageToolbarRightOptions);
+
+                            // **** -- END DIV IMAGE THUMB OPTIONS - IMAGE TOOLBAR -- **** //
+
+                            // **** -- DIV IMAGE THUMB OPTIONS -- **** //
+                            imageDivImageOptions.appendChild(imageDivImageZoomOptions);
+                            imageDivImageOptions.appendChild(imageDivImageToolbarOptions);
+                            // **** -- END DIV IMAGE THUMB OPTIONS -- **** //
+
+
+                            // -- SUB DIV THUMB PREVIEW -- 
+                            // -- Image Anchor Append --
+                            imageDivThumbnailPreview.appendChild(imageDivAnchor);
+                            // -- Image Thumb Options Append --
+                            imageDivThumbnailPreview.appendChild(imageDivImageOptions);
+                            // -- END SUB DIV THUMB PREVIEW -- 
+
+                            
+                            // -- DIV THUMBNAIL -- 
+                            // -- Div Thumb Preview Append --
+                            imageDivThumbnail.appendChild(imageDivThumbnailPreview);
+                            // -- Header Append --
+                            imageDivThumbnail.appendChild(imageDivHeader);
+                            // -- END DIV THUMBNAIL -- 
+
+                            // -- DIV MAIN IMAGE -- 
+                            // -- Div Thumbnail Append --
+                            imageDiv.appendChild(imageDivThumbnail);
+                            // -- END DIV MAIN IMAGE -- 
+                            
+                            // -- DIV MAIN DIV -- 
+                            // -- Div Main Image Append --
+                            divImageArea.append(imageDiv);
+                            // -- END DIV MAIN DIV -- 
+
+                            dynamicallyRefreshMediaGalleryFunctions();
+                        };
+                    })(images[i], iImageCount);
+
+                    reader.readAsDataURL(images[i]);
+                }
+            }
+        }
+        
+    }
+</script>
+
+<script type="text/javascript">
+    function dynamicallyRefreshMediaGalleryFunctions() {
+        /*
+        Thumbnail: Select
+        */
+        $('.mg-option input[type=checkbox]').on('change', function (ev) {
+            var wrapper = $(this).parents('.thumbnail');
+            if ($(this).is(':checked')) {
+                wrapper.addClass('thumbnail-selected');
+            } else {
+                wrapper.removeClass('thumbnail-selected');
+            }
+        });
+
+        $('.mg-option input[type=checkbox]:checked').trigger('change');
+
+        /*
+        Toolbar: Select All
+        */
+        //$('#mgSelectAllCheckBox').on('click', function (ev) {
+        //    ev.preventDefault();
+        //    var $this = $(this),
+        //        $label = $this.find('> span');
+        //    $checks = $('.mg-option input[type=checkbox]');
+
+        //    if ($this.attr('data-all-selected')) {
+        //        $this.removeAttr('data-all-selected');
+        //        $checks.prop('checked', false).trigger('change');
+        //        $label.html($label.data('all-text'));
+        //    } else {
+        //        $this.attr('data-all-selected', 'true');
+        //        $checks.prop('checked', true).trigger('change');
+        //        $label.html($label.data('none-text'));
+        //    }
+        //});
+
+        /*
+        Image Preview: Lightbox
+        */
+        $('.thumb-preview a[href]').magnificPopup({
+            type: 'image',
+            closeOnContentClick: true,
+            mainClass: 'mfp-img-mobile',
+            image: {
+                verticalFit: true
+            }
+        });
+        
+
+        $('.thumb-preview .mg-zoom').on('click.lightbox', function (ev) {
+            ev.preventDefault();
+            $(this).closest('.thumb-preview').find('a.thumb-image').triggerHandler('click');
+        });
+
+
+        /*
+        Thumnail: Dropdown Options
+        */
+        $('.thumbnail .mg-toggle').parent()
+            .on('show.bs.dropdown', function (ev) {
+                $(this).closest('.mg-thumb-options').css('overflow', 'visible');
+            })
+            .on('hidden.bs.dropdown', function (ev) {
+                $(this).closest('.mg-thumb-options').css('overflow', '');
+            });
+
+        $('.thumbnail').on('mouseenter', function () {
+            var toggle = $(this).find('.mg-toggle');
+            if (toggle.parent().hasClass('open')) {
+                toggle.dropdown('toggle');
+            }
+        });
+
+        /*
+        Isotope: Sort Thumbnails
+        */
+        $("[data-sort-source]").each(function () {
+
+            var source = $(this);
+            var destination = $("[data-sort-destination][data-sort-id=" + $(this).attr("data-sort-id") + "]");
+
+            if (destination.get(0)) {
+
+                $(window).on('load', function () {
+
+                    destination.isotope({
+                        itemSelector: ".isotope-item",
+                        layoutMode: 'fitRows'
+                    });
+
+                    $(window).on('sidebar-left-toggle inner-menu-toggle', function () {
+                        destination.isotope();
+                    });
+
+                    source.find("a[data-option-value]").click(function (e) {
+
+                        e.preventDefault();
+
+                        var $this = $(this),
+                            filter = $this.attr("data-option-value");
+
+                        source.find(".active").removeClass("active");
+                        $this.closest("li").addClass("active");
+
+                        destination.isotope({
+                            filter: filter
+                        });
+
+                        if (window.location.hash != "" || filter.replace(".", "") != "*") {
+                            window.location.hash = filter.replace(".", "");
+                        }
+
+                        return false;
+
+                    });
+
+                    $(window).bind("hashchange", function (e) {
+
+                        var hashFilter = "." + location.hash.replace("#", ""),
+                            hash = (hashFilter == "." || hashFilter == ".*" ? "*" : hashFilter);
+
+                        source.find(".active").removeClass("active");
+                        source.find("[data-option-value='" + hash + "']").closest("li").addClass("active");
+
+                        destination.isotope({
+                            filter: hash
+                        });
+
+                    });
+
+                    var hashFilter = "." + (location.hash.replace("#", "") || "*");
+                    var initFilterEl = source.find("a[data-option-value='" + hashFilter + "']");
+
+                    if (initFilterEl.get(0)) {
+                        source.find("[data-option-value='" + hashFilter + "']").click();
+                    } else {
+                        source.find(".active a").click();
+                    }
+
+                });
+
+            }
+
+        });
+    }
+</script>
+
+<script type="text/javascript">
+    function selectAllImages() {
+
+        /*
+        Toolbar: Select All
+        */
+        var selectAllText = $("#mgSelectAllCheckBox span").text();
+        if (selectAllText == "Select All") {
+            $('input[class="checkbox-image-select"]').prop("checked", true).trigger('change');
+            $("#mgSelectAllCheckBox span").text("Select None");
+        }
+        else {
+            $('input[class="checkbox-image-select"]').prop("checked", false).trigger('change');
+            $("#mgSelectAllCheckBox span").text("Select All");
+        }
+
+    }
+</script>
+
+<script type="text/javascript">
+    function optimiseSelectedImages() {
+
+        var iNumberOfSelectedImages = $('input[class="checkbox-image-select"]:checked').length;
+        if (iNumberOfSelectedImages > 0) {
+
+            var selectedImages = [];
+            $('input[class="checkbox-image-select"]:checked').each(function() {
+                selectedImages.push($(this).attr('id'));
+            });
+
+            var selectedImagesID = [];
+            for (var k = 0; k < selectedImages.length; k++) {
+                selectedImagesID.push(selectedImages[k].toString().split("_").pop());
+            }
+
+            //Get File Type
+            for (var j = 0; j < selectedImagesID.length; j++) {
+                var strSelectedUploadedImageID = "uploadedImageID_" + selectedImagesID[j].toString();
+                var strSelectedUploadedImageAnchorID = "uploadedImageAnchorID_" + selectedImagesID[j].toString();
+                var strDivCheckboxID = "imageCheckboxID_" + selectedImagesID[j].toString();
+                var strImageLabelID = "lblImageCheckboxLabelID_" + selectedImagesID[j].toString();
+
+                //Toolbar anchor
+                var strimageDivImageToolbarRightItemOption2Item1AnchorID = "imageDivImageToolbarRightItemOption2Item1AnchorID_" + selectedImagesID[j].toString();
+
+                var fileName = $("#" + strSelectedUploadedImageID).attr("alt");
+                var fileType = $("#" + strSelectedUploadedImageID).attr("alt").split(".").pop();
+
+                //Images Objects
+                var source_img = document.getElementById(strSelectedUploadedImageID),
+                    target_img = document.getElementById(strSelectedUploadedImageID);
+
+                //(NOTE: see the examples/js/demo.js file to understand how this object could be a local image 
+                //from your filesystem using the File API)
+
+                //An Integer from 0 to 100
+                var quality =  80;
+                // output file format (jpg || png || webp)
+                var output_format = "";
+
+                if (fileType.toString().toLowerCase() == "png") {
+                    output_format = "jpg";
+                }
+                else {
+                    output_format = "jpg";
+                }
+                
+                //This function returns an Image Object 
+                var newImageData = null;
+                newImageData = jic.compress(source_img, quality, output_format).src;;
+                target_img.src = newImageData;
+                $("#" + strSelectedUploadedImageAnchorID).attr("href", newImageData);
+
+                //Disable textbox and update label
+                $("#" + strDivCheckboxID).attr("disabled", true);
+                $("#" + strDivCheckboxID).removeClass("checkbox-image-select");
+                $("#" + strImageLabelID).text("OPTIMISED");
+                
+                //Clear and Update toolbar anchor and add href
+                //Clear toolbar anchor
+                $("#" + strimageDivImageToolbarRightItemOption2Item1AnchorID).empty();
+
+                //Update toolbar anchor
+                var imageDivImageToolbarRightItemOption2Item1ElementtNew = document.createElement('i');
+                imageDivImageToolbarRightItemOption2Item1ElementtNew.classList.add("fa");
+                imageDivImageToolbarRightItemOption2Item1ElementtNew.classList.add("fa-download");
+                var imageDivImageToolbarRightItemOption2Item1AnchorTextNew = document.createTextNode(' Download');
+
+                $("#" + strimageDivImageToolbarRightItemOption2Item1AnchorID).addClass("download-optimised-image");
+                $("#" + strimageDivImageToolbarRightItemOption2Item1AnchorID).append(imageDivImageToolbarRightItemOption2Item1ElementtNew);
+                $("#" + strimageDivImageToolbarRightItemOption2Item1AnchorID).append(imageDivImageToolbarRightItemOption2Item1AnchorTextNew);
+
+                $("#" + strimageDivImageToolbarRightItemOption2Item1AnchorID).attr("href", newImageData);
+                $("#" + strimageDivImageToolbarRightItemOption2Item1AnchorID).attr("download", fileName);
+                //Remove onclick attribute
+                $("#" + strimageDivImageToolbarRightItemOption2Item1AnchorID).removeAttr("onclick");
+            }
+        }
+    }
+</script>
+
+<script type="text/javascript">
+    function optimiseSingleImage(ID) {
+
+        var imageID = ID.toString();
+
+        var fileName = $("#" + imageID).attr("alt");
+        var fileType = $("#" + imageID).attr("alt").split(".").pop();
+
+        //Images Objects
+        var source_img = document.getElementById(imageID),
+            target_img = document.getElementById(imageID);
+
+        //(NOTE: see the examples/js/demo.js file to understand how this object could be a local image 
+        //from your filesystem using the File API)
+
+        //An Integer from 0 to 100
+        var quality = 80;
+        // output file format (jpg || png || webp)
+        var output_format = "";
+
+        if (fileType.toString().toLowerCase() == "png") {
+            output_format = "jpg";
+        }
+        else {
+            output_format = "jpg";
+        }
+        //This function returns an Image Object 
+        var newImageData = null;
+        newImageData = jic.compress(source_img, quality, output_format).src;;
+        
+        $("#aOptimseSingleImageID").attr("href", newImageData);
+        $("#aOptimseSingleImageID").attr("download", fileName);
+
+        var imageAnchor = document.getElementById("aOptimseSingleImageID");
+        imageAnchor.click();
+        
+    }
+</script>
+
+<script type="text/javascript">
+    function downloadAllOptimisedImages() {
+
+        var optimisedImagesID = [];
+        $('a.download-optimised-image').each(function () {
+            optimisedImagesID.push($(this).attr('id'));
+        });
+
+        if (optimisedImagesID.length > 0) {
+            for (var l = 0; l < optimisedImagesID.length; l++) {
+                var optimisedImageItem = document.getElementById(optimisedImagesID[l].toString());
+                optimisedImageItem.click();
+            }
+        }
+    }
+</script>
+<script type="text/javascript">
+    function removeSingleImage(divID) {
+        $("#" + divID).remove();
+    }
+</script>
+
+
+
+
+
+
+
+

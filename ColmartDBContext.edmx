@@ -1,0 +1,913 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ColmartDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tblCMSPages">
+          <Key>
+            <PropertyRef Name="iCMSPageID" />
+          </Key>
+          <Property Name="iCMSPageID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="dtAdded" Type="datetime" Nullable="false" />
+          <Property Name="iAddedBy" Type="int" Nullable="false" />
+          <Property Name="dtEdited" Type="datetime" />
+          <Property Name="iEditedBy" Type="int" Nullable="false" />
+          <Property Name="strTitle" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="bIsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblCMSRoleTypes">
+          <Key>
+            <PropertyRef Name="iCMSRoleTypeID" />
+          </Key>
+          <Property Name="iCMSRoleTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="dtAdded" Type="datetime" Nullable="false" />
+          <Property Name="iAddedBy" Type="int" Nullable="false" />
+          <Property Name="dtEdited" Type="datetime" />
+          <Property Name="iEditedBy" Type="int" Nullable="false" />
+          <Property Name="strTitle" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="bIsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblCMSUserAccess">
+          <Key>
+            <PropertyRef Name="iCMSUserAccessID" />
+          </Key>
+          <Property Name="iCMSUserAccessID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="dtAdded" Type="datetime" Nullable="false" />
+          <Property Name="iAddedBy" Type="int" Nullable="false" />
+          <Property Name="dtEdited" Type="datetime" />
+          <Property Name="iEditedBy" Type="int" Nullable="false" />
+          <Property Name="iCMSUserID" Type="int" Nullable="false" />
+          <Property Name="iCMSPageID" Type="int" Nullable="false" />
+          <Property Name="bIsRead" Type="bit" Nullable="false" />
+          <Property Name="bIsWrite" Type="bit" Nullable="false" />
+          <Property Name="bIsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblCMSUsers">
+          <Key>
+            <PropertyRef Name="iCMSUserID" />
+          </Key>
+          <Property Name="iCMSUserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="dtAdded" Type="datetime" Nullable="false" />
+          <Property Name="iAddedBy" Type="int" Nullable="false" />
+          <Property Name="dtEdited" Type="datetime" />
+          <Property Name="iEditedBy" Type="int" Nullable="false" />
+          <Property Name="iCMSRoleTypeID" Type="int" Nullable="false" />
+          <Property Name="strFirstName" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="strSurname" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="strBiographicalInfo" Type="varchar" MaxLength="500" />
+          <Property Name="strContactNumber" Type="varchar" MaxLength="20" />
+          <Property Name="strEmailAddress" Type="varchar" MaxLength="120" Nullable="false" />
+          <Property Name="strPassword" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="strImagePath" Type="varchar" MaxLength="250" />
+          <Property Name="strImageName" Type="varchar" MaxLength="250" />
+          <Property Name="bIsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblPages">
+          <Key>
+            <PropertyRef Name="iPageID" />
+          </Key>
+          <Property Name="iPageID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="dtAdded" Type="datetime" Nullable="false" />
+          <Property Name="iAddedBy" Type="int" Nullable="false" />
+          <Property Name="dtEdited" Type="datetime" />
+          <Property Name="iEditedBy" Type="int" Nullable="false" />
+          <Property Name="strTitle" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="bIsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblProductCategories">
+          <Key>
+            <PropertyRef Name="iProductCategoryID" />
+          </Key>
+          <Property Name="iProductCategoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="dtAdded" Type="datetime" Nullable="false" />
+          <Property Name="iAddedBy" Type="int" Nullable="false" />
+          <Property Name="dtEdited" Type="datetime" />
+          <Property Name="iEditedBy" Type="int" Nullable="false" />
+          <Property Name="strTitle" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="bIsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblProducts">
+          <Key>
+            <PropertyRef Name="iProductID" />
+          </Key>
+          <Property Name="iProductID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="dtAdded" Type="datetime" Nullable="false" />
+          <Property Name="iAddedBy" Type="int" Nullable="false" />
+          <Property Name="dtEdited" Type="datetime" />
+          <Property Name="iEditedBy" Type="int" Nullable="false" />
+          <Property Name="strTitle" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="strStyleCode" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="strProductColour" Type="varchar" MaxLength="100" />
+          <Property Name="strFullDescription" Type="varchar" MaxLength="2500" />
+          <Property Name="strImageURL" Type="varchar" MaxLength="250" />
+          <Property Name="iProductCategoryID" Type="int" Nullable="false" />
+          <Property Name="iProductSubCategoryID" Type="int" Nullable="false" />
+          <Property Name="bIsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblProductSizes">
+          <Key>
+            <PropertyRef Name="iProductSizeID" />
+          </Key>
+          <Property Name="iProductSizeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="dtAdded" Type="datetime" Nullable="false" />
+          <Property Name="iAddedBy" Type="int" Nullable="false" />
+          <Property Name="dtEdited" Type="datetime" />
+          <Property Name="iEditedBy" Type="int" Nullable="false" />
+          <Property Name="strSize" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="dblPrice" Type="float" Nullable="false" />
+          <Property Name="iQuantityAvailable" Type="int" Nullable="false" />
+          <Property Name="iProductID" Type="int" Nullable="false" />
+          <Property Name="bIsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblProductSubCategories">
+          <Key>
+            <PropertyRef Name="iProductSubCategoryID" />
+          </Key>
+          <Property Name="iProductSubCategoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="dtAdded" Type="datetime" Nullable="false" />
+          <Property Name="iAddedBy" Type="int" Nullable="false" />
+          <Property Name="dtEdited" Type="datetime" />
+          <Property Name="iEditedBy" Type="int" Nullable="false" />
+          <Property Name="strTitle" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="bIsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblRoleTypes">
+          <Key>
+            <PropertyRef Name="iRoleTypeID" />
+          </Key>
+          <Property Name="iRoleTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="dtAdded" Type="datetime" Nullable="false" />
+          <Property Name="iAddedBy" Type="int" Nullable="false" />
+          <Property Name="dtEdited" Type="datetime" />
+          <Property Name="iEditedBy" Type="int" Nullable="false" />
+          <Property Name="strTitle" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="bIsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblUserAccess">
+          <Key>
+            <PropertyRef Name="iUserAccessID" />
+          </Key>
+          <Property Name="iUserAccessID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="dtAdded" Type="datetime" Nullable="false" />
+          <Property Name="iAddedBy" Type="int" Nullable="false" />
+          <Property Name="dtEdited" Type="datetime" />
+          <Property Name="iEditedBy" Type="int" Nullable="false" />
+          <Property Name="iUserID" Type="int" Nullable="false" />
+          <Property Name="iPageID" Type="int" Nullable="false" />
+          <Property Name="bIsRead" Type="bit" Nullable="false" />
+          <Property Name="bIsWrite" Type="bit" Nullable="false" />
+          <Property Name="bIsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblUsers">
+          <Key>
+            <PropertyRef Name="iUserID" />
+          </Key>
+          <Property Name="iUserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="dtAdded" Type="datetime" Nullable="false" />
+          <Property Name="iAddedBy" Type="int" Nullable="false" />
+          <Property Name="dtEdited" Type="datetime" />
+          <Property Name="iEditedBy" Type="int" Nullable="false" />
+          <Property Name="iRoleTypeID" Type="int" Nullable="false" />
+          <Property Name="strFirstName" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="strSurname" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="strBiographicalInfo" Type="varchar" MaxLength="500" />
+          <Property Name="strContactNumber" Type="varchar" MaxLength="20" />
+          <Property Name="strEmailAddress" Type="varchar" MaxLength="120" Nullable="false" />
+          <Property Name="strPassword" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="strImagePath" Type="varchar" MaxLength="250" />
+          <Property Name="strImageName" Type="varchar" MaxLength="250" />
+          <Property Name="bIsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_tblCMSUserAccess_tblCMSPages">
+          <End Role="tblCMSPages" Type="Self.tblCMSPages" Multiplicity="1" />
+          <End Role="tblCMSUserAccess" Type="Self.tblCMSUserAccess" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCMSPages">
+              <PropertyRef Name="iCMSPageID" />
+            </Principal>
+            <Dependent Role="tblCMSUserAccess">
+              <PropertyRef Name="iCMSPageID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblCMSUserAccess_tblCMSUsers">
+          <End Role="tblCMSUsers" Type="Self.tblCMSUsers" Multiplicity="1" />
+          <End Role="tblCMSUserAccess" Type="Self.tblCMSUserAccess" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCMSUsers">
+              <PropertyRef Name="iCMSUserID" />
+            </Principal>
+            <Dependent Role="tblCMSUserAccess">
+              <PropertyRef Name="iCMSUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblCMSUsers_tblCMSRoleTypes">
+          <End Role="tblCMSRoleTypes" Type="Self.tblCMSRoleTypes" Multiplicity="1" />
+          <End Role="tblCMSUsers" Type="Self.tblCMSUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCMSRoleTypes">
+              <PropertyRef Name="iCMSRoleTypeID" />
+            </Principal>
+            <Dependent Role="tblCMSUsers">
+              <PropertyRef Name="iCMSRoleTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblProducts_tblProductCategories">
+          <End Role="tblProductCategories" Type="Self.tblProductCategories" Multiplicity="1" />
+          <End Role="tblProducts" Type="Self.tblProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblProductCategories">
+              <PropertyRef Name="iProductCategoryID" />
+            </Principal>
+            <Dependent Role="tblProducts">
+              <PropertyRef Name="iProductCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblProducts_tblProductSubCategories">
+          <End Role="tblProductSubCategories" Type="Self.tblProductSubCategories" Multiplicity="1" />
+          <End Role="tblProducts" Type="Self.tblProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblProductSubCategories">
+              <PropertyRef Name="iProductSubCategoryID" />
+            </Principal>
+            <Dependent Role="tblProducts">
+              <PropertyRef Name="iProductSubCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblProductSizes_tblProducts">
+          <End Role="tblProducts" Type="Self.tblProducts" Multiplicity="1" />
+          <End Role="tblProductSizes" Type="Self.tblProductSizes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblProducts">
+              <PropertyRef Name="iProductID" />
+            </Principal>
+            <Dependent Role="tblProductSizes">
+              <PropertyRef Name="iProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblUserAccess_tblPages">
+          <End Role="tblPages" Type="Self.tblPages" Multiplicity="1" />
+          <End Role="tblUserAccess" Type="Self.tblUserAccess" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblPages">
+              <PropertyRef Name="iPageID" />
+            </Principal>
+            <Dependent Role="tblUserAccess">
+              <PropertyRef Name="iPageID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblUserAccess_tblUsers">
+          <End Role="tblUsers" Type="Self.tblUsers" Multiplicity="1" />
+          <End Role="tblUserAccess" Type="Self.tblUserAccess" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUsers">
+              <PropertyRef Name="iUserID" />
+            </Principal>
+            <Dependent Role="tblUserAccess">
+              <PropertyRef Name="iUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblUsers_tblRoleTypes">
+          <End Role="tblRoleTypes" Type="Self.tblRoleTypes" Multiplicity="1" />
+          <End Role="tblUsers" Type="Self.tblUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblRoleTypes">
+              <PropertyRef Name="iRoleTypeID" />
+            </Principal>
+            <Dependent Role="tblUsers">
+              <PropertyRef Name="iRoleTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ColmartDBModelStoreContainer">
+          <EntitySet Name="tblCMSPages" EntityType="Self.tblCMSPages" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblCMSRoleTypes" EntityType="Self.tblCMSRoleTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblCMSUserAccess" EntityType="Self.tblCMSUserAccess" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblCMSUsers" EntityType="Self.tblCMSUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblPages" EntityType="Self.tblPages" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblProductCategories" EntityType="Self.tblProductCategories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblProducts" EntityType="Self.tblProducts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblProductSizes" EntityType="Self.tblProductSizes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblProductSubCategories" EntityType="Self.tblProductSubCategories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblRoleTypes" EntityType="Self.tblRoleTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblUserAccess" EntityType="Self.tblUserAccess" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblUsers" EntityType="Self.tblUsers" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_tblCMSUserAccess_tblCMSPages" Association="Self.FK_tblCMSUserAccess_tblCMSPages">
+            <End Role="tblCMSPages" EntitySet="tblCMSPages" />
+            <End Role="tblCMSUserAccess" EntitySet="tblCMSUserAccess" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblCMSUserAccess_tblCMSUsers" Association="Self.FK_tblCMSUserAccess_tblCMSUsers">
+            <End Role="tblCMSUsers" EntitySet="tblCMSUsers" />
+            <End Role="tblCMSUserAccess" EntitySet="tblCMSUserAccess" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblCMSUsers_tblCMSRoleTypes" Association="Self.FK_tblCMSUsers_tblCMSRoleTypes">
+            <End Role="tblCMSRoleTypes" EntitySet="tblCMSRoleTypes" />
+            <End Role="tblCMSUsers" EntitySet="tblCMSUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblProducts_tblProductCategories" Association="Self.FK_tblProducts_tblProductCategories">
+            <End Role="tblProductCategories" EntitySet="tblProductCategories" />
+            <End Role="tblProducts" EntitySet="tblProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblProducts_tblProductSubCategories" Association="Self.FK_tblProducts_tblProductSubCategories">
+            <End Role="tblProductSubCategories" EntitySet="tblProductSubCategories" />
+            <End Role="tblProducts" EntitySet="tblProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblProductSizes_tblProducts" Association="Self.FK_tblProductSizes_tblProducts">
+            <End Role="tblProducts" EntitySet="tblProducts" />
+            <End Role="tblProductSizes" EntitySet="tblProductSizes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblUserAccess_tblPages" Association="Self.FK_tblUserAccess_tblPages">
+            <End Role="tblPages" EntitySet="tblPages" />
+            <End Role="tblUserAccess" EntitySet="tblUserAccess" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblUserAccess_tblUsers" Association="Self.FK_tblUserAccess_tblUsers">
+            <End Role="tblUsers" EntitySet="tblUsers" />
+            <End Role="tblUserAccess" EntitySet="tblUserAccess" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblUsers_tblRoleTypes" Association="Self.FK_tblUsers_tblRoleTypes">
+            <End Role="tblRoleTypes" EntitySet="tblRoleTypes" />
+            <End Role="tblUsers" EntitySet="tblUsers" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ColmartDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tblCMSPages">
+          <Key>
+            <PropertyRef Name="iCMSPageID" />
+          </Key>
+          <Property Name="iCMSPageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="dtAdded" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="iAddedBy" Type="Int32" Nullable="false" />
+          <Property Name="dtEdited" Type="DateTime" Precision="3" />
+          <Property Name="iEditedBy" Type="Int32" Nullable="false" />
+          <Property Name="strTitle" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="bIsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tblCMSUserAccess" Relationship="Self.FK_tblCMSUserAccess_tblCMSPages" FromRole="tblCMSPages" ToRole="tblCMSUserAccess" />
+        </EntityType>
+        <EntityType Name="tblCMSRoleTypes">
+          <Key>
+            <PropertyRef Name="iCMSRoleTypeID" />
+          </Key>
+          <Property Name="iCMSRoleTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="dtAdded" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="iAddedBy" Type="Int32" Nullable="false" />
+          <Property Name="dtEdited" Type="DateTime" Precision="3" />
+          <Property Name="iEditedBy" Type="Int32" Nullable="false" />
+          <Property Name="strTitle" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="bIsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tblCMSUsers" Relationship="Self.FK_tblCMSUsers_tblCMSRoleTypes" FromRole="tblCMSRoleTypes" ToRole="tblCMSUsers" />
+        </EntityType>
+        <EntityType Name="tblCMSUserAccess">
+          <Key>
+            <PropertyRef Name="iCMSUserAccessID" />
+          </Key>
+          <Property Name="iCMSUserAccessID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="dtAdded" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="iAddedBy" Type="Int32" Nullable="false" />
+          <Property Name="dtEdited" Type="DateTime" Precision="3" />
+          <Property Name="iEditedBy" Type="Int32" Nullable="false" />
+          <Property Name="iCMSUserID" Type="Int32" Nullable="false" />
+          <Property Name="iCMSPageID" Type="Int32" Nullable="false" />
+          <Property Name="bIsRead" Type="Boolean" Nullable="false" />
+          <Property Name="bIsWrite" Type="Boolean" Nullable="false" />
+          <Property Name="bIsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tblCMSPages" Relationship="Self.FK_tblCMSUserAccess_tblCMSPages" FromRole="tblCMSUserAccess" ToRole="tblCMSPages" />
+          <NavigationProperty Name="tblCMSUsers" Relationship="Self.FK_tblCMSUserAccess_tblCMSUsers" FromRole="tblCMSUserAccess" ToRole="tblCMSUsers" />
+        </EntityType>
+        <EntityType Name="tblCMSUsers">
+          <Key>
+            <PropertyRef Name="iCMSUserID" />
+          </Key>
+          <Property Name="iCMSUserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="dtAdded" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="iAddedBy" Type="Int32" Nullable="false" />
+          <Property Name="dtEdited" Type="DateTime" Precision="3" />
+          <Property Name="iEditedBy" Type="Int32" Nullable="false" />
+          <Property Name="iCMSRoleTypeID" Type="Int32" Nullable="false" />
+          <Property Name="strFirstName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="strSurname" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="strBiographicalInfo" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="strContactNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="strEmailAddress" Type="String" MaxLength="120" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="strPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="strImagePath" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="strImageName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="bIsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tblCMSRoleTypes" Relationship="Self.FK_tblCMSUsers_tblCMSRoleTypes" FromRole="tblCMSUsers" ToRole="tblCMSRoleTypes" />
+          <NavigationProperty Name="tblCMSUserAccess" Relationship="Self.FK_tblCMSUserAccess_tblCMSUsers" FromRole="tblCMSUsers" ToRole="tblCMSUserAccess" />
+        </EntityType>
+        <EntityType Name="tblPages">
+          <Key>
+            <PropertyRef Name="iPageID" />
+          </Key>
+          <Property Name="iPageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="dtAdded" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="iAddedBy" Type="Int32" Nullable="false" />
+          <Property Name="dtEdited" Type="DateTime" Precision="3" />
+          <Property Name="iEditedBy" Type="Int32" Nullable="false" />
+          <Property Name="strTitle" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="bIsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tblUserAccess" Relationship="Self.FK_tblUserAccess_tblPages" FromRole="tblPages" ToRole="tblUserAccess" />
+        </EntityType>
+        <EntityType Name="tblProductCategories">
+          <Key>
+            <PropertyRef Name="iProductCategoryID" />
+          </Key>
+          <Property Name="iProductCategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="dtAdded" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="iAddedBy" Type="Int32" Nullable="false" />
+          <Property Name="dtEdited" Type="DateTime" Precision="3" />
+          <Property Name="iEditedBy" Type="Int32" Nullable="false" />
+          <Property Name="strTitle" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="bIsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tblProducts" Relationship="Self.FK_tblProducts_tblProductCategories" FromRole="tblProductCategories" ToRole="tblProducts" />
+        </EntityType>
+        <EntityType Name="tblProducts">
+          <Key>
+            <PropertyRef Name="iProductID" />
+          </Key>
+          <Property Name="iProductID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="dtAdded" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="iAddedBy" Type="Int32" Nullable="false" />
+          <Property Name="dtEdited" Type="DateTime" Precision="3" />
+          <Property Name="iEditedBy" Type="Int32" Nullable="false" />
+          <Property Name="strTitle" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="strStyleCode" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="strProductColour" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="strFullDescription" Type="String" MaxLength="2500" FixedLength="false" Unicode="false" />
+          <Property Name="strImageURL" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="iProductCategoryID" Type="Int32" Nullable="false" />
+          <Property Name="iProductSubCategoryID" Type="Int32" Nullable="false" />
+          <Property Name="bIsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tblProductCategories" Relationship="Self.FK_tblProducts_tblProductCategories" FromRole="tblProducts" ToRole="tblProductCategories" />
+          <NavigationProperty Name="tblProductSubCategories" Relationship="Self.FK_tblProducts_tblProductSubCategories" FromRole="tblProducts" ToRole="tblProductSubCategories" />
+          <NavigationProperty Name="tblProductSizes" Relationship="Self.FK_tblProductSizes_tblProducts" FromRole="tblProducts" ToRole="tblProductSizes" />
+        </EntityType>
+        <EntityType Name="tblProductSizes">
+          <Key>
+            <PropertyRef Name="iProductSizeID" />
+          </Key>
+          <Property Name="iProductSizeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="dtAdded" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="iAddedBy" Type="Int32" Nullable="false" />
+          <Property Name="dtEdited" Type="DateTime" Precision="3" />
+          <Property Name="iEditedBy" Type="Int32" Nullable="false" />
+          <Property Name="strSize" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="dblPrice" Type="Double" Nullable="false" />
+          <Property Name="iQuantityAvailable" Type="Int32" Nullable="false" />
+          <Property Name="iProductID" Type="Int32" Nullable="false" />
+          <Property Name="bIsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tblProducts" Relationship="Self.FK_tblProductSizes_tblProducts" FromRole="tblProductSizes" ToRole="tblProducts" />
+        </EntityType>
+        <EntityType Name="tblProductSubCategories">
+          <Key>
+            <PropertyRef Name="iProductSubCategoryID" />
+          </Key>
+          <Property Name="iProductSubCategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="dtAdded" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="iAddedBy" Type="Int32" Nullable="false" />
+          <Property Name="dtEdited" Type="DateTime" Precision="3" />
+          <Property Name="iEditedBy" Type="Int32" Nullable="false" />
+          <Property Name="strTitle" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="bIsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tblProducts" Relationship="Self.FK_tblProducts_tblProductSubCategories" FromRole="tblProductSubCategories" ToRole="tblProducts" />
+        </EntityType>
+        <EntityType Name="tblRoleTypes">
+          <Key>
+            <PropertyRef Name="iRoleTypeID" />
+          </Key>
+          <Property Name="iRoleTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="dtAdded" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="iAddedBy" Type="Int32" Nullable="false" />
+          <Property Name="dtEdited" Type="DateTime" Precision="3" />
+          <Property Name="iEditedBy" Type="Int32" Nullable="false" />
+          <Property Name="strTitle" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="bIsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tblUsers" Relationship="Self.FK_tblUsers_tblRoleTypes" FromRole="tblRoleTypes" ToRole="tblUsers" />
+        </EntityType>
+        <EntityType Name="tblUserAccess">
+          <Key>
+            <PropertyRef Name="iUserAccessID" />
+          </Key>
+          <Property Name="iUserAccessID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="dtAdded" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="iAddedBy" Type="Int32" Nullable="false" />
+          <Property Name="dtEdited" Type="DateTime" Precision="3" />
+          <Property Name="iEditedBy" Type="Int32" Nullable="false" />
+          <Property Name="iUserID" Type="Int32" Nullable="false" />
+          <Property Name="iPageID" Type="Int32" Nullable="false" />
+          <Property Name="bIsRead" Type="Boolean" Nullable="false" />
+          <Property Name="bIsWrite" Type="Boolean" Nullable="false" />
+          <Property Name="bIsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tblPages" Relationship="Self.FK_tblUserAccess_tblPages" FromRole="tblUserAccess" ToRole="tblPages" />
+          <NavigationProperty Name="tblUsers" Relationship="Self.FK_tblUserAccess_tblUsers" FromRole="tblUserAccess" ToRole="tblUsers" />
+        </EntityType>
+        <EntityType Name="tblUsers">
+          <Key>
+            <PropertyRef Name="iUserID" />
+          </Key>
+          <Property Name="iUserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="dtAdded" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="iAddedBy" Type="Int32" Nullable="false" />
+          <Property Name="dtEdited" Type="DateTime" Precision="3" />
+          <Property Name="iEditedBy" Type="Int32" Nullable="false" />
+          <Property Name="iRoleTypeID" Type="Int32" Nullable="false" />
+          <Property Name="strFirstName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="strSurname" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="strBiographicalInfo" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="strContactNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="strEmailAddress" Type="String" MaxLength="120" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="strPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="strImagePath" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="strImageName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="bIsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tblRoleTypes" Relationship="Self.FK_tblUsers_tblRoleTypes" FromRole="tblUsers" ToRole="tblRoleTypes" />
+          <NavigationProperty Name="tblUserAccess" Relationship="Self.FK_tblUserAccess_tblUsers" FromRole="tblUsers" ToRole="tblUserAccess" />
+        </EntityType>
+        <Association Name="FK_tblCMSUserAccess_tblCMSPages">
+          <End Role="tblCMSPages" Type="Self.tblCMSPages" Multiplicity="1" />
+          <End Role="tblCMSUserAccess" Type="Self.tblCMSUserAccess" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCMSPages">
+              <PropertyRef Name="iCMSPageID" />
+            </Principal>
+            <Dependent Role="tblCMSUserAccess">
+              <PropertyRef Name="iCMSPageID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblCMSUsers_tblCMSRoleTypes">
+          <End Role="tblCMSRoleTypes" Type="Self.tblCMSRoleTypes" Multiplicity="1" />
+          <End Role="tblCMSUsers" Type="Self.tblCMSUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCMSRoleTypes">
+              <PropertyRef Name="iCMSRoleTypeID" />
+            </Principal>
+            <Dependent Role="tblCMSUsers">
+              <PropertyRef Name="iCMSRoleTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblCMSUserAccess_tblCMSUsers">
+          <End Role="tblCMSUsers" Type="Self.tblCMSUsers" Multiplicity="1" />
+          <End Role="tblCMSUserAccess" Type="Self.tblCMSUserAccess" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCMSUsers">
+              <PropertyRef Name="iCMSUserID" />
+            </Principal>
+            <Dependent Role="tblCMSUserAccess">
+              <PropertyRef Name="iCMSUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblUserAccess_tblPages">
+          <End Role="tblPages" Type="Self.tblPages" Multiplicity="1" />
+          <End Role="tblUserAccess" Type="Self.tblUserAccess" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblPages">
+              <PropertyRef Name="iPageID" />
+            </Principal>
+            <Dependent Role="tblUserAccess">
+              <PropertyRef Name="iPageID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblProducts_tblProductCategories">
+          <End Role="tblProductCategories" Type="Self.tblProductCategories" Multiplicity="1" />
+          <End Role="tblProducts" Type="Self.tblProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblProductCategories">
+              <PropertyRef Name="iProductCategoryID" />
+            </Principal>
+            <Dependent Role="tblProducts">
+              <PropertyRef Name="iProductCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblProducts_tblProductSubCategories">
+          <End Role="tblProductSubCategories" Type="Self.tblProductSubCategories" Multiplicity="1" />
+          <End Role="tblProducts" Type="Self.tblProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblProductSubCategories">
+              <PropertyRef Name="iProductSubCategoryID" />
+            </Principal>
+            <Dependent Role="tblProducts">
+              <PropertyRef Name="iProductSubCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblProductSizes_tblProducts">
+          <End Role="tblProducts" Type="Self.tblProducts" Multiplicity="1" />
+          <End Role="tblProductSizes" Type="Self.tblProductSizes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblProducts">
+              <PropertyRef Name="iProductID" />
+            </Principal>
+            <Dependent Role="tblProductSizes">
+              <PropertyRef Name="iProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblUsers_tblRoleTypes">
+          <End Role="tblRoleTypes" Type="Self.tblRoleTypes" Multiplicity="1" />
+          <End Role="tblUsers" Type="Self.tblUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblRoleTypes">
+              <PropertyRef Name="iRoleTypeID" />
+            </Principal>
+            <Dependent Role="tblUsers">
+              <PropertyRef Name="iRoleTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblUserAccess_tblUsers">
+          <End Role="tblUsers" Type="Self.tblUsers" Multiplicity="1" />
+          <End Role="tblUserAccess" Type="Self.tblUserAccess" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUsers">
+              <PropertyRef Name="iUserID" />
+            </Principal>
+            <Dependent Role="tblUserAccess">
+              <PropertyRef Name="iUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ColmartDBContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tblCMSPages" EntityType="Self.tblCMSPages" />
+          <EntitySet Name="tblCMSRoleTypes" EntityType="Self.tblCMSRoleTypes" />
+          <EntitySet Name="tblCMSUserAccess" EntityType="Self.tblCMSUserAccess" />
+          <EntitySet Name="tblCMSUsers" EntityType="Self.tblCMSUsers" />
+          <EntitySet Name="tblPages" EntityType="Self.tblPages" />
+          <EntitySet Name="tblProductCategories" EntityType="Self.tblProductCategories" />
+          <EntitySet Name="tblProducts" EntityType="Self.tblProducts" />
+          <EntitySet Name="tblProductSizes" EntityType="Self.tblProductSizes" />
+          <EntitySet Name="tblProductSubCategories" EntityType="Self.tblProductSubCategories" />
+          <EntitySet Name="tblRoleTypes" EntityType="Self.tblRoleTypes" />
+          <EntitySet Name="tblUserAccess" EntityType="Self.tblUserAccess" />
+          <EntitySet Name="tblUsers" EntityType="Self.tblUsers" />
+          <AssociationSet Name="FK_tblCMSUserAccess_tblCMSPages" Association="Self.FK_tblCMSUserAccess_tblCMSPages">
+            <End Role="tblCMSPages" EntitySet="tblCMSPages" />
+            <End Role="tblCMSUserAccess" EntitySet="tblCMSUserAccess" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblCMSUsers_tblCMSRoleTypes" Association="Self.FK_tblCMSUsers_tblCMSRoleTypes">
+            <End Role="tblCMSRoleTypes" EntitySet="tblCMSRoleTypes" />
+            <End Role="tblCMSUsers" EntitySet="tblCMSUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblCMSUserAccess_tblCMSUsers" Association="Self.FK_tblCMSUserAccess_tblCMSUsers">
+            <End Role="tblCMSUsers" EntitySet="tblCMSUsers" />
+            <End Role="tblCMSUserAccess" EntitySet="tblCMSUserAccess" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblUserAccess_tblPages" Association="Self.FK_tblUserAccess_tblPages">
+            <End Role="tblPages" EntitySet="tblPages" />
+            <End Role="tblUserAccess" EntitySet="tblUserAccess" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblProducts_tblProductCategories" Association="Self.FK_tblProducts_tblProductCategories">
+            <End Role="tblProductCategories" EntitySet="tblProductCategories" />
+            <End Role="tblProducts" EntitySet="tblProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblProducts_tblProductSubCategories" Association="Self.FK_tblProducts_tblProductSubCategories">
+            <End Role="tblProductSubCategories" EntitySet="tblProductSubCategories" />
+            <End Role="tblProducts" EntitySet="tblProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblProductSizes_tblProducts" Association="Self.FK_tblProductSizes_tblProducts">
+            <End Role="tblProducts" EntitySet="tblProducts" />
+            <End Role="tblProductSizes" EntitySet="tblProductSizes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblUsers_tblRoleTypes" Association="Self.FK_tblUsers_tblRoleTypes">
+            <End Role="tblRoleTypes" EntitySet="tblRoleTypes" />
+            <End Role="tblUsers" EntitySet="tblUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblUserAccess_tblUsers" Association="Self.FK_tblUserAccess_tblUsers">
+            <End Role="tblUsers" EntitySet="tblUsers" />
+            <End Role="tblUserAccess" EntitySet="tblUserAccess" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ColmartDBModelStoreContainer" CdmEntityContainer="ColmartDBContext">
+          <EntitySetMapping Name="tblCMSPages">
+            <EntityTypeMapping TypeName="ColmartDBModel.tblCMSPages">
+              <MappingFragment StoreEntitySet="tblCMSPages">
+                <ScalarProperty Name="iCMSPageID" ColumnName="iCMSPageID" />
+                <ScalarProperty Name="dtAdded" ColumnName="dtAdded" />
+                <ScalarProperty Name="iAddedBy" ColumnName="iAddedBy" />
+                <ScalarProperty Name="dtEdited" ColumnName="dtEdited" />
+                <ScalarProperty Name="iEditedBy" ColumnName="iEditedBy" />
+                <ScalarProperty Name="strTitle" ColumnName="strTitle" />
+                <ScalarProperty Name="bIsDeleted" ColumnName="bIsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblCMSRoleTypes">
+            <EntityTypeMapping TypeName="ColmartDBModel.tblCMSRoleTypes">
+              <MappingFragment StoreEntitySet="tblCMSRoleTypes">
+                <ScalarProperty Name="iCMSRoleTypeID" ColumnName="iCMSRoleTypeID" />
+                <ScalarProperty Name="dtAdded" ColumnName="dtAdded" />
+                <ScalarProperty Name="iAddedBy" ColumnName="iAddedBy" />
+                <ScalarProperty Name="dtEdited" ColumnName="dtEdited" />
+                <ScalarProperty Name="iEditedBy" ColumnName="iEditedBy" />
+                <ScalarProperty Name="strTitle" ColumnName="strTitle" />
+                <ScalarProperty Name="bIsDeleted" ColumnName="bIsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblCMSUserAccess">
+            <EntityTypeMapping TypeName="ColmartDBModel.tblCMSUserAccess">
+              <MappingFragment StoreEntitySet="tblCMSUserAccess">
+                <ScalarProperty Name="iCMSUserAccessID" ColumnName="iCMSUserAccessID" />
+                <ScalarProperty Name="dtAdded" ColumnName="dtAdded" />
+                <ScalarProperty Name="iAddedBy" ColumnName="iAddedBy" />
+                <ScalarProperty Name="dtEdited" ColumnName="dtEdited" />
+                <ScalarProperty Name="iEditedBy" ColumnName="iEditedBy" />
+                <ScalarProperty Name="iCMSUserID" ColumnName="iCMSUserID" />
+                <ScalarProperty Name="iCMSPageID" ColumnName="iCMSPageID" />
+                <ScalarProperty Name="bIsRead" ColumnName="bIsRead" />
+                <ScalarProperty Name="bIsWrite" ColumnName="bIsWrite" />
+                <ScalarProperty Name="bIsDeleted" ColumnName="bIsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblCMSUsers">
+            <EntityTypeMapping TypeName="ColmartDBModel.tblCMSUsers">
+              <MappingFragment StoreEntitySet="tblCMSUsers">
+                <ScalarProperty Name="iCMSUserID" ColumnName="iCMSUserID" />
+                <ScalarProperty Name="dtAdded" ColumnName="dtAdded" />
+                <ScalarProperty Name="iAddedBy" ColumnName="iAddedBy" />
+                <ScalarProperty Name="dtEdited" ColumnName="dtEdited" />
+                <ScalarProperty Name="iEditedBy" ColumnName="iEditedBy" />
+                <ScalarProperty Name="iCMSRoleTypeID" ColumnName="iCMSRoleTypeID" />
+                <ScalarProperty Name="strFirstName" ColumnName="strFirstName" />
+                <ScalarProperty Name="strSurname" ColumnName="strSurname" />
+                <ScalarProperty Name="strBiographicalInfo" ColumnName="strBiographicalInfo" />
+                <ScalarProperty Name="strContactNumber" ColumnName="strContactNumber" />
+                <ScalarProperty Name="strEmailAddress" ColumnName="strEmailAddress" />
+                <ScalarProperty Name="strPassword" ColumnName="strPassword" />
+                <ScalarProperty Name="strImagePath" ColumnName="strImagePath" />
+                <ScalarProperty Name="strImageName" ColumnName="strImageName" />
+                <ScalarProperty Name="bIsDeleted" ColumnName="bIsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblPages">
+            <EntityTypeMapping TypeName="ColmartDBModel.tblPages">
+              <MappingFragment StoreEntitySet="tblPages">
+                <ScalarProperty Name="iPageID" ColumnName="iPageID" />
+                <ScalarProperty Name="dtAdded" ColumnName="dtAdded" />
+                <ScalarProperty Name="iAddedBy" ColumnName="iAddedBy" />
+                <ScalarProperty Name="dtEdited" ColumnName="dtEdited" />
+                <ScalarProperty Name="iEditedBy" ColumnName="iEditedBy" />
+                <ScalarProperty Name="strTitle" ColumnName="strTitle" />
+                <ScalarProperty Name="bIsDeleted" ColumnName="bIsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblProductCategories">
+            <EntityTypeMapping TypeName="ColmartDBModel.tblProductCategories">
+              <MappingFragment StoreEntitySet="tblProductCategories">
+                <ScalarProperty Name="iProductCategoryID" ColumnName="iProductCategoryID" />
+                <ScalarProperty Name="dtAdded" ColumnName="dtAdded" />
+                <ScalarProperty Name="iAddedBy" ColumnName="iAddedBy" />
+                <ScalarProperty Name="dtEdited" ColumnName="dtEdited" />
+                <ScalarProperty Name="iEditedBy" ColumnName="iEditedBy" />
+                <ScalarProperty Name="strTitle" ColumnName="strTitle" />
+                <ScalarProperty Name="bIsDeleted" ColumnName="bIsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblProducts">
+            <EntityTypeMapping TypeName="ColmartDBModel.tblProducts">
+              <MappingFragment StoreEntitySet="tblProducts">
+                <ScalarProperty Name="iProductID" ColumnName="iProductID" />
+                <ScalarProperty Name="dtAdded" ColumnName="dtAdded" />
+                <ScalarProperty Name="iAddedBy" ColumnName="iAddedBy" />
+                <ScalarProperty Name="dtEdited" ColumnName="dtEdited" />
+                <ScalarProperty Name="iEditedBy" ColumnName="iEditedBy" />
+                <ScalarProperty Name="strTitle" ColumnName="strTitle" />
+                <ScalarProperty Name="strStyleCode" ColumnName="strStyleCode" />
+                <ScalarProperty Name="strProductColour" ColumnName="strProductColour" />
+                <ScalarProperty Name="strFullDescription" ColumnName="strFullDescription" />
+                <ScalarProperty Name="strImageURL" ColumnName="strImageURL" />
+                <ScalarProperty Name="iProductCategoryID" ColumnName="iProductCategoryID" />
+                <ScalarProperty Name="iProductSubCategoryID" ColumnName="iProductSubCategoryID" />
+                <ScalarProperty Name="bIsDeleted" ColumnName="bIsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblProductSizes">
+            <EntityTypeMapping TypeName="ColmartDBModel.tblProductSizes">
+              <MappingFragment StoreEntitySet="tblProductSizes">
+                <ScalarProperty Name="iProductSizeID" ColumnName="iProductSizeID" />
+                <ScalarProperty Name="dtAdded" ColumnName="dtAdded" />
+                <ScalarProperty Name="iAddedBy" ColumnName="iAddedBy" />
+                <ScalarProperty Name="dtEdited" ColumnName="dtEdited" />
+                <ScalarProperty Name="iEditedBy" ColumnName="iEditedBy" />
+                <ScalarProperty Name="strSize" ColumnName="strSize" />
+                <ScalarProperty Name="dblPrice" ColumnName="dblPrice" />
+                <ScalarProperty Name="iQuantityAvailable" ColumnName="iQuantityAvailable" />
+                <ScalarProperty Name="iProductID" ColumnName="iProductID" />
+                <ScalarProperty Name="bIsDeleted" ColumnName="bIsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblProductSubCategories">
+            <EntityTypeMapping TypeName="ColmartDBModel.tblProductSubCategories">
+              <MappingFragment StoreEntitySet="tblProductSubCategories">
+                <ScalarProperty Name="iProductSubCategoryID" ColumnName="iProductSubCategoryID" />
+                <ScalarProperty Name="dtAdded" ColumnName="dtAdded" />
+                <ScalarProperty Name="iAddedBy" ColumnName="iAddedBy" />
+                <ScalarProperty Name="dtEdited" ColumnName="dtEdited" />
+                <ScalarProperty Name="iEditedBy" ColumnName="iEditedBy" />
+                <ScalarProperty Name="strTitle" ColumnName="strTitle" />
+                <ScalarProperty Name="bIsDeleted" ColumnName="bIsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblRoleTypes">
+            <EntityTypeMapping TypeName="ColmartDBModel.tblRoleTypes">
+              <MappingFragment StoreEntitySet="tblRoleTypes">
+                <ScalarProperty Name="iRoleTypeID" ColumnName="iRoleTypeID" />
+                <ScalarProperty Name="dtAdded" ColumnName="dtAdded" />
+                <ScalarProperty Name="iAddedBy" ColumnName="iAddedBy" />
+                <ScalarProperty Name="dtEdited" ColumnName="dtEdited" />
+                <ScalarProperty Name="iEditedBy" ColumnName="iEditedBy" />
+                <ScalarProperty Name="strTitle" ColumnName="strTitle" />
+                <ScalarProperty Name="bIsDeleted" ColumnName="bIsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblUserAccess">
+            <EntityTypeMapping TypeName="ColmartDBModel.tblUserAccess">
+              <MappingFragment StoreEntitySet="tblUserAccess">
+                <ScalarProperty Name="iUserAccessID" ColumnName="iUserAccessID" />
+                <ScalarProperty Name="dtAdded" ColumnName="dtAdded" />
+                <ScalarProperty Name="iAddedBy" ColumnName="iAddedBy" />
+                <ScalarProperty Name="dtEdited" ColumnName="dtEdited" />
+                <ScalarProperty Name="iEditedBy" ColumnName="iEditedBy" />
+                <ScalarProperty Name="iUserID" ColumnName="iUserID" />
+                <ScalarProperty Name="iPageID" ColumnName="iPageID" />
+                <ScalarProperty Name="bIsRead" ColumnName="bIsRead" />
+                <ScalarProperty Name="bIsWrite" ColumnName="bIsWrite" />
+                <ScalarProperty Name="bIsDeleted" ColumnName="bIsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblUsers">
+            <EntityTypeMapping TypeName="ColmartDBModel.tblUsers">
+              <MappingFragment StoreEntitySet="tblUsers">
+                <ScalarProperty Name="iUserID" ColumnName="iUserID" />
+                <ScalarProperty Name="dtAdded" ColumnName="dtAdded" />
+                <ScalarProperty Name="iAddedBy" ColumnName="iAddedBy" />
+                <ScalarProperty Name="dtEdited" ColumnName="dtEdited" />
+                <ScalarProperty Name="iEditedBy" ColumnName="iEditedBy" />
+                <ScalarProperty Name="iRoleTypeID" ColumnName="iRoleTypeID" />
+                <ScalarProperty Name="strFirstName" ColumnName="strFirstName" />
+                <ScalarProperty Name="strSurname" ColumnName="strSurname" />
+                <ScalarProperty Name="strBiographicalInfo" ColumnName="strBiographicalInfo" />
+                <ScalarProperty Name="strContactNumber" ColumnName="strContactNumber" />
+                <ScalarProperty Name="strEmailAddress" ColumnName="strEmailAddress" />
+                <ScalarProperty Name="strPassword" ColumnName="strPassword" />
+                <ScalarProperty Name="strImagePath" ColumnName="strImagePath" />
+                <ScalarProperty Name="strImageName" ColumnName="strImageName" />
+                <ScalarProperty Name="bIsDeleted" ColumnName="bIsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

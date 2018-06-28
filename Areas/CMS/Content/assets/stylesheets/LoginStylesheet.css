@@ -1,0 +1,67 @@
+﻿/*SOFTSERVE ADDED STYLE ITEMS*/
+html {
+    height: 100%;
+}
+.cms_login_background {
+    background-color: #015ea1;
+}
+
+.cms_login_image {
+    background: url('../images/loginImages/IceCreamPatternBackground.svg');
+    position: absolute;
+    right: 0;
+    background-size: 100%;
+    width: 30%;
+    height: 100%;
+    -webkit-transform: translateX(100%);
+            transform: translateX(100%);
+
+    will-change: transform;
+    pointer-events: auto; 
+}
+
+.cms_login_background--visible .cms_login_image {
+    -webkit-transform: none;
+            transform: none;
+}
+
+.cms_login_background--animatable .cms_login_image {
+    transition: all 1500ms ease-in;
+}
+
+.cms_login_background--visible.cms_login_background--animatable  .cms_login_image {
+    transition: all 1500ms ease-out;
+}
+
+.login_box_style {
+    font-family: 'Folks';
+    font-size: 18px;
+    box-shadow: 8px 8px 15px rgba(0, 0, 0, 0.1), -5px -5px 15px rgba(0, 0, 0, 0.1);
+}
+
+
+.center_div {
+    
+    text-align: center;
+}
+.body-sign {
+   position: relative;
+}
+
+.redirect_style_anchor {
+    font-family: 'Moon';
+    font-size: 18px;
+    cursor: pointer;
+    color: white;
+    font-weight: 400;
+}
+
+.login_logo_image {
+    margin-bottom: 20px;
+    width: 30%;
+}
+
+.textbox_font_size {
+   font-size: 1.8rem !important;
+}
+

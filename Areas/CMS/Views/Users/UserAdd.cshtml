@@ -1,0 +1,180 @@
+﻿@model ColmartCMS.View_Models.Users.clsUserAdd
+
+@{
+    ViewBag.Title = "UserAdd";
+}
+
+@*Crop Slim Stylesheet*@
+@Styles.Render("~/Content/cms/slimCropStylesheets")
+
+<!-- start: page -->
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading">
+                <h2 class="panel-title">User</h2>
+            </header>
+            <div class="panel-body">
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmUserAdd", @name = "frmUserAdd" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="form-horizontal">
+                    <h4 class="mb-xlg">Profile Image</h4>
+                        <div class="row">
+                            <div class="col-md-4 col-lg-3">
+                                <section class="panel">
+                                        <div class="thumb-info mb-md">
+                                            <div id="cropImageDiv" class="slim"
+                                                 data-size="300,300"
+                                                 data-ratio="1:1"
+                                                 data-label="Click to Upload or Drop Image Here"
+                                                 data-will-transform="getImageData">
+                                                <input type="file" />
+                                                <img id="imgCrop" class="rounded img-responsive" alt="Profile Image">
+                                            </div>
+                                        </div>
+                                </section>
+                            </div>
+                            
+                        <div class="col-md-8 col-lg-9">
+                            <h4 class="mb-xlg">Personal Information</h4>
+                            <fieldset>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="strFirstName">First Name</label>
+                                <div class="col-md-8">
+                                    @Html.EditorFor(Model => Model.clsUser.strFirstName, new { htmlAttributes = new { @id = "strFirstName", @placeholder = "First Name", @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.clsUser.strFirstName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="strSurname">Last Name</label>
+                                <div class="col-md-8">
+                                    @Html.EditorFor(Model => Model.clsUser.strSurname, new { htmlAttributes = new { @id = "strSurname", @placeholder = "Last Name", @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.clsUser.strSurname, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="strEmailAddress">Email</label>
+                                <div class="col-md-8">
+                                    @Html.EditorFor(Model => Model.clsUser.strEmailAddress, new { htmlAttributes = new { @id = "strEmailAddress", @placeholder = "Email", @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.clsUser.strEmailAddress, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="strContactNumber">Contact Number</label>
+                                <div class="col-md-8">
+                                    @Html.EditorFor(Model => Model.clsUser.strContactNumber, new { htmlAttributes = new { @id = "strContactNumber", @placeholder = "Contact Number", @class = "form-control", @maxlength = "10" } })
+                                    @Html.ValidationMessageFor(model => model.clsUser.strContactNumber, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </fieldset>
+                        </div>
+                    </div>
+                    <hr class="dotted tall">
+                    <h4 class="mb-xlg">General Information</h4>
+                    <fieldset>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="strBiographicalInfo">Biographical Info</label>
+                            <div class="col-md-8">
+                                @Html.TextAreaFor(Model => Model.clsUser.strBiographicalInfo, new { @id = "strBiographicalInfo", @placeholder = "Info", @class = "form-control", @rows = "4" })
+                            </div>
+                        </div>
+                    </fieldset>
+                        <hr class="dotted tall">
+                        <h4 class="mb-xlg">Role Type</h4>
+                        <fieldset>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="lstRoleTypes">Role</label>
+                                <div class="col-md-8">
+                                    @if (Model.lstRoleTypes.Count > 0)
+                                    {
+                                        @Html.DropDownListFor(Model => Model.clsUser.iRoleTypeID, new SelectList(Model.lstRoleTypes, "iRoleTypeID", "strTitle"), "-- Select Role Type --", new { id = "lstRoleTypes", name = "lstRoleTypes" })
+                                        <br />
+                                        @Html.ValidationMessageFor(model => model.clsUser.iRoleTypeID, "", new { @class = "text-danger" })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownListFor(Model => Model.clsUser.iRoleTypeID, new SelectList(Model.lstRoleTypes, "iRoleTypeID", "strTitle"), "-- No Role Types Available --", new { id = "lstRoleTypes", name = "lstRoleTypes" })
+                                        <br />
+                                        @Html.ValidationMessageFor(model => model.clsUser.iRoleTypeID, "", new { @class = "text-danger" })
+                                    }
+                                </div>
+                            </div>
+                        </fieldset>
+                    <hr class="dotted tall">
+                    <h4 class="mb-xlg">Password</h4>
+                    <fieldset class="mb-xl">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="strNewPassword"></label>
+                            <div class="col-md-8">
+                                <span class="icon"><i class="fa fa-info-circle"></i></span>
+                                <label>If no password is specified, the user email will be used as the password</label>
+                            </div>
+                        </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="strNewPassword">Password</label>
+                                <div class="col-md-8">
+                                    @Html.EditorFor(Model => Model.strNewPassword, new { htmlAttributes = new { @id = "strNewPassword", @placeholder = "Password", @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.strNewPassword, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="strConfirmPassword">Confirm Password</label>
+                                <div class="col-md-8">
+                                    @Html.EditorFor(Model => Model.strConfirmPassword, new { htmlAttributes = new { @id = "strConfirmPassword", @placeholder = "Confirm Password", @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.strConfirmPassword, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                    </fieldset>
+                    <div class="row">
+                        <hr />
+                    </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <a href="@Url.Action("UsersView", "Users")" class="btn btn-default">Back</a>
+                                <button type="submit" class="btn btn-primary">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                @Html.HiddenFor(model => model.strCropImageName)
+                @Html.HiddenFor(model => model.strCropImageData)
+            }
+                </div>
+        </section>
+    </div>
+</div>
+<!-- end: page -->
+
+@*Crop Slim Script*@
+@Scripts.Render("~/bundles/cms/slimCropScripts")
+
+@**** CHANGE MASTER PAGE / LAYOUT PAGE HEADER (H2) TEXT AND PAGE TITLE AFTER PAGE LOADS ****@
+<script type="text/javascript">
+    window.onload = function ()
+    {
+        $("#strPageTitle").text("Add User | Colmart CMS");
+        $("#h2PageHeader").text("Add User");
+
+        //Update Breadcrumbs
+        $("#olBreadcrumbs").append("<li><a href='@Url.Action("UsersView", "Users")'>Users</a></li>");
+        $("#olBreadcrumbs").append("<li><span>Add User</span></li>");
+
+        //CLEAR IMAGE DATA ON DELETE
+        $(".slim-btn-remove").click(function () {
+            $("#strCropImageName").val(null);
+            $("#strCropImageData").val(null);
+        });
+    }
+</script>
+
+@**** CROP IMAGE FUNCTION ****@
+<script type="text/javascript">
+
+        function getImageData(data, ready) {
+            var dataString = data.output.image.toDataURL();
+            $("#strCropImageName").val(data.input.name);
+            $("#strCropImageData").val(dataString);
+            // continue saving the data
+            ready(data);
+        }
+</script>

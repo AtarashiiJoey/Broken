@@ -1,0 +1,354 @@
+﻿<!DOCTYPE html>
+<html class="fixed has-top-menu has-left-sidebar-half">
+<head>
+    <!-- Basic -->
+
+    <meta charset="utf-8" />
+    <title id="strPageTitle">Colmart CMS</title>
+
+    <meta name="keywords" content="Colmart CMS" />
+    <meta name="description" content="Content Management System">
+    <meta name="author" content="https://www.softservedigital.co.za/">
+
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <!-- Web Fonts  -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
+
+    @Styles.Render("~/Content/cms/css")
+    @Scripts.Render("~/bundles/cms/modernizr")
+    @*Tables Stylesheet*@
+    @Styles.Render("~/Content/cms/tableStylesheets")
+
+</head>
+<body>
+    <section class="body">
+
+        <!-- start: header -->
+        <header class="header header-nav-menu">
+            <div class="logo-container">
+                <a href="https://www.softservedigital.co.za/" class="logo" target="_blank">
+                    <img src="~/Areas/CMS/Content/assets/images/softserveLogo_Container_sml.png" alt="Softserve Digital Development" />
+                </a>
+                <button class="btn header-btn-collapse-nav hidden-md hidden-lg" data-toggle="collapse" data-target=".header-nav">
+                    <i class="fa fa-bars"></i>
+                </button>
+
+                <!-- start: header nav menu -->
+                <div class="header-nav collapse">
+                    <div class="header-nav-main header-nav-main-effect-1 header-nav-main-sub-effect-1">
+                        <nav>
+                            <ul class="nav nav-pills" id="mainNav">
+                                <li class="">
+                                    @Html.ActionLink("Dashboard", "Dashboard", "CMSHome")
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <!-- end: header nav menu -->
+            </div>
+
+            <!-- start: search & user box -->
+            <div class="header-right">
+
+                @Html.Action("SearchBox", "LayoutPartials")
+
+                @Html.Action("OptionalTopRightNotificationsMenu", "LayoutPartials")
+
+                @Html.Action("CMSUserDropDownMenuBox", "LayoutPartials")
+                
+            </div>
+            <!-- end: search & user box -->
+        </header>
+        <!-- end: header -->
+
+        <div class="inner-wrapper">
+            <!-- start: sidebar -->
+            <aside id="sidebar-left" class="sidebar-left">
+
+                <div class="sidebar-header">
+                    <div class="sidebar-title">
+                        Navigation
+                    </div>
+                    <div class="sidebar-toggle hidden-xs" data-toggle-class="sidebar-left-collapsed" data-target="html" data-fire-event="sidebar-left-toggle">
+                        <i class="fa fa-bars" aria-label="Toggle sidebar"></i>
+                    </div>
+                </div>
+
+                <div class="nano">
+                    <div class="nano-content">
+                        <nav id="menu" class="nav-main" role="navigation">
+
+                            <ul class="nav nav-main">
+                                <li>
+                                    <a href="@Url.Action("Dashboard", "CMSHome")">
+                                        <i class="fa fa-gamepad" aria-hidden="true"></i>
+                                        <span>Dashboard</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("CMSUserProfile", "CMSUsers")">
+                                        <i class="fa fa-id-card" aria-hidden="true"></i>
+                                        <span>Profile</span>
+                                    </a>
+                                </li>
+                                <li class="nav-parent">
+                                    <a href="#">
+                                        <i class="fa fa-users" aria-hidden="true"></i>
+                                        <span>Users</span>
+                                    </a>
+                                    <ul class="nav nav-children">
+                                        <li>
+                                            @Html.ActionLink("CMS Users", "CMSUsersView", "CMSUsers")
+                                        </li>
+                                        <li>
+                                            @Html.ActionLink("Users", "UsersView", "Users")
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nav-parent">
+                                    <a href="#">
+                                        <i class="fa fa-files-o" aria-hidden="true"></i>
+                                        <span>Pages</span>
+                                    </a>
+                                    <ul class="nav nav-children">
+                                        <li>
+                                            @Html.ActionLink("CMS Pages", "CMSPagesView", "CMSPages")
+                                        </li>
+                                        <li>
+                                            @Html.ActionLink("Pages", "PagesView", "Pages")
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nav-parent">
+                                    <a href="#">
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <span>Role Types</span>
+                                    </a>
+                                    <ul class="nav nav-children">
+                                        <li>
+                                            @Html.ActionLink("CMS Role Types", "CMSRoleTypesView", "CMSRoleTypes")
+                                        </li>
+                                        <li>
+                                           @Html.ActionLink("Role Types", "RoleTypesView", "RoleTypes")
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nav-parent">
+                                    <a href="#">
+                                        <i class="fa fa-globe" aria-hidden="true"></i>
+                                        <span>User Access</span>
+                                    </a>
+                                    <ul class="nav nav-children">
+                                        <li>
+                                            @Html.ActionLink("CMS User Access", "CMSUserAccessView", "CMSUserAccess")
+                                        </li>
+                                        <li>
+                                            @Html.ActionLink("User Access", "UserAccessView", "UserAccess")
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nav-parent">
+                                    <a href="#">
+                                        <i class="fa fa-product-hunt" aria-hidden="true"></i>
+                                        <span>Products</span>
+                                    </a>
+                                    <ul class="nav nav-children">
+                                        <li>
+                                            @Html.ActionLink("Products", "ProductsView", "Products")
+                                        </li>
+                                        <li>
+                                            @Html.ActionLink("Product Categories", "ProductCategoriesView", "ProductCategories")
+                                        </li>
+                                        <li>
+                                            @Html.ActionLink("Product Sub Categories", "ProductSubCategoriesView", "ProductSubCategories")
+                                        </li>
+                                        <li>
+                                            @Html.ActionLink("Product Sizes", "ProductSizesView", "ProductSizes")
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </nav>
+
+                        <hr class="separator" />
+
+                        <div class="sidebar-widget widget-tasks">
+                            <div class="widget-header">
+                                <h6>Projects</h6>
+                                <div class="widget-toggle">+</div>
+                            </div>
+                            <div class="widget-content">
+                                <ul class="list-unstyled m-none">
+                                    <li><a href="#">Project 1</a></li>
+                                    <li><a href="#">Project 2</a></li>
+                                    <li><a href="#">Project 3</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <hr class="separator" />
+
+                        <div class="sidebar-widget widget-stats">
+                            <div class="widget-header">
+                                <h6>Company Stats</h6>
+                                <div class="widget-toggle">+</div>
+                            </div>
+                            <div class="widget-content">
+                                <ul>
+                                    <li>
+                                        <span class="stats-title">Stat 1</span>
+                                        <span class="stats-complete">85%</span>
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-primary progress-without-number" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 85%;">
+                                                <span class="sr-only">85% Complete</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <span class="stats-title">Stat 2</span>
+                                        <span class="stats-complete">70%</span>
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-primary progress-without-number" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width: 70%;">
+                                                <span class="sr-only">70% Complete</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <span class="stats-title">Stat 3</span>
+                                        <span class="stats-complete">2%</span>
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-primary progress-without-number" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100" style="width: 2%;">
+                                                <span class="sr-only">2% Complete</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <script>
+				            // Maintain Scroll Position
+				            if (typeof localStorage !== 'undefined') {
+				                if (localStorage.getItem('sidebar-left-position') !== null) {
+				                    var initialPosition = localStorage.getItem('sidebar-left-position'),
+				                        sidebarLeft = document.querySelector('#sidebar-left .nano-content');
+
+				                    sidebarLeft.scrollTop = initialPosition;
+				                }
+				            }
+                    </script>
+
+
+                </div>
+
+            </aside>
+            <!-- end: sidebar -->
+
+            <section role="main" class="content-body">
+                <header class="page-header">
+                    <h2 id="h2PageHeader">Dashboard</h2>
+
+                    <div class="right-wrapper pull-right">
+                        <ol id="olBreadcrumbs" class="breadcrumbs" style="margin-right:15px;">
+                            <li>
+                                <a href="@Url.Action("Dashboard", "CMSHome")">
+                                    <i class="fa fa-home"></i>
+                                </a>
+                            </li>
+                            @*<li><span>Layouts</span></li>*@
+                        </ol>
+
+                        @*<a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>*@
+                    </div>
+                </header>
+
+                <!-- start: page -->
+                @RenderBody()
+                <!-- end: page -->
+            </section>
+        </div>
+
+        @*<aside id="sidebar-right" class="sidebar-right">
+            <div class="nano">
+                <div class="nano-content">
+                    <a href="#" class="mobile-close visible-xs">
+                        Collapse <i class="fa fa-chevron-right"></i>
+                    </a>
+
+                    <div class="sidebar-right-wrapper">
+
+                        <div class="sidebar-widget widget-calendar">
+                            <h6>Upcoming Tasks</h6>
+                            <div data-plugin-datepicker data-plugin-skin="dark"></div>
+
+                            <ul>
+                                <li>
+                                    <time datetime="2016-04-19T00:00+00:00">04/19/2016</time>
+                                    <span>Company Meeting</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="sidebar-widget widget-friends">
+                            <h6>Friends</h6>
+                            <ul>
+                                <li class="status-online">
+                                    <figure class="profile-picture">
+                                        <img src="~/Areas/CMS/Content/assets/images/default_image.png" alt="Joseph Doe" class="img-circle">
+                                    </figure>
+                                    <div class="profile-info">
+                                        <span class="name">Joseph Doe Junior</span>
+                                        <span class="title">Hey, how are you?</span>
+                                    </div>
+                                </li>
+                                <li class="status-online">
+                                    <figure class="profile-picture">
+                                        <img src="~/Areas/CMS/Content/assets/images/default_image.png" alt="Joseph Doe" class="img-circle">
+                                    </figure>
+                                    <div class="profile-info">
+                                        <span class="name">Joseph Doe Junior</span>
+                                        <span class="title">Hey, how are you?</span>
+                                    </div>
+                                </li>
+                                <li class="status-offline">
+                                    <figure class="profile-picture">
+                                        <img src="~/Areas/CMS/Content/assets/images/default_image.png" alt="Joseph Doe" class="img-circle">
+                                    </figure>
+                                    <div class="profile-info">
+                                        <span class="name">Joseph Doe Junior</span>
+                                        <span class="title">Hey, how are you?</span>
+                                    </div>
+                                </li>
+                                <li class="status-offline">
+                                    <figure class="profile-picture">
+                                        <img src="~/Areas/CMS/Content/assets/images/default_image.png" alt="Joseph Doe" class="img-circle">
+                                    </figure>
+                                    <div class="profile-info">
+                                        <span class="name">Joseph Doe Junior</span>
+                                        <span class="title">Hey, how are you?</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </aside>*@
+        
+    </section>
+
+    @Scripts.Render("~/bundles/cms/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/cms/bootstrap")
+    @Scripts.Render("~/bundles/cms/layout")
+    @Scripts.Render("~/bundles/cms/theme")
+    @Scripts.Render("~/bundles/cms/example")
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>
