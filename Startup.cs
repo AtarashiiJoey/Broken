@@ -2,7 +2,15 @@
 using Microsoft.Owin;
 using Owin;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+using System.Xml;
+using Colmart.Models;
+using Colmart.Model_Manager;
 
 [assembly: OwinStartup(typeof(Colmart.Startup))]
 namespace Colmart
@@ -12,6 +20,7 @@ namespace Colmart
         #region Polling timer setup
         private System.Timers.Timer _timer;
         private DateTime _startTime;
+        ProductsController pcCMS = new ProductsController();
         #endregion
 
         public void Configuration(IAppBuilder app)
@@ -32,9 +41,7 @@ namespace Colmart
         public async void PollDataFromColmart(object sender, System.Timers.ElapsedEventArgs e)
         {
             var timeSinceStart = DateTime.Now - _startTime;
-
-            var pc = new ProductsController();
-            await pc.ProductsImport();
+            await pcCMS.ProductsImport();
 
             Debug.Write($"New poll: " +
                         $"\r\nDate:{DateTime.Today.ToLongDateString()}" +
