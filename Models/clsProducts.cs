@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace Colmart.Models
 {
+    /// <summary>
+    /// Model and properties for clsProducts, with Foreign keys from DB
+    /// </summary>
     public class clsProducts
     {
         public int iProductID { get; set; }

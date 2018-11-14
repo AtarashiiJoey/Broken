@@ -65,3 +65,48 @@ html {
    font-size: 1.8rem !important;
 }
 
+@font-face {
+    font-family: 'folks-boldfolks-bold';
+    src: url('../../../../../fonts/folks-bold-webfont.woff2') format('woff2'), url('../../../../../fonts/folks-bold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+@font-face {
+    font-family: 'folksbold';
+    src: url('../../../../../fonts/folks-bold-webfont.woff2') format('woff2'), url('../../../../../fonts/folks-bold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+
+
+@font-face {
+    font-family: 'folks';
+    src: url('../../../../../fonts/folks-normal-webfont.woff2') format('woff2'), url('../../../../../fonts/folks-normal-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+
+
+@font-face {
+    font-family: 'moonbold';
+    src: url('../../../../../fonts/moon_bold-webfont.woff2') format('woff2'), url('../../../../../fonts/moon_bold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+
+
+@font-face {
+    font-family: 'moon';
+    src: url('../../../../../fonts/moon_light-webfont.woff2') format('woff2'), url('../../../../../fonts/moon_light-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+

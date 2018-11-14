@@ -1,13 +1,11 @@
-﻿using System;
+﻿using Colmart.Models;
+using Colmart.View_Models;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
-using Colmart;
-using Colmart.Models;
 
 namespace Colmart.Model_Manager
 {
@@ -110,6 +108,170 @@ namespace Colmart.Model_Manager
             return lstProducts;
         }
 
+        //Get products by style code
+        public List<clsProducts> getAllProductsByStyleCode(string strStyleCode)
+        {
+            List<clsProducts> lstProducts = new List<clsProducts>();
+            var lstGetProductsList = db.tblProducts.Where(Product => Product.bIsDeleted == false && Product.strStyleCode.Contains(strStyleCode)).ToList();
+
+            if (lstGetProductsList.Count > 0)
+            {
+                //Managers
+                clsProductCategoriesManager clsProductCategoriesManager = new clsProductCategoriesManager();
+                clsProductSubCategoriesManager clsProductSubCategoriesManager = new clsProductSubCategoriesManager();
+                clsProductSizesManager clsProductSizesManager = new clsProductSizesManager();
+
+                foreach (var item in lstGetProductsList)
+                {
+                    clsProducts clsProduct = new clsProducts();
+
+                    clsProduct.iProductID = item.iProductID;
+                    clsProduct.dtAdded = item.dtAdded;
+                    clsProduct.iAddedBy = item.iAddedBy;
+                    clsProduct.dtEdited = item.dtEdited;
+                    clsProduct.iEditedBy = item.iEditedBy;
+
+                    clsProduct.strTitle = item.strTitle;
+                    clsProduct.strStyleCode = item.strStyleCode;
+                    clsProduct.strProductColour = item.strProductColour;
+                    clsProduct.strFullDescription = item.strFullDescription;
+                    clsProduct.strImageURL = item.strImageURL;
+
+                    clsProduct.iProductCategoryID = item.iProductCategoryID;
+                    clsProduct.iProductSubCategoryID = item.iProductSubCategoryID;
+                    clsProduct.bIsDeleted = item.bIsDeleted;
+
+                    if (item.tblProductCategories != null)
+                        clsProduct.clsProductCategory = clsProductCategoriesManager.convertProductCategoriesTableToClass(item.tblProductCategories);
+                    if (item.tblProductSubCategories != null)
+                        clsProduct.clsProductSubCategory = clsProductSubCategoriesManager.convertProductSubCategoriesTableToClass(item.tblProductSubCategories);
+
+                    clsProduct.lstProductSizes = new List<clsProductSizes>();
+                    if (item.tblProductSizes.Count > 0)
+                    {
+                        foreach (var ProductSizeItem in item.tblProductSizes)
+                        {
+                            clsProductSizes clsProductSize = clsProductSizesManager.convertProductSizesTableToClass(ProductSizeItem);
+                            clsProduct.lstProductSizes.Add(clsProductSize);
+                        }
+                    }
+
+                    lstProducts.Add(clsProduct);
+                }
+            }
+
+            return lstProducts;
+        }
+
+        //Get All
+        public List<clsProducts> getAllProductsByCategoryID(int iCategoryID)
+        {
+            List<clsProducts> lstProducts = new List<clsProducts>();
+            var lstGetProductsList = db.tblProducts.Where(Product => Product.iProductCategoryID == iCategoryID && Product.bIsDeleted == false).ToList();
+
+            if (lstGetProductsList.Count > 0)
+            {
+                //Managers
+                clsProductCategoriesManager clsProductCategoriesManager = new clsProductCategoriesManager();
+                clsProductSubCategoriesManager clsProductSubCategoriesManager = new clsProductSubCategoriesManager();
+                clsProductSizesManager clsProductSizesManager = new clsProductSizesManager();
+
+                foreach (var item in lstGetProductsList)
+                {
+                    clsProducts clsProduct = new clsProducts();
+
+                    clsProduct.iProductID = item.iProductID;
+                    clsProduct.dtAdded = item.dtAdded;
+                    clsProduct.iAddedBy = item.iAddedBy;
+                    clsProduct.dtEdited = item.dtEdited;
+                    clsProduct.iEditedBy = item.iEditedBy;
+
+                    clsProduct.strTitle = item.strTitle;
+                    clsProduct.strStyleCode = item.strStyleCode;
+                    clsProduct.strProductColour = item.strProductColour;
+                    clsProduct.strFullDescription = item.strFullDescription;
+                    clsProduct.strImageURL = item.strImageURL;
+
+                    clsProduct.iProductCategoryID = item.iProductCategoryID;
+                    clsProduct.iProductSubCategoryID = item.iProductSubCategoryID;
+                    clsProduct.bIsDeleted = item.bIsDeleted;
+
+                    if (item.tblProductCategories != null)
+                        clsProduct.clsProductCategory = clsProductCategoriesManager.convertProductCategoriesTableToClass(item.tblProductCategories);
+                    if (item.tblProductSubCategories != null)
+                        clsProduct.clsProductSubCategory = clsProductSubCategoriesManager.convertProductSubCategoriesTableToClass(item.tblProductSubCategories);
+
+                    clsProduct.lstProductSizes = new List<clsProductSizes>();
+                    if (item.tblProductSizes.Count > 0)
+                    {
+                        foreach (var ProductSizeItem in item.tblProductSizes)
+                        {
+                            clsProductSizes clsProductSize = clsProductSizesManager.convertProductSizesTableToClass(ProductSizeItem);
+                            clsProduct.lstProductSizes.Add(clsProductSize);
+                        }
+                    }
+
+                    lstProducts.Add(clsProduct);
+                }
+            }
+
+            return lstProducts;
+        }
+
+        public List<clsProducts> getLimitedProductsByCategoryID(int iCategoryID)
+        {
+            List<clsProducts> lstProducts = new List<clsProducts>();
+            var lstGetProductsList = db.tblProducts.Where(Product => Product.iProductCategoryID == iCategoryID && Product.bIsDeleted == false).Take(10).ToList();
+
+            if (lstGetProductsList.Count > 0)
+            {
+                //Managers
+                clsProductCategoriesManager clsProductCategoriesManager = new clsProductCategoriesManager();
+                clsProductSubCategoriesManager clsProductSubCategoriesManager = new clsProductSubCategoriesManager();
+                clsProductSizesManager clsProductSizesManager = new clsProductSizesManager();
+
+                foreach (var item in lstGetProductsList)
+                {
+                    clsProducts clsProduct = new clsProducts();
+
+                    clsProduct.iProductID = item.iProductID;
+                    clsProduct.dtAdded = item.dtAdded;
+                    clsProduct.iAddedBy = item.iAddedBy;
+                    clsProduct.dtEdited = item.dtEdited;
+                    clsProduct.iEditedBy = item.iEditedBy;
+
+                    clsProduct.strTitle = item.strTitle;
+                    clsProduct.strStyleCode = item.strStyleCode;
+                    clsProduct.strProductColour = item.strProductColour;
+                    clsProduct.strFullDescription = item.strFullDescription;
+                    clsProduct.strImageURL = item.strImageURL;
+
+                    clsProduct.iProductCategoryID = item.iProductCategoryID;
+                    clsProduct.iProductSubCategoryID = item.iProductSubCategoryID;
+                    clsProduct.bIsDeleted = item.bIsDeleted;
+
+                    if (item.tblProductCategories != null)
+                        clsProduct.clsProductCategory = clsProductCategoriesManager.convertProductCategoriesTableToClass(item.tblProductCategories);
+                    if (item.tblProductSubCategories != null)
+                        clsProduct.clsProductSubCategory = clsProductSubCategoriesManager.convertProductSubCategoriesTableToClass(item.tblProductSubCategories);
+
+                    clsProduct.lstProductSizes = new List<clsProductSizes>();
+                    if (item.tblProductSizes.Count > 0)
+                    {
+                        foreach (var ProductSizeItem in item.tblProductSizes)
+                        {
+                            clsProductSizes clsProductSize = clsProductSizesManager.convertProductSizesTableToClass(ProductSizeItem);
+                            clsProduct.lstProductSizes.Add(clsProductSize);
+                        }
+                    }
+
+                    lstProducts.Add(clsProduct);
+                }
+            }
+
+            return lstProducts;
+        }
+
         //Get
         public clsProducts getProductByID(int iProductID)
         {
@@ -159,6 +321,107 @@ namespace Colmart.Model_Manager
 
             return clsProduct;
         }
+
+        //Get
+        public clsProducts getProductByStyleCode(string strStyleCode)
+        {
+            clsProducts clsProduct = null;
+            tblProducts tblProducts = db.tblProducts.FirstOrDefault(Product => Product.strStyleCode.Contains(strStyleCode.Substring(0, 11)) && Product.bIsDeleted == false);
+
+            if (tblProducts != null)
+            {
+                //Managers
+                clsProductCategoriesManager clsProductCategoriesManager = new clsProductCategoriesManager();
+                clsProductSubCategoriesManager clsProductSubCategoriesManager = new clsProductSubCategoriesManager();
+                clsProductSizesManager clsProductSizesManager = new clsProductSizesManager();
+
+                clsProduct = new clsProducts();
+
+                clsProduct.iProductID = tblProducts.iProductID;
+                clsProduct.dtAdded = tblProducts.dtAdded;
+                clsProduct.iAddedBy = tblProducts.iAddedBy;
+                clsProduct.dtEdited = tblProducts.dtEdited;
+                clsProduct.iEditedBy = tblProducts.iEditedBy;
+
+                clsProduct.strTitle = tblProducts.strTitle;
+                clsProduct.strStyleCode = tblProducts.strStyleCode;
+                clsProduct.strProductColour = tblProducts.strProductColour;
+                clsProduct.strFullDescription = tblProducts.strFullDescription;
+                clsProduct.strImageURL = tblProducts.strImageURL;
+
+                clsProduct.iProductCategoryID = tblProducts.iProductCategoryID;
+                clsProduct.iProductSubCategoryID = tblProducts.iProductSubCategoryID;
+                clsProduct.bIsDeleted = tblProducts.bIsDeleted;
+
+                if (tblProducts.tblProductCategories != null)
+                    clsProduct.clsProductCategory = clsProductCategoriesManager.convertProductCategoriesTableToClass(tblProducts.tblProductCategories);
+                if (tblProducts.tblProductSubCategories != null)
+                    clsProduct.clsProductSubCategory = clsProductSubCategoriesManager.convertProductSubCategoriesTableToClass(tblProducts.tblProductSubCategories);
+
+                clsProduct.lstProductSizes = new List<clsProductSizes>();
+                if (tblProducts.tblProductSizes.Count > 0)
+                {
+                    foreach (var ProductSizeItem in tblProducts.tblProductSizes)
+                    {
+                        clsProductSizes clsProductSize = clsProductSizesManager.convertProductSizesTableToClass(ProductSizeItem);
+                        clsProduct.lstProductSizes.Add(clsProductSize);
+                    }
+                }
+            }
+
+            return clsProduct;
+        }
+
+        //Get
+        public clsCart getCartProductByID(int iProductID)
+        {
+            clsCart clsCart = null;
+            tblProducts tblProducts = db.tblProducts.FirstOrDefault(Product => Product.iProductID == iProductID && Product.bIsDeleted == false);
+
+            if (tblProducts != null)
+            {
+                //Managers
+                clsProductCategoriesManager clsProductCategoriesManager = new clsProductCategoriesManager();
+                clsProductSubCategoriesManager clsProductSubCategoriesManager = new clsProductSubCategoriesManager();
+                clsProductSizesManager clsProductSizesManager = new clsProductSizesManager();
+
+                clsCart = new clsCart();
+
+                clsCart.iProductID = tblProducts.iProductID;
+                clsCart.dtAdded = tblProducts.dtAdded;
+                clsCart.iAddedBy = tblProducts.iAddedBy;
+                clsCart.dtEdited = tblProducts.dtEdited;
+                clsCart.iEditedBy = tblProducts.iEditedBy;
+
+                clsCart.strTitle = tblProducts.strTitle;
+                clsCart.strStyleCode = tblProducts.strStyleCode;
+                clsCart.strProductColour = tblProducts.strProductColour;
+                clsCart.strFullDescription = tblProducts.strFullDescription;
+                clsCart.strImageURL = tblProducts.strImageURL;
+
+                clsCart.iProductCategoryID = tblProducts.iProductCategoryID;
+                clsCart.iProductSubCategoryID = tblProducts.iProductSubCategoryID;
+                clsCart.bIsDeleted = tblProducts.bIsDeleted;
+
+                if (tblProducts.tblProductCategories != null)
+                    clsCart.clsProductCategory = clsProductCategoriesManager.convertProductCategoriesTableToClass(tblProducts.tblProductCategories);
+                if (tblProducts.tblProductSubCategories != null)
+                    clsCart.clsProductSubCategory = clsProductSubCategoriesManager.convertProductSubCategoriesTableToClass(tblProducts.tblProductSubCategories);
+
+                clsCart.lstProductSizes = new List<clsProductSizesOrdered>();
+                if (tblProducts.tblProductSizes.Count > 0)
+                {
+                    foreach (var ProductSizeItem in tblProducts.tblProductSizes)
+                    {
+                        clsProductSizesOrdered clsProductSize = clsProductSizesManager.convertProductSizesOrderedTableToClass(ProductSizeItem);
+                        clsCart.lstProductSizes.Add(clsProductSize);
+                    }
+                }
+            }
+
+            return clsCart;
+        }
+
 
         //Save
         public void saveProduct(clsProducts clsProduct)

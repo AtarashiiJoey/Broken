@@ -5,6 +5,18 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
       <Schema Namespace="ColmartDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tblAssociations">
+          <Key>
+            <PropertyRef Name="iAssociationID" />
+          </Key>
+          <Property Name="iAssociationID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="dtAdded" Type="datetime" Nullable="false" />
+          <Property Name="iAddedBy" Type="int" Nullable="false" />
+          <Property Name="dtEdited" Type="datetime" Nullable="false" />
+          <Property Name="iEditedBy" Type="int" Nullable="false" />
+          <Property Name="strTitle" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="bIsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="tblCMSPages">
           <Key>
             <PropertyRef Name="iCMSPageID" />
@@ -74,6 +86,16 @@
           <Property Name="dtEdited" Type="datetime" />
           <Property Name="iEditedBy" Type="int" Nullable="false" />
           <Property Name="strTitle" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="bIsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblProductAssociationLinkTable">
+          <Key>
+            <PropertyRef Name="iProductLinkID" />
+          </Key>
+          <Property Name="iProductLinkID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="iMainProductCode" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="iAssociatedProductCode" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="iAssociationID" Type="int" Nullable="false" />
           <Property Name="bIsDeleted" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="tblProductCategories">
@@ -175,9 +197,15 @@
           <Property Name="strBiographicalInfo" Type="varchar" MaxLength="500" />
           <Property Name="strContactNumber" Type="varchar" MaxLength="20" />
           <Property Name="strEmailAddress" Type="varchar" MaxLength="120" Nullable="false" />
+          <Property Name="strCompanyName" Type="varchar" MaxLength="100" />
+          <Property Name="strArea" Type="varchar" MaxLength="100" />
+          <Property Name="strVatNumber" Type="varchar" MaxLength="100" />
+          <Property Name="strBusinessPurpose" Type="varchar" MaxLength="250" />
           <Property Name="strPassword" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="strPasswordConfirm" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="strImagePath" Type="varchar" MaxLength="250" />
           <Property Name="strImageName" Type="varchar" MaxLength="250" />
+          <Property Name="bIsConfirmed" Type="bit" Nullable="false" />
           <Property Name="bIsDeleted" Type="bit" Nullable="false" />
         </EntityType>
         <Association Name="FK_tblCMSUserAccess_tblCMSPages">
@@ -213,6 +241,18 @@
             </Principal>
             <Dependent Role="tblCMSUsers">
               <PropertyRef Name="iCMSRoleTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblProductAssociationLinkTable_tblAssociations">
+          <End Role="tblAssociations" Type="Self.tblAssociations" Multiplicity="1" />
+          <End Role="tblProductAssociationLinkTable" Type="Self.tblProductAssociationLinkTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblAssociations">
+              <PropertyRef Name="iAssociationID" />
+            </Principal>
+            <Dependent Role="tblProductAssociationLinkTable">
+              <PropertyRef Name="iAssociationID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -289,11 +329,13 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="ColmartDBModelStoreContainer">
+          <EntitySet Name="tblAssociations" EntityType="Self.tblAssociations" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblCMSPages" EntityType="Self.tblCMSPages" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblCMSRoleTypes" EntityType="Self.tblCMSRoleTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblCMSUserAccess" EntityType="Self.tblCMSUserAccess" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblCMSUsers" EntityType="Self.tblCMSUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblPages" EntityType="Self.tblPages" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblProductAssociationLinkTable" EntityType="Self.tblProductAssociationLinkTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblProductCategories" EntityType="Self.tblProductCategories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblProducts" EntityType="Self.tblProducts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblProductSizes" EntityType="Self.tblProductSizes" Schema="dbo" store:Type="Tables" />
@@ -312,6 +354,10 @@
           <AssociationSet Name="FK_tblCMSUsers_tblCMSRoleTypes" Association="Self.FK_tblCMSUsers_tblCMSRoleTypes">
             <End Role="tblCMSRoleTypes" EntitySet="tblCMSRoleTypes" />
             <End Role="tblCMSUsers" EntitySet="tblCMSUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblProductAssociationLinkTable_tblAssociations" Association="Self.FK_tblProductAssociationLinkTable_tblAssociations">
+            <End Role="tblAssociations" EntitySet="tblAssociations" />
+            <End Role="tblProductAssociationLinkTable" EntitySet="tblProductAssociationLinkTable" />
           </AssociationSet>
           <AssociationSet Name="FK_tblProducts_tblProductCategories" Association="Self.FK_tblProducts_tblProductCategories">
             <End Role="tblProductCategories" EntitySet="tblProductCategories" />
@@ -343,6 +389,19 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ColmartDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tblAssociations">
+          <Key>
+            <PropertyRef Name="iAssociationID" />
+          </Key>
+          <Property Name="iAssociationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="dtAdded" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="iAddedBy" Type="Int32" Nullable="false" />
+          <Property Name="dtEdited" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="iEditedBy" Type="Int32" Nullable="false" />
+          <Property Name="strTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="bIsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tblProductAssociationLinkTable" Relationship="Self.FK_tblProductAssociationLinkTable_tblAssociations" FromRole="tblAssociations" ToRole="tblProductAssociationLinkTable" />
+        </EntityType>
         <EntityType Name="tblCMSPages">
           <Key>
             <PropertyRef Name="iCMSPageID" />
@@ -420,6 +479,17 @@
           <Property Name="strTitle" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="bIsDeleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="tblUserAccess" Relationship="Self.FK_tblUserAccess_tblPages" FromRole="tblPages" ToRole="tblUserAccess" />
+        </EntityType>
+        <EntityType Name="tblProductAssociationLinkTable">
+          <Key>
+            <PropertyRef Name="iProductLinkID" />
+          </Key>
+          <Property Name="iProductLinkID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="iMainProductCode" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="iAssociatedProductCode" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="iAssociationID" Type="Int32" Nullable="false" />
+          <Property Name="bIsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tblAssociations" Relationship="Self.FK_tblProductAssociationLinkTable_tblAssociations" FromRole="tblProductAssociationLinkTable" ToRole="tblAssociations" />
         </EntityType>
         <EntityType Name="tblProductCategories">
           <Key>
@@ -529,13 +599,31 @@
           <Property Name="strBiographicalInfo" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="strContactNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="strEmailAddress" Type="String" MaxLength="120" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="strCompanyName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="strArea" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="strVatNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="strBusinessPurpose" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="strPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="strPasswordConfirm" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="strImagePath" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="strImageName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="bIsConfirmed" Type="Boolean" Nullable="false" />
           <Property Name="bIsDeleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="tblRoleTypes" Relationship="Self.FK_tblUsers_tblRoleTypes" FromRole="tblUsers" ToRole="tblRoleTypes" />
           <NavigationProperty Name="tblUserAccess" Relationship="Self.FK_tblUserAccess_tblUsers" FromRole="tblUsers" ToRole="tblUserAccess" />
         </EntityType>
+        <Association Name="FK_tblProductAssociationLinkTable_tblAssociations">
+          <End Role="tblAssociations" Type="Self.tblAssociations" Multiplicity="1" />
+          <End Role="tblProductAssociationLinkTable" Type="Self.tblProductAssociationLinkTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblAssociations">
+              <PropertyRef Name="iAssociationID" />
+            </Principal>
+            <Dependent Role="tblProductAssociationLinkTable">
+              <PropertyRef Name="iAssociationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tblCMSUserAccess_tblCMSPages">
           <End Role="tblCMSPages" Type="Self.tblCMSPages" Multiplicity="1" />
           <End Role="tblCMSUserAccess" Type="Self.tblCMSUserAccess" Multiplicity="*" />
@@ -645,11 +733,13 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="ColmartDBContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tblAssociations" EntityType="Self.tblAssociations" />
           <EntitySet Name="tblCMSPages" EntityType="Self.tblCMSPages" />
           <EntitySet Name="tblCMSRoleTypes" EntityType="Self.tblCMSRoleTypes" />
           <EntitySet Name="tblCMSUserAccess" EntityType="Self.tblCMSUserAccess" />
           <EntitySet Name="tblCMSUsers" EntityType="Self.tblCMSUsers" />
           <EntitySet Name="tblPages" EntityType="Self.tblPages" />
+          <EntitySet Name="tblProductAssociationLinkTable" EntityType="Self.tblProductAssociationLinkTable" />
           <EntitySet Name="tblProductCategories" EntityType="Self.tblProductCategories" />
           <EntitySet Name="tblProducts" EntityType="Self.tblProducts" />
           <EntitySet Name="tblProductSizes" EntityType="Self.tblProductSizes" />
@@ -657,6 +747,10 @@
           <EntitySet Name="tblRoleTypes" EntityType="Self.tblRoleTypes" />
           <EntitySet Name="tblUserAccess" EntityType="Self.tblUserAccess" />
           <EntitySet Name="tblUsers" EntityType="Self.tblUsers" />
+          <AssociationSet Name="FK_tblProductAssociationLinkTable_tblAssociations" Association="Self.FK_tblProductAssociationLinkTable_tblAssociations">
+            <End Role="tblAssociations" EntitySet="tblAssociations" />
+            <End Role="tblProductAssociationLinkTable" EntitySet="tblProductAssociationLinkTable" />
+          </AssociationSet>
           <AssociationSet Name="FK_tblCMSUserAccess_tblCMSPages" Association="Self.FK_tblCMSUserAccess_tblCMSPages">
             <End Role="tblCMSPages" EntitySet="tblCMSPages" />
             <End Role="tblCMSUserAccess" EntitySet="tblCMSUserAccess" />
@@ -700,6 +794,19 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="ColmartDBModelStoreContainer" CdmEntityContainer="ColmartDBContext">
+          <EntitySetMapping Name="tblAssociations">
+            <EntityTypeMapping TypeName="ColmartDBModel.tblAssociations">
+              <MappingFragment StoreEntitySet="tblAssociations">
+                <ScalarProperty Name="iAssociationID" ColumnName="iAssociationID" />
+                <ScalarProperty Name="dtAdded" ColumnName="dtAdded" />
+                <ScalarProperty Name="iAddedBy" ColumnName="iAddedBy" />
+                <ScalarProperty Name="dtEdited" ColumnName="dtEdited" />
+                <ScalarProperty Name="iEditedBy" ColumnName="iEditedBy" />
+                <ScalarProperty Name="strTitle" ColumnName="strTitle" />
+                <ScalarProperty Name="bIsDeleted" ColumnName="bIsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="tblCMSPages">
             <EntityTypeMapping TypeName="ColmartDBModel.tblCMSPages">
               <MappingFragment StoreEntitySet="tblCMSPages">
@@ -772,6 +879,17 @@
                 <ScalarProperty Name="dtEdited" ColumnName="dtEdited" />
                 <ScalarProperty Name="iEditedBy" ColumnName="iEditedBy" />
                 <ScalarProperty Name="strTitle" ColumnName="strTitle" />
+                <ScalarProperty Name="bIsDeleted" ColumnName="bIsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblProductAssociationLinkTable">
+            <EntityTypeMapping TypeName="ColmartDBModel.tblProductAssociationLinkTable">
+              <MappingFragment StoreEntitySet="tblProductAssociationLinkTable">
+                <ScalarProperty Name="iProductLinkID" ColumnName="iProductLinkID" />
+                <ScalarProperty Name="iMainProductCode" ColumnName="iMainProductCode" />
+                <ScalarProperty Name="iAssociatedProductCode" ColumnName="iAssociatedProductCode" />
+                <ScalarProperty Name="iAssociationID" ColumnName="iAssociationID" />
                 <ScalarProperty Name="bIsDeleted" ColumnName="bIsDeleted" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -880,9 +998,15 @@
                 <ScalarProperty Name="strBiographicalInfo" ColumnName="strBiographicalInfo" />
                 <ScalarProperty Name="strContactNumber" ColumnName="strContactNumber" />
                 <ScalarProperty Name="strEmailAddress" ColumnName="strEmailAddress" />
+                <ScalarProperty Name="strCompanyName" ColumnName="strCompanyName" />
+                <ScalarProperty Name="strArea" ColumnName="strArea" />
+                <ScalarProperty Name="strVatNumber" ColumnName="strVatNumber" />
+                <ScalarProperty Name="strBusinessPurpose" ColumnName="strBusinessPurpose" />
                 <ScalarProperty Name="strPassword" ColumnName="strPassword" />
+                <ScalarProperty Name="strPasswordConfirm" ColumnName="strPasswordConfirm" />
                 <ScalarProperty Name="strImagePath" ColumnName="strImagePath" />
                 <ScalarProperty Name="strImageName" ColumnName="strImageName" />
+                <ScalarProperty Name="bIsConfirmed" ColumnName="bIsConfirmed" />
                 <ScalarProperty Name="bIsDeleted" ColumnName="bIsDeleted" />
               </MappingFragment>
             </EntityTypeMapping>

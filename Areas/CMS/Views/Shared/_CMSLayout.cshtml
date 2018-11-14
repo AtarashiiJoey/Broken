@@ -58,7 +58,7 @@
                 @Html.Action("OptionalTopRightNotificationsMenu", "LayoutPartials")
 
                 @Html.Action("CMSUserDropDownMenuBox", "LayoutPartials")
-                
+
             </div>
             <!-- end: search & user box -->
         </header>
@@ -132,7 +132,7 @@
                                             @Html.ActionLink("CMS Role Types", "CMSRoleTypesView", "CMSRoleTypes")
                                         </li>
                                         <li>
-                                           @Html.ActionLink("Role Types", "RoleTypesView", "RoleTypes")
+                                            @Html.ActionLink("Role Types", "RoleTypesView", "RoleTypes")
                                         </li>
                                     </ul>
                                 </li>
@@ -170,64 +170,21 @@
                                         </li>
                                     </ul>
                                 </li>
+                                <li class="nav-parent">
+                                    <a href="#">
+                                        <i class="fa fa-product-hunt" aria-hidden="true"></i>
+                                        <span>Associated Products</span>
+                                    </a>
+                                    <ul class="nav nav-children">
+                                        <li>
+                                            @Html.ActionLink("Product Linking", "ProductAssociation", "ProductAssociation")
+                                        </li>
+                                    </ul>
+                                </li>
                             </ul>
                         </nav>
 
                         <hr class="separator" />
-
-                        <div class="sidebar-widget widget-tasks">
-                            <div class="widget-header">
-                                <h6>Projects</h6>
-                                <div class="widget-toggle">+</div>
-                            </div>
-                            <div class="widget-content">
-                                <ul class="list-unstyled m-none">
-                                    <li><a href="#">Project 1</a></li>
-                                    <li><a href="#">Project 2</a></li>
-                                    <li><a href="#">Project 3</a></li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <hr class="separator" />
-
-                        <div class="sidebar-widget widget-stats">
-                            <div class="widget-header">
-                                <h6>Company Stats</h6>
-                                <div class="widget-toggle">+</div>
-                            </div>
-                            <div class="widget-content">
-                                <ul>
-                                    <li>
-                                        <span class="stats-title">Stat 1</span>
-                                        <span class="stats-complete">85%</span>
-                                        <div class="progress">
-                                            <div class="progress-bar progress-bar-primary progress-without-number" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 85%;">
-                                                <span class="sr-only">85% Complete</span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <span class="stats-title">Stat 2</span>
-                                        <span class="stats-complete">70%</span>
-                                        <div class="progress">
-                                            <div class="progress-bar progress-bar-primary progress-without-number" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width: 70%;">
-                                                <span class="sr-only">70% Complete</span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <span class="stats-title">Stat 3</span>
-                                        <span class="stats-complete">2%</span>
-                                        <div class="progress">
-                                            <div class="progress-bar progress-bar-primary progress-without-number" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100" style="width: 2%;">
-                                                <span class="sr-only">2% Complete</span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
                     </div>
 
                     <script>
@@ -273,73 +230,73 @@
         </div>
 
         @*<aside id="sidebar-right" class="sidebar-right">
-            <div class="nano">
-                <div class="nano-content">
-                    <a href="#" class="mobile-close visible-xs">
-                        Collapse <i class="fa fa-chevron-right"></i>
-                    </a>
+                <div class="nano">
+                    <div class="nano-content">
+                        <a href="#" class="mobile-close visible-xs">
+                            Collapse <i class="fa fa-chevron-right"></i>
+                        </a>
 
-                    <div class="sidebar-right-wrapper">
+                        <div class="sidebar-right-wrapper">
 
-                        <div class="sidebar-widget widget-calendar">
-                            <h6>Upcoming Tasks</h6>
-                            <div data-plugin-datepicker data-plugin-skin="dark"></div>
+                            <div class="sidebar-widget widget-calendar">
+                                <h6>Upcoming Tasks</h6>
+                                <div data-plugin-datepicker data-plugin-skin="dark"></div>
 
-                            <ul>
-                                <li>
-                                    <time datetime="2016-04-19T00:00+00:00">04/19/2016</time>
-                                    <span>Company Meeting</span>
-                                </li>
-                            </ul>
+                                <ul>
+                                    <li>
+                                        <time datetime="2016-04-19T00:00+00:00">04/19/2016</time>
+                                        <span>Company Meeting</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="sidebar-widget widget-friends">
+                                <h6>Friends</h6>
+                                <ul>
+                                    <li class="status-online">
+                                        <figure class="profile-picture">
+                                            <img src="~/Areas/CMS/Content/assets/images/default_image.png" alt="Joseph Doe" class="img-circle">
+                                        </figure>
+                                        <div class="profile-info">
+                                            <span class="name">Joseph Doe Junior</span>
+                                            <span class="title">Hey, how are you?</span>
+                                        </div>
+                                    </li>
+                                    <li class="status-online">
+                                        <figure class="profile-picture">
+                                            <img src="~/Areas/CMS/Content/assets/images/default_image.png" alt="Joseph Doe" class="img-circle">
+                                        </figure>
+                                        <div class="profile-info">
+                                            <span class="name">Joseph Doe Junior</span>
+                                            <span class="title">Hey, how are you?</span>
+                                        </div>
+                                    </li>
+                                    <li class="status-offline">
+                                        <figure class="profile-picture">
+                                            <img src="~/Areas/CMS/Content/assets/images/default_image.png" alt="Joseph Doe" class="img-circle">
+                                        </figure>
+                                        <div class="profile-info">
+                                            <span class="name">Joseph Doe Junior</span>
+                                            <span class="title">Hey, how are you?</span>
+                                        </div>
+                                    </li>
+                                    <li class="status-offline">
+                                        <figure class="profile-picture">
+                                            <img src="~/Areas/CMS/Content/assets/images/default_image.png" alt="Joseph Doe" class="img-circle">
+                                        </figure>
+                                        <div class="profile-info">
+                                            <span class="name">Joseph Doe Junior</span>
+                                            <span class="title">Hey, how are you?</span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+
                         </div>
-
-                        <div class="sidebar-widget widget-friends">
-                            <h6>Friends</h6>
-                            <ul>
-                                <li class="status-online">
-                                    <figure class="profile-picture">
-                                        <img src="~/Areas/CMS/Content/assets/images/default_image.png" alt="Joseph Doe" class="img-circle">
-                                    </figure>
-                                    <div class="profile-info">
-                                        <span class="name">Joseph Doe Junior</span>
-                                        <span class="title">Hey, how are you?</span>
-                                    </div>
-                                </li>
-                                <li class="status-online">
-                                    <figure class="profile-picture">
-                                        <img src="~/Areas/CMS/Content/assets/images/default_image.png" alt="Joseph Doe" class="img-circle">
-                                    </figure>
-                                    <div class="profile-info">
-                                        <span class="name">Joseph Doe Junior</span>
-                                        <span class="title">Hey, how are you?</span>
-                                    </div>
-                                </li>
-                                <li class="status-offline">
-                                    <figure class="profile-picture">
-                                        <img src="~/Areas/CMS/Content/assets/images/default_image.png" alt="Joseph Doe" class="img-circle">
-                                    </figure>
-                                    <div class="profile-info">
-                                        <span class="name">Joseph Doe Junior</span>
-                                        <span class="title">Hey, how are you?</span>
-                                    </div>
-                                </li>
-                                <li class="status-offline">
-                                    <figure class="profile-picture">
-                                        <img src="~/Areas/CMS/Content/assets/images/default_image.png" alt="Joseph Doe" class="img-circle">
-                                    </figure>
-                                    <div class="profile-info">
-                                        <span class="name">Joseph Doe Junior</span>
-                                        <span class="title">Hey, how are you?</span>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-
                     </div>
                 </div>
-            </div>
-        </aside>*@
-        
+            </aside>*@
+
     </section>
 
     @Scripts.Render("~/bundles/cms/jquery")

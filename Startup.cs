@@ -1,7 +1,7 @@
 ﻿using Microsoft.Owin;
 using Owin;
 
-[assembly: OwinStartupAttribute(typeof(Colmart.Startup))]
+[assembly: OwinStartup(typeof(Colmart.Startup))]
 namespace Colmart
 {
     public partial class Startup

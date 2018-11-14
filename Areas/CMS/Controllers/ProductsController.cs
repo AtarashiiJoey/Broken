@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using Colmart;
+using Colmart.Model_Manager;
 using Colmart.Models;
 using ColmartCMS.View_Models.Products;
-using Colmart.Model_Manager;
-using Colmart;
-using System.Threading.Tasks;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 using System.Xml;
 
 namespace ColmartCMS.Controllers
@@ -153,7 +152,7 @@ namespace ColmartCMS.Controllers
                 return RedirectToAction("Login", "Account");
 
             bool bIsSuccess = false;
-            
+
             using (var client = new HttpClient())
             {
                 try

@@ -1,0 +1,41 @@
+﻿@model  IEnumerable<Colmart.View_Models.clsCart>
+
+<button class="close"><i class="fa fa-close"></i></button>
+@if (Model.Count() != 0)
+{
+    <div class="cart-item-a-wrapper">
+        <div class="cart-item-amount">
+            <span class="cart-number"><span>@Model.Count()</span> items</span>
+            @*<div class="cart-amount">
+                <h5>Cart Subtotal :</h5>
+                <h4>$70.00</h4>
+            </div>*@
+        </div>
+        <a href="@Url.Action("Cart","Cart")" class="grey-button">Go to Checkout</a>
+    </div>
+    foreach (var item in Model)
+    {
+        <div class="cart-dropdown-item">
+            <div class="cart-p-image">
+                <a href="@Url.Action("ProductDetails", "Product", new { @iProductID = item.iProductID })"><img src="@item.strImageURL" alt="" style="width:76px;height:auto;"></a>
+            </div>
+            <div class="cart-p-text">
+                <a href="cart.html" class="cart-p-name">@item.strTitle</a>
+                <span>@item.strStyleCode</span>
+                @*<div class="cart-p-qty">
+                    <a onclick="removeFromCart(@item.iProductID)"><i class="icon icon-Delete"></i></a>
+                </div>*@
+            </div>
+        </div>
+    }
+    <div class="cart-btn-wrapper">
+        <a href="@Url.Action("Cart","Cart")" class="grey-button">View and edit cart</a>
+    </div>
+}
+else
+{
+    <div class="cart-btn-wrapper">
+        <p style="text-align:center;">Please be advised that your cart is currently empty.</p>
+    </div>
+}
+

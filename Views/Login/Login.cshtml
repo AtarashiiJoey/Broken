@@ -1,0 +1,212 @@
+﻿@model Colmart.View_Models.clsUserLoginRegister
+
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_RolandoLayout.cshtml";
+}
+
+<!-- Breadcrumb Area Start -->
+<div class="breadcrumb-area bg-light-3">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="@Url.Action("Index","Home")">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Account</li>
+            </ul>
+        </nav>
+    </div>
+</div>
+<!-- Breadcrumb Area End -->
+<!-- Account Area Start -->
+<div class="my-account-area ptb-80">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                @using (Html.BeginForm("Login", "Login", FormMethod.Post, new { @id = "frmUserLogin", @name = "frmUserLogin" }))
+                {
+                    <div class="form-fields">
+                        <h2>Login</h2>
+
+                        @ViewBag.Message
+
+                        <p>
+                            <label for="login-name" class="important">Username</label>
+                            @Html.EditorFor(userlogin => userlogin.clsUserLogin.strEmail, new { htmlAttributes = new { @required = "required", @class = "form-control" } })
+                            @Html.ValidationMessageFor(userlogin => userlogin.clsUserLogin.strEmail, null, new { @class = "text-danger" })
+                        </p>
+                        <p>
+                            <label for="loginPassword" class="important" style="margin-bottom:0px">Password</label>
+                            <div class="input-group" id="show_hide_password_login">
+                                @Html.EditorFor(userlogin => userlogin.clsUserLogin.strPassword, new { htmlAttributes = new { @id = "loginPassword", @required = "required", @class = "form-control" } })
+                                <div class="input-group-addon psw-show"><a href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a></div>
+                            </div>
+                            @Html.ValidationMessageFor(userlogin => userlogin.clsUserLogin.strPassword, null, new { @class = "text-danger" })
+                        </p>
+                        @Html.ValidationMessage("loginError", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-action">
+                        <p class="lost_password"><a href="@Url.Action("ForgotPassword","Login")">Lost your password?</a></p>
+                        <button type="submit">Login</button>
+                        <label><input type="checkbox" id="rememberMe">Remember me</label>
+                        @Html.HiddenFor(userlogin => userlogin.clsUserLogin.bRememberMe)
+                    </div>
+                }
+            </div>
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                @using (Html.BeginForm("Register", "Login", FormMethod.Post, new { @id = "frmUserRegisted", @name = "frmUserRegisted" }))
+                {
+                <div class="form-fields">
+                    <h2>Register</h2>
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <p>
+                            <label for="reg-email" class="important">Company Name</label>
+                            @Html.TextBoxFor(userlogin => userlogin.strCompanyName, null, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(userlogin => userlogin.strCompanyName, null, new { @class = "text-danger" })
+                        </p>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6" style="float:left;position: relative;z-index: 10;">
+                        <p>
+                            <label for="reg-email" class="important">First Name</label>
+                            @Html.TextBoxFor(userlogin => userlogin.strFirstName, null, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(userlogin => userlogin.strFirstName, null, new { @class = "text-danger" })
+                        </p>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6" style="float:right;position: relative;z-index: 10;">
+                        <p>
+                            <label for="reg-email" class="important">Last Name</label>
+                            @Html.TextBoxFor(userlogin => userlogin.strSurname, null, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(userlogin => userlogin.strSurname, null, new { @class = "text-danger" })
+                        </p>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <p>
+                            <label for="reg-email" class="important">Email Address/Username</label>
+                            @Html.TextBoxFor(userlogin => userlogin.strEmailAddress, null, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(userlogin => userlogin.strEmailAddress, null, new { @class = "text-danger" })
+                        </p>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <p>
+                            <label for="reg-email" class="important">Phone Number</label>
+                            @Html.TextBoxFor(userlogin => userlogin.strContactNumber, null, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(userlogin => userlogin.strContactNumber, null, new { @class = "text-danger" })
+                        </p>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6" style="float:left;position: relative;z-index: 10;">
+                        <p>
+                            <label for="reg-email" class="important">Area</label>
+                            @Html.TextBoxFor(userlogin => userlogin.strArea, null, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(userlogin => userlogin.strArea, null, new { @class = "text-danger" })
+                        </p>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6" style="float:right;position: relative;z-index: 10;">
+                        <p>
+                            <label for="reg-email" class="important">VAT Number</label>
+                            @Html.TextBoxFor(userlogin => userlogin.strVatNumber, null, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(userlogin => userlogin.strVatNumber, null, new { @class = "text-danger" })
+                        </p>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <p>
+                            <label for="reg-email" class="important">Purpose of Business</label>
+                            @Html.TextBoxFor(userlogin => userlogin.strBusinessPurpose, null, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(userlogin => userlogin.strBusinessPurpose, null, new { @class = "text-danger" })
+                        </p>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="input-group" id="show_hide_password_register">
+                            @Html.EditorFor(userlogin => userlogin.strPassword, new { htmlAttributes = new { @id = "strPassword", @placeholder = "Password", @class = "form-control input-lg textbox_font_size" } })
+                            <div class="input-group-addon psw-show"><a href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a></div>
+                        </div>
+                        @Html.ValidationMessageFor(userlogin => userlogin.strPassword, null, new { @class = "text-danger" })
+                    </div>
+                    <div class="col-lg-12" style="margin-top:10px">
+                        <div class="input-group" id="show_hide_password_register_confirm">
+                            @Html.EditorFor(userlogin => userlogin.strPasswordConfirm, new { htmlAttributes = new { @id = "strPasswordConfirm", @placeholder = "Confirm Password", @class = "form-control input-lg textbox_font_size" } })
+                            <div class="input-group-addon psw-show"><a href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a></div>
+                        </div>
+                        @Html.ValidationMessageFor(userlogin => userlogin.strPasswordConfirm, null, new { @class = "text-danger" })
+                    </div>                   
+                </div>
+                    @Html.ValidationMessage("RegisterError", new { @class = "text-danger" })
+                    <div class="form-action">
+                        <button type="submit">Register</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<div id="snackbar"><span><i class="fa fa-check" aria-hidden="true"></i></span></div>
+<script>
+    $(document).ready(function () {
+        $("#show_hide_password_register a").on('click', function (event) {
+            event.preventDefault();
+            if ($('#show_hide_password_register input').attr("type") == "text") {
+                $('#show_hide_password_register input').attr('type', 'password');
+                $('#show_hide_password_register i').addClass("fa-eye-slash");
+                $('#show_hide_password_register i').removeClass("fa-eye");
+            } else if ($('#show_hide_password_register input').attr("type") == "password") {
+                $('#show_hide_password_register input').attr('type', 'text');
+                $('#show_hide_password_register i').removeClass("fa-eye-slash");
+                $('#show_hide_password_register i').addClass("fa-eye");
+            }
+        });
+
+        $("#show_hide_password_register_confirm a").on('click', function (event) {
+            event.preventDefault();
+            if ($('#show_hide_password_register_confirm input').attr("type") == "text") {
+                $('#show_hide_password_register_confirm input').attr('type', 'password');
+                $('#show_hide_password_register_confirm i').addClass("fa-eye-slash");
+                $('#show_hide_password_register_confirm i').removeClass("fa-eye");
+            } else if ($('#show_hide_password_register_confirm input').attr("type") == "password") {
+                $('#show_hide_password_register_confirm input').attr('type', 'text');
+                $('#show_hide_password_register_confirm i').removeClass("fa-eye-slash");
+                $('#show_hide_password_register_confirm i').addClass("fa-eye");
+            }
+        });
+
+        $("#show_hide_password_login a").on('click', function (event) {
+            event.preventDefault();
+            if ($('#show_hide_password_login input').attr("type") == "text") {
+                $('#show_hide_password_login input').attr('type', 'password');
+                $('#show_hide_password_login i').addClass("fa-eye-slash");
+                $('#show_hide_password_login i').removeClass("fa-eye");
+            } else if ($('#show_hide_password_login input').attr("type") == "password") {
+                $('#show_hide_password_login input').attr('type', 'text');
+                $('#show_hide_password_login i').removeClass("fa-eye-slash");
+                $('#show_hide_password_login i').addClass("fa-eye");
+            }
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        var bAccountCreated = '@ViewBag.Register';
+        if (bAccountCreated) {
+            var x = document.getElementById("snackbar");
+            $("#snackbar").text('@ViewBag.Message');
+            // Add the "show" class to DIV
+            x.className = "show";
+            // After 3 seconds, remove the show class from DIV
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 10000);
+        }
+    });
+
+</script>
+
+<script>
+    $(document).ready(function () {
+        $(document).on('change', 'input[type="checkbox"]', function (e) {
+            if ($(this).is(":checked")) {
+                $('#clsUserLogin_bRememberMe').val(true);
+            }
+            else {
+                $('#clsUserLogin_bRememberMe').val(false);
+            }
+        });
+
+    });
+</script>
+
+<!-- Account Area End -->

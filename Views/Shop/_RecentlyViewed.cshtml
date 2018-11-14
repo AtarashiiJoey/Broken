@@ -1,0 +1,24 @@
+﻿@model  Colmart.View_Models.clsRecentlyViewed
+
+<h4>Recently viewed</h4>
+@if (Model.bRecentlyViewed != false)
+{
+    foreach (var recentlyViewed in Model.lstRecentlyViewed)
+    {
+        <div class="product-widget-item">
+            <div class="product-wid-img">
+                <a href="product-details.html"><img src="@recentlyViewed.strImageURL" alt="@recentlyViewed.strTitle"></a>
+            </div>
+            <div class="product-text">
+                <h4><a href="product-details.html">@recentlyViewed.strTitle</a></h4>
+            </div>
+        </div>
+
+    }
+}
+else
+{
+}
+
+
+

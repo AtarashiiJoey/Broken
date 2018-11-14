@@ -31,9 +31,15 @@ namespace Colmart
         public string strBiographicalInfo { get; set; }
         public string strContactNumber { get; set; }
         public string strEmailAddress { get; set; }
+        public string strCompanyName { get; set; }
+        public string strArea { get; set; }
+        public string strVatNumber { get; set; }
+        public string strBusinessPurpose { get; set; }
         public string strPassword { get; set; }
+        public string strPasswordConfirm { get; set; }
         public string strImagePath { get; set; }
         public string strImageName { get; set; }
+        public bool bIsConfirmed { get; set; }
         public bool bIsDeleted { get; set; }
     
         public virtual tblRoleTypes tblRoleTypes { get; set; }

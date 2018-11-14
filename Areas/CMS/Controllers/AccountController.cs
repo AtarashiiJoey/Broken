@@ -17,6 +17,7 @@ using Newtonsoft.Json.Linq;
 using System.Text;
 using System.Net.Mail;
 using Colmart;
+using Colmart.Assistant_Classes;
 
 namespace ColmartCMS.Controllers
 {
@@ -193,7 +194,7 @@ namespace ColmartCMS.Controllers
             try
             {
                 //TEST
-                clsEmailComponent.SendMail("noreply@softservedigital.co.za", strEmail, "", "", "Password Reset", strContent.ToString(), emptyAttach, true);
+                clsEmailComponent.SendMail("noreply@softservedigital.co.za", strEmail, "", "", "Password Reset", strContent.ToString(), emptyAttach, true,true);
 
                 //clsEmailComponent.SendMail("noreply@careerwiz.co.za", strEmail, "", "hello@softservedigital.co.za", "Password Reset", strContent.ToString(), emptyAttach, true);
             }

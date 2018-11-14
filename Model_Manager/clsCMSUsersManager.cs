@@ -1,13 +1,10 @@
-﻿using System;
+﻿using Colmart.Models;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
-using Colmart;
-using Colmart.Models;
 
 namespace Colmart.Model_Manager
 {

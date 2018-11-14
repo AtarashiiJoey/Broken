@@ -9,27 +9,28 @@
 
 namespace Colmart
 {
-    using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-    
+
     public partial class ColmartDBContext : DbContext
     {
         public ColmartDBContext()
             : base("name=ColmartDBContext")
         {
         }
-    
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();
         }
-    
+
+        public virtual DbSet<tblAssociations> tblAssociations { get; set; }
         public virtual DbSet<tblCMSPages> tblCMSPages { get; set; }
         public virtual DbSet<tblCMSRoleTypes> tblCMSRoleTypes { get; set; }
         public virtual DbSet<tblCMSUserAccess> tblCMSUserAccess { get; set; }
         public virtual DbSet<tblCMSUsers> tblCMSUsers { get; set; }
         public virtual DbSet<tblPages> tblPages { get; set; }
+        public virtual DbSet<tblProductAssociationLinkTable> tblProductAssociationLinkTable { get; set; }
         public virtual DbSet<tblProductCategories> tblProductCategories { get; set; }
         public virtual DbSet<tblProducts> tblProducts { get; set; }
         public virtual DbSet<tblProductSizes> tblProductSizes { get; set; }

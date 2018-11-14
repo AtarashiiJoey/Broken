@@ -36,13 +36,25 @@ namespace Colmart.Models
         [EmailAddress(ErrorMessage = "Please enter a valid email")]
         [Remote("checkIfUserExists", "Users", HttpMethod = "POST", ErrorMessage = "Email already exists")]
         public string strEmailAddress { get; set; }
-
+        [Required(ErrorMessage = "Field is required")]
+        public string strCompanyName { get; set; }
+        [Required(ErrorMessage = "Field is required")]
+        public string strArea { get; set; }
+        [Required(ErrorMessage = "Field is required")]
+        public string strVatNumber { get; set; }
+        [Required(ErrorMessage = "Field is required")]
+        public string strBusinessPurpose { get; set; }
         [DataType(DataType.Password)]
         [StringLength(20, MinimumLength = 6, ErrorMessage = "Password should be at least 6 characters long")]
         public string strPassword { get; set; }
-        
+        [DataType(DataType.Password)]
+        [StringLength(20, MinimumLength = 6, ErrorMessage = "Password should be at least 6 characters long")]
+        [System.ComponentModel.DataAnnotations.Compare("strPassword", ErrorMessage = "Password does not match")]
+        public string strPasswordConfirm { get; set; }
+
         public string strImagePath { get; set; }
         public string strImageName { get; set; }
+        public bool bIsConfirmed { get; set; }
         public bool bIsDeleted { get; set; }
 
         public clsRoleTypes clsRoleType { get; set; }

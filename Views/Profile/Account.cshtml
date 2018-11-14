@@ -1,0 +1,164 @@
+﻿@model Colmart.View_Models.clsAccountUpdate
+
+@{
+    ViewBag.Title = "Account";
+    Layout = "~/Views/Shared/_ColmartLayout.cshtml";
+}
+
+<!-- Breadcrumb Area Start -->
+<div class="breadcrumb-area bg-light-3">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="@Url.Action("Index","Home")">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Account</li>
+            </ul>
+        </nav>
+    </div>
+</div>
+<!-- Breadcrumb Area End -->
+<div class="my-account-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                @using (Html.BeginForm("Account", "Profile", FormMethod.Post, new { @id = "frmUserRegisted", @name = "frmUserRegisted" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-fields">
+                        <h2>Account</h2>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            @Html.HiddenFor(userlogin => userlogin.iUserID)
+                            @Html.HiddenFor(userlogin => userlogin.dtAdded)
+                            @Html.HiddenFor(userlogin => userlogin.iAddedBy)
+                            @Html.HiddenFor(userlogin => userlogin.dtEdited)
+                            @Html.HiddenFor(userlogin => userlogin.iEditedBy)
+                            @Html.HiddenFor(userlogin => userlogin.iRoleTypeID)
+                            @Html.HiddenFor(userlogin => userlogin.bIsConfirmed)
+                            @Html.HiddenFor(userlogin => userlogin.bIsDeleted)
+                            <p>
+                                <label for="reg-email" class="important">Company Name</label>
+                                @Html.TextBoxFor(userlogin => userlogin.strCompanyName, null, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(userlogin => userlogin.strCompanyName, null, new { @class = "text-danger" })
+                            </p>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6" style="float:left;position: relative;z-index: 10;">
+                            <p>
+                                <label for="reg-email" class="important">First Name</label>
+                                @Html.TextBoxFor(userlogin => userlogin.strFirstName, null, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(userlogin => userlogin.strFirstName, null, new { @class = "text-danger" })
+                            </p>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6" style="float:right;position: relative;z-index: 10;">
+                            <p>
+                                <label for="reg-email" class="important">Last Name</label>
+                                @Html.TextBoxFor(userlogin => userlogin.strSurname, null, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(userlogin => userlogin.strSurname, null, new { @class = "text-danger" })
+                            </p>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <p>
+                                <label for="reg-email" class="important">Email Address/Username</label>
+                                @Html.TextBoxFor(userlogin => userlogin.strEmailAddress, null, new { @class = "form-control", @readonly = "readonly" })
+                                @Html.ValidationMessageFor(userlogin => userlogin.strEmailAddress, null, new { @class = "text-danger" })
+                            </p>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <p>
+                                <label for="reg-email" class="important">Phone Number</label>
+                                @Html.TextBoxFor(userlogin => userlogin.strContactNumber, null, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(userlogin => userlogin.strContactNumber, null, new { @class = "text-danger" })
+                            </p>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6" style="float:left;position: relative;z-index: 10;">
+                            <p>
+                                <label for="reg-email" class="important">Area</label>
+                                @Html.TextBoxFor(userlogin => userlogin.strArea, null, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(userlogin => userlogin.strArea, null, new { @class = "text-danger" })
+                            </p>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6" style="float:right;position: relative;z-index: 10;">
+                            <p>
+                                <label for="reg-email" class="important">VAT Number</label>
+                                @Html.TextBoxFor(userlogin => userlogin.strVatNumber, null, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(userlogin => userlogin.strVatNumber, null, new { @class = "text-danger" })
+                            </p>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <p>
+                                <label for="reg-email" class="important">Purpose of Business</label>
+                                @Html.TextBoxFor(userlogin => userlogin.strBusinessPurpose, null, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(userlogin => userlogin.strBusinessPurpose, null, new { @class = "text-danger" })
+                            </p>
+                        </div>
+                        <div class="col-lg-12">
+                            <p>
+                                <label class="important">If you'd like to change your password please enter your new password below, alternatively leave the password fields empty and your password will remain the same.</label>
+                            </p>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6" style="float:left;position: relative;z-index: 10;">
+                            <div class="input-group" id="show_hide_password_register">
+                                @Html.EditorFor(userlogin => userlogin.strNewPassword, new { htmlAttributes = new { @id = "strNewPassword", @placeholder = "Password", @class = "form-control input-lg textbox_font_size" } })
+                                <div class="input-group-addon psw-show"><a href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a></div>
+                            </div>
+                            @Html.ValidationMessageFor(userlogin => userlogin.strNewPassword, null, new { @class = "text-danger" })
+                            @Html.HiddenFor(userlogin => userlogin.strPassword)
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6" style="float:right;position: relative;z-index: 10;">
+                            <div class="input-group" id="show_hide_password_register_confirm">
+                                @Html.EditorFor(userlogin => userlogin.strConfirmNewPassword, new { htmlAttributes = new { @id = "strConfirmNewPassword", @placeholder = "Confirm Password", @class = "form-control input-lg textbox_font_size" } })
+                                <div class="input-group-addon psw-show"><a href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a></div>
+                            </div>
+                            @Html.ValidationMessageFor(userlogin => userlogin.strConfirmNewPassword, null, new { @class = "text-danger" })
+                            @Html.HiddenFor(userlogin => userlogin.strPasswordConfirm)
+                        </div>
+                    </div>
+                    @Html.ValidationMessage("RegisterError", new { @class = "text-danger" })
+                    <div class="form-action">
+                        <button type="submit">Update Account</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <script>
+    $(document).ready(function () {
+        $("#show_hide_password_register a").on('click', function (event) {
+            event.preventDefault();
+            if ($('#show_hide_password_register input').attr("type") == "text") {
+                $('#show_hide_password_register input').attr('type', 'password');
+                $('#show_hide_password_register i').addClass("fa-eye-slash");
+                $('#show_hide_password_register i').removeClass("fa-eye");
+            } else if ($('#show_hide_password_register input').attr("type") == "password") {
+                $('#show_hide_password_register input').attr('type', 'text');
+                $('#show_hide_password_register i').removeClass("fa-eye-slash");
+                $('#show_hide_password_register i').addClass("fa-eye");
+            }
+        });
+
+        $("#show_hide_password_register_confirm a").on('click', function (event) {
+            event.preventDefault();
+            if ($('#show_hide_password_register_confirm input').attr("type") == "text") {
+                $('#show_hide_password_register_confirm input').attr('type', 'password');
+                $('#show_hide_password_register_confirm i').addClass("fa-eye-slash");
+                $('#show_hide_password_register_confirm i').removeClass("fa-eye");
+            } else if ($('#show_hide_password_register_confirm input').attr("type") == "password") {
+                $('#show_hide_password_register_confirm input').attr('type', 'text');
+                $('#show_hide_password_register_confirm i').removeClass("fa-eye-slash");
+                $('#show_hide_password_register_confirm i').addClass("fa-eye");
+            }
+        });
+
+        $("#show_hide_password_login a").on('click', function (event) {
+            event.preventDefault();
+            if ($('#show_hide_password_login input').attr("type") == "text") {
+                $('#show_hide_password_login input').attr('type', 'password');
+                $('#show_hide_password_login i').addClass("fa-eye-slash");
+                $('#show_hide_password_login i').removeClass("fa-eye");
+            } else if ($('#show_hide_password_login input').attr("type") == "password") {
+                $('#show_hide_password_login input').attr('type', 'text');
+                $('#show_hide_password_login i').removeClass("fa-eye-slash");
+                $('#show_hide_password_login i').addClass("fa-eye");
+            }
+        });
+    });
+    </script>

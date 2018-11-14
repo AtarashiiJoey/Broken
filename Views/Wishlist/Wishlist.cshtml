@@ -1,0 +1,75 @@
+﻿@model IEnumerable<Colmart.Models.clsProducts>
+
+@{
+    ViewBag.Title = "Wishlist";
+    Layout = "~/Views/Shared/" + ViewBag.Layout;
+}
+
+
+<!-- Breadcrumb Area Start -->
+<div class="breadcrumb-area bg-light-3">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="@Url.Action("Index","Home")">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Wishlist</li>
+            </ul>
+        </nav>
+    </div>
+</div>
+<!-- Breadcrumb Area End -->
+<!-- Wishlist Area start -->
+<div class="wishlist-area ptb-90">
+    <div class="container">
+        <div class="wishlist-content">
+            <form action="#">
+                <div class="wishlist-table table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="product-remove"><span>Remove</span></th>
+                                <th class="product-thumbnail">Image</th>
+                                <th class="product-name"><span>Product</span></th>
+                                <th class="product-stock-stauts"><span> Stock Status </span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Count() != 0)
+                            {
+                                foreach (var wishlistproduct in Model)
+                                {
+                                    <tr>
+                                        <td class="product-remove"><a onclick="removeFromWishList(@wishlistproduct.iProductID)">×</a></td>
+                                        <td class="product-thumbnail"><a href="product-details.html"><img src="@wishlistproduct.strImageURL" alt="" /></a></td>
+                                        <td class="product-name"><a href="product-details.html">@wishlistproduct.strTitle</a></td>
+                                        <td class="product-stock-status"><span class="wishlist-in-stock">In Stock</span></td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>Please be advised that your wishlist is currently empty.</tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="6">
+                                    <div class="wishlist-share">
+                                        <h4 class="wishlist-share-title">Share on:</h4>
+                                        <ul>
+                                            <li><a class="facebook" href="#"></a></li>
+                                            <li><a class="twitter" href="#"></a></li>
+                                            <li><a class="pinterest" href="#"></a></li>
+                                            <li><a class="googleplus" href="#"></a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Wishlist Area end -->

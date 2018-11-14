@@ -1,0 +1,494 @@
+﻿@model Colmart.View_Models.clsProductDetails
+
+@{
+    Layout = "~/Views/Shared/" + @ViewBag.Layout;
+    ViewBag.Title = "Home Page";
+}
+
+<!-- Breadcrumb Area Start -->
+<div class="breadcrumb-area bg-light-3">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="@Url.Action("Index","Home")">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Product Details</li>
+            </ul>
+        </nav>
+    </div>
+</div>
+<!-- Breadcrumb Area End -->
+<!-- Product Details Area Start -->
+<div class="product-details-area pt-80 pb-75">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-5 col-md-5 col-sm-12">
+                <div class="single-product-image product-image-slider fix">
+                    <div class="p-image"><img id="zoom1" src="@Model.clsProducts.strImageURL" alt="" data-zoom-image="@Model.clsProducts.strImageURL" onerror="this.src='../../images/not-found.jpg'"></div>
+                    @foreach (var variousproduct in Model.VariousProductSizesList)
+                    {
+                        <div class="p-image">
+                            <img src="@variousproduct.strImageURL" onerror="this.src='../../images/not-found.jpg'" />
+                        </div>
+                    }
+                </div>
+                <div class="single-product-thumbnail product-thumbnail-slider float-left" id="gallery_01">
+                    <div class="p-thumb"><img src="@Model.clsProducts.strImageURL" onerror="this.src='../../images/not-found.jpg'" alt="@Model.clsProducts.strTitle"></div>
+                    @foreach (var variousproduct in Model.VariousProductSizesList)
+                    {
+                        <div class="p-thumb"><img src="@variousproduct.strImageURL" onerror="this.src='../../images/not-found.jpg'" alt="@variousproduct.strTitle"></div>
+                    }
+                </div>
+            </div>
+            <div class="col-lg-7 col-md-7 col-sm-12">
+                <div class="p-d-wrapper">
+                    <h1>@Model.clsProducts.strTitle</h1>
+                    @*<span class="p-d-price">$34.00</span>*@
+                    <span class="model-stock">In stock <span><span>SKU</span>@Model.clsProducts.strStyleCode</span></span>
+                    <div class="p-d-buttons">
+                        @foreach (var variation in Model.lstProductAssociations)
+                        {
+                            <a href="#" onclick="showVariation('@variation.iAssociatedProductCode')">@variation.clsAssociations.strTitle</a>
+                        }
+                    </div>
+                    <p>@Model.clsProducts.strFullDescription</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="wishlist-area ptb-90">
+    <div class="container">
+        @foreach (var product in Model.VariousProductSizesList)
+        {
+            <h3>@product.strProductColour</h3>
+            <div class="wishlist-content">
+                <form action="#">
+                    <div class="wishlist-table table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="product-remove"><span>Size</span></th>
+                                    <th class="product-thumbnail">Stock</th>
+                                    <th class="product-name"><span>Order Amount</span></th>
+                                    <th class="product-stock-stauts"><span> Stock Status</span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var size in product.lstProductSizes)
+                                {
+                                    <tr>
+                                        <td class="product-name"><a onclick="">@size.strSize</a></td>
+                                        <td class="product-name">@size.iQuantityAvailable</td>
+                                        <td class="product-name">
+                                            <input id="@size.iProductSizeID" name="value" min="0" max="@size.iQuantityAvailable">
+                                            @if (Session["clsUser"] == null)
+                                            {
+
+                                            }
+                                            else
+                                            {
+                                                <label for="@size.iProductSizeID">x R @size.dblPrice</label>
+                                            }
+                                        </td>
+                                        @if (size.iQuantityAvailable > 0)
+                                        {
+                                            <td class="product-stock-status"><span class="wishlist-in-stock">In Stock</span></td>
+                                        }
+                                        else
+                                        {
+                                            <td class="product-stock-status"><span class="wishlist-in-stock" style="color:red;">Out of Stock</span></td>
+                                        }
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+            </div>
+            <hr />
+            <br />
+        }
+        <div class="p-d-buttons" style="float:right">
+            @if (Session["clsUser"] == null)
+            {
+                <button class="banner-btn" onclick="addProductsToWishlist()">Add To Wishlist</button>
+            }
+            else
+            {
+                <button class="banner-btn" onclick="addProductsToCart()">Add To Cart</button>
+            }
+        </div>
+    </div>
+</div>
+<div id="snackbar"></div>
+<!-- Product Details Area End -->
+<!-- Related Products Area Start -->
+@*<div class="related-products-area text-center">
+        <div class="container">
+            <div class="section-title title-style-2">
+                <h2><span>Related Products</span></h2>
+            </div>
+        </div>
+        <div class="container">
+            <div class="custom-row">
+                <div class="related-product-carousel owl-carousel carousel-style-one">
+                    <div class="custom-col">
+                        <div class="product-item">
+                            <div class="product-image-hover">
+                                <a href="product-details.html">
+                                    <img class="primary-image" src="~/Content/assets/img/product/1.jpg" alt="">
+                                    <img class="hover-image" src="~/Content/assets/img/product/2.jpg" alt="">
+                                </a>
+                                <div class="product-hover">
+                                    <button><i class="icon icon-FullShoppingCart"></i></button>
+                                    <a href="wishlist.htnl"><i class="icon icon-Heart"></i></a>
+                                    <a href="wishlist.htnl"><i class="icon icon-Files"></i></a>
+                                </div>
+                            </div>
+                            <div class="product-text">
+                                <div class="product-rating">
+                                    <i class="fa fa-star color"></i>
+                                    <i class="fa fa-star color"></i>
+                                    <i class="fa fa-star color"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <h4><a href="product-details.html">Joust Duffle Bag</a></h4>
+                                <div class="product-price"><span>$34.00</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="custom-col">
+                        <div class="product-item">
+                            <div class="product-image-hover">
+                                <a href="product-details.html">
+                                    <img class="primary-image" src="~/Content/assets/img/product/3.jpg" alt="">
+                                    <img class="hover-image" src="~/Content/assets/img/product/4.jpg" alt="">
+                                </a>
+                                <div class="product-hover">
+                                    <button><i class="icon icon-FullShoppingCart"></i></button>
+                                    <a href="wishlist.htnl"><i class="icon icon-Heart"></i></a>
+                                    <a href="wishlist.htnl"><i class="icon icon-Files"></i></a>
+                                </div>
+                            </div>
+                            <div class="product-text">
+                                <div class="product-rating">
+                                    <i class="fa fa-star color"></i>
+                                    <i class="fa fa-star color"></i>
+                                    <i class="fa fa-star color"></i>
+                                    <i class="fa fa-star color"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <h4><a href="product-details.html">Strive Shoulder Pack</a></h4>
+                                <div class="product-price"><span>$32.00</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="custom-col">
+                        <div class="product-item">
+                            <div class="product-image-hover">
+                                <a href="product-details.html">
+                                    <img class="primary-image" src="~/Content/assets/img/product/5.jpg" alt="">
+                                    <img class="hover-image" src="~/Content/assets/img/product/6.jpg" alt="">
+                                </a>
+                                <div class="product-hover">
+                                    <button><i class="icon icon-FullShoppingCart"></i></button>
+                                    <a href="wishlist.htnl"><i class="icon icon-Heart"></i></a>
+                                    <a href="wishlist.htnl"><i class="icon icon-Files"></i></a>
+                                </div>
+                            </div>
+                            <div class="product-text">
+                                <div class="product-rating">
+                                    <i class="fa fa-star color"></i>
+                                    <i class="fa fa-star color"></i>
+                                    <i class="fa fa-star color"></i>
+                                    <i class="fa fa-star color"></i>
+                                    <i class="fa fa-star color"></i>
+                                </div>
+                                <h4><a href="product-details.html">Crown Summit Backpack</a></h4>
+                                <div class="product-price"><span>$38.00</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="custom-col">
+                        <div class="product-item">
+                            <div class="product-image-hover">
+                                <a href="product-details.html">
+                                    <img class="primary-image" src="~/Content/assets/img/product/7.jpg" alt="">
+                                    <img class="hover-image" src="~/Content/assets/img/product/8.jpg" alt="">
+                                </a>
+                                <div class="product-hover">
+                                    <button><i class="icon icon-FullShoppingCart"></i></button>
+                                    <a href="wishlist.htnl"><i class="icon icon-Heart"></i></a>
+                                    <a href="wishlist.htnl"><i class="icon icon-Files"></i></a>
+                                </div>
+                            </div>
+                            <div class="product-text">
+                                <div class="product-rating">
+                                    <i class="fa fa-star color"></i>
+                                    <i class="fa fa-star color"></i>
+                                    <i class="fa fa-star color"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <h4><a href="product-details.html">Wayfarer Messenger Bag</a></h4>
+                                <div class="product-price"><span>$40.00</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Related Products Area End -->
+    <!-- Upsell Products Area Start -->
+    <div class="upsell-products-area text-center pt-70 pb-80">
+        <div class="container">
+            <div class="section-title title-style-2">
+                <h2><span>upsell products</span></h2>
+            </div>
+        </div>
+        <div class="container">
+            <div class="custom-row">
+                <div class="related-product-carousel owl-carousel carousel-style-one">
+                    <div class="custom-col">
+                        <div class="product-item">
+                            <div class="product-image-hover">
+                                <a href="product-details.html">
+                                    <img class="primary-image" src="~/Content/assets/img/product/9.jpg" alt="">
+                                    <img class="hover-image" src="~/Content/assets/img/product/10.jpg" alt="">
+                                </a>
+                                <div class="product-hover">
+                                    <button><i class="icon icon-FullShoppingCart"></i></button>
+                                    <a href="wishlist.htnl"><i class="icon icon-Heart"></i></a>
+                                    <a href="wishlist.htnl"><i class="icon icon-Files"></i></a>
+                                </div>
+                            </div>
+                            <div class="product-text">
+                                <div class="product-rating">
+                                    <i class="fa fa-star color"></i>
+                                    <i class="fa fa-star color"></i>
+                                    <i class="fa fa-star color"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <h4><a href="product-details.html">Chair Duffle Set</a></h4>
+                                <div class="product-price"><span>$67.00</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="custom-col">
+                        <div class="product-item">
+                            <div class="product-image-hover">
+                                <a href="product-details.html">
+                                    <img class="primary-image" src="~/Content/assets/img/product/19.jpg" alt="">
+                                    <img class="hover-image" src="~/Content/assets/img/product/20.jpg" alt="">
+                                </a>
+                                <div class="product-hover">
+                                    <button><i class="icon icon-FullShoppingCart"></i></button>
+                                    <a href="wishlist.htnl"><i class="icon icon-Heart"></i></a>
+                                    <a href="wishlist.htnl"><i class="icon icon-Files"></i></a>
+                                </div>
+                            </div>
+                            <div class="product-text">
+                                <div class="product-rating">
+                                    <i class="fa fa-star color"></i>
+                                    <i class="fa fa-star color"></i>
+                                    <i class="fa fa-star color"></i>
+                                    <i class="fa fa-star color"></i>
+                                    <i class="fa fa-star color"></i>
+                                </div>
+                                <h4><a href="product-details.html">Crown Summit Backpack</a></h4>
+                                <div class="product-price"><span>$38.00</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="custom-col">
+                        <div class="product-item">
+                            <div class="product-image-hover">
+                                <a href="product-details.html">
+                                    <img class="primary-image" src="~/Content/assets/img/product/13.jpg" alt="">
+                                    <img class="hover-image" src="~/Content/assets/img/product/14.jpg" alt="">
+                                </a>
+                                <div class="product-hover">
+                                    <button><i class="icon icon-FullShoppingCart"></i></button>
+                                    <a href="wishlist.htnl"><i class="icon icon-Heart"></i></a>
+                                    <a href="wishlist.htnl"><i class="icon icon-Files"></i></a>
+                                </div>
+                            </div>
+                            <div class="product-text">
+                                <div class="product-rating">
+                                    <i class="fa fa-star color"></i>
+                                    <i class="fa fa-star color"></i>
+                                    <i class="fa fa-star color"></i>
+                                    <i class="fa fa-star color"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <h4><a href="product-details.html">Strive Shoulder Pack</a></h4>
+                                <div class="product-price"><span>$32.00</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="custom-col">
+                        <div class="product-item">
+                            <div class="product-image-hover">
+                                <a href="product-details.html">
+                                    <img class="primary-image" src="~/Content/assets/img/product/22.jpg" alt="">
+                                    <img class="hover-image" src="~/Content/assets/img/product/21.jpg" alt="">
+                                </a>
+                                <div class="product-hover">
+                                    <button><i class="icon icon-FullShoppingCart"></i></button>
+                                    <a href="wishlist.htnl"><i class="icon icon-Heart"></i></a>
+                                    <a href="wishlist.htnl"><i class="icon icon-Files"></i></a>
+                                </div>
+                            </div>
+                            <div class="product-text">
+                                <div class="product-rating">
+                                    <i class="fa fa-star color"></i>
+                                    <i class="fa fa-star color"></i>
+                                    <i class="fa fa-star color"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <h4><a href="product-details.html">Wayfarer Messenger Bag</a></h4>
+                                <div class="product-price"><span>$40.00</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>*@
+<script>
+    $(function () {
+        var products = @Html.Raw(Json.Encode(Model.VariousProductSizesList));
+        $.each(products, function () {
+            var sizes = this.lstProductSizes;
+            $.each(sizes, function () {
+                var spinner = $("#" + this.iProductSizeID).spinner();
+            })
+        })
+    })
+</script>
+
+<script>
+    function addProductsToCart() {
+        var products = @Html.Raw(Json.Encode(Model.VariousProductSizesList));
+        var cartArray = [];
+        $.each(products, function () {
+            var sizes = this.lstProductSizes;
+            var iProductID = this.iProductID;
+            var styleCode = this.strStyleCode;
+            $.each(sizes, function () {
+                var spinner = $("#" + this.iProductSizeID).spinner();
+                var iSpinnerValue = spinner.spinner("value");
+                if (iSpinnerValue != null && iSpinnerValue != 0) {
+                    cartArray.push({ 'iProductID': iProductID, 'iCartProductID': this.iProductSizeID, 'iProductValue': iSpinnerValue, 'iStockAvailable': this.iQuantityAvailable, 'strStyleCode': styleCode });
+                }
+            })
+        })
+        console.log(cartArray);
+        $.ajax({
+            type: "POST",
+            url: '/Cart/addToCart',
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(cartArray),
+            dataType: "json",
+            success: function (data) {
+                showSnackWithMessage(data.message);
+                $.each(products, function () {
+                    var sizes = this.lstProductSizes;
+                    $.each(sizes, function () {
+                        var spinner = $("#" + this.iProductSizeID).spinner();
+                        spinner.spinner("value","");
+                    })
+                })
+            },
+            error: function () { showSnackWithMessage(data.message); }
+        })
+    }
+</script>
+
+<script>
+    function addProductsToWishlist() {
+        var products = @Html.Raw(Json.Encode(Model.VariousProductSizesList));
+        var cartArray = [];
+        $.each(products, function () {
+            var sizes = this.lstProductSizes;
+            var iProductID = this.iProductID;
+            var styleCode = this.strStyleCode;
+            $.each(sizes, function () {
+                var spinner = $("#" + this.iProductSizeID).spinner();
+                var iSpinnerValue = spinner.spinner("value");
+                if (iSpinnerValue != null && iSpinnerValue != 0) {
+                    cartArray.push({ 'iProductID': iProductID, 'iCartProductID': this.iProductSizeID, 'iProductValue': iSpinnerValue, 'iStockAvailable': this.iQuantityAvailable, 'strStyleCode': styleCode });
+                }
+            })
+        })
+        console.log(cartArray);
+        $.ajax({
+            type: "POST",
+            url: '/Cart/addToWishlist',
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(cartArray),
+            dataType: "json",
+            success: function (data) {
+                showSnackWithMessage(data.message);
+                $.each(products, function () {
+                    var sizes = this.lstProductSizes;
+                    $.each(sizes, function () {
+                        var spinner = $("#" + this.iProductSizeID).spinner();
+                        spinner.spinner("value","");
+                    })
+                })
+            },
+            error: function () { showSnackWithMessage(data.message); }
+        })
+    }
+</script>
+<!-- Upsell Products Area End -->
+<script>
+    $("input[name=value]").spinner({
+
+    }).on('input', function () {
+        if ($(this).data('onInputPrevented')) return;
+        var val = this.value,
+            $this = $(this),
+            max = $this.spinner('option', 'max'),
+            min = $this.spinner('option', 'min');
+        // We want only number, no alpha.
+        // We set it to previous default value.
+        if (!val.match(/^[+-]?[\d]{0,}$/)) val = $(this).data('defaultValue');
+        this.value = val > max ? max : val < min ? min : val;
+    }).on('keydown', function (e) {
+        // we set default value for spinner.
+        if (!$(this).data('defaultValue')) $(this).data('defaultValue', this.value);
+        // To handle backspace
+        $(this).data('onInputPrevented', e.which === 8 ? true : false);
+    });
+</script>
+
+<script>
+    function showVariation(styleCode) {
+            $.ajax({
+    type: "POST",
+    url: '@Url.Action("getVariationID", "Product")',
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({ 'strStyleCode':styleCode }),
+    dataType: "json",
+            success: function (data) {
+                window.location = "/product/ProductDetails?iProductID=" + data.productID;
+            },
+    error: function() { alert('A error'); }
+});
+    }
+</script>
+
+<script>
+    function showSnackWithMessage(message) {
+        var x = document.getElementById("snackbar");
+        $("#snackbar").text(message);
+        x.className = "show";
+        setTimeout(function () { x.className = x.className.replace("show", ""); }, 10000);
+    }
+</script>

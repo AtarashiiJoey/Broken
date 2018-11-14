@@ -1,0 +1,117 @@
+﻿@model ColmartCMS.View_Models.ProductAssociation.clsProductAssociationAdd
+
+@{
+    ViewBag.Title = "Product Linking";
+}
+
+<section class="panel">
+    <header class="panel-heading">
+        <div class="panel-actions">
+            @*<a href="#" class="panel-action panel-action-toggle" data-panel-toggle></a>*@
+            @*<a href="#" class="panel-action panel-action-dismiss" data-panel-dismiss></a>*@
+        </div>
+
+        <h2 class="panel-title">Products </h2>
+    </header>
+    <div class="panel-body">
+        @using (Html.BeginForm("ProductAssociation", "ProductAssociation", FormMethod.Post, new { @id = "frmProductAssociationAdd", @name = "frmProductAssociationAdd" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-4">@Html.DropDownListFor(x => x.clsMainProducts.strStyleCode, new SelectList(Model.lstMainProducts, "strStyleCode", "strTitle"), "Select a product...",new { @onblur="assignMainProduct();" })</div>
+                <div class="col-md-4">@Html.DropDownListFor(x => x.clsAssociatedProducts.strStyleCode, new SelectList(Model.lstAssociatedProducts, "strStyleCode", "strTitle"), "Select a product...", new { @onblur = "assignAssociatedProduct();" })</div>
+                <div class="col-md-4">@Html.DropDownListFor(x => x.clsAssociations.iAssociationID, new SelectList(Model.lstAssociations, "iAssociationID", "strTitle"), "Select an association...", new { @onblur = "assignAssociation();" })</div>
+            </div>
+
+            @Html.HiddenFor(m => m.clsProductAssociations.iMainProductCode)
+            @Html.HiddenFor(m => m.clsProductAssociations.iAssociatedProductCode)
+            @Html.HiddenFor(m => m.clsProductAssociations.iAssociationID)
+        </div>
+        <div class="row">
+            <hr />
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <input type="submit" class="btn btn-primary">
+            </div>
+        </div>
+}
+    </div>
+</section>
+
+@**** CHANGE MASTER PAGE / LAYOUT PAGE HEADER (H2) TEXT AND PAGE TITLE AFTER PAGE LOADS ****@
+<script type="text/javascript">
+    window.onload = function () {
+        $("#strPageTitle").text("Product Associations | Colmart CMS");
+        $("#h2PageHeader").text("Product Associations");
+
+        //Update Breadcrumbs
+        $("#olBreadcrumbs").append("<li><span>Product Associations</span></li>");
+
+         @{
+             //ADD SUCCESS NOTIFICATION
+            if (TempData["bIsProductAdded"] != null)
+            {
+                if ((bool)TempData["bIsProductAdded"] == true)
+                {
+                    <text>
+                        addItemSuccess();
+                    </text>
+                }
+            }
+             //UPDATE SUCCESS NOTIFICATION
+            if (TempData["bIsProductUpdated"] != null)
+            {
+                if ((bool)TempData["bIsProductUpdated"] == true)
+                {
+                    <text>
+                        updatedItemSuccess();
+                    </text>
+                }
+            }
+             //DELETE SUCCESS NOTIFICATION
+            if (TempData["bIsProductDeleted"] != null)
+            {
+                if ((bool)TempData["bIsProductDeleted"] == true)
+                {
+                    <text>
+                        deleteItemSuccess();
+                    </text>
+                }
+            }
+              //IMPORT SUCCESS NOTIFICATION
+            if (TempData["bIsProductsImported"] != null)
+            {
+                if ((bool)TempData["bIsProductsImported"] == true)
+                {
+                    <text>
+                        importProductsSuccess();
+                    </text>
+                }
+                else if ((bool)TempData["bIsProductsImported"] == false)
+                {
+                    <text>
+                        importProductsNotSuccessful();
+                    </text>
+                }
+            }
+        }
+    }
+</script>
+<script>
+    function assignMainProduct() {
+        var mainProductID = $('#clsMainProducts_strStyleCode').val();
+        $('#clsProductAssociations_iMainProductCode').val(mainProductID);
+    }
+
+    function assignAssociatedProduct() {
+        var AssociatedProductID = $('#clsAssociatedProducts_strStyleCode').val();
+        $('#clsProductAssociations_iAssociatedProductCode').val(AssociatedProductID);
+    }
+
+    function assignAssociation() {
+        var AssociationID = $('#clsAssociations_iAssociationID').val();
+        $('#clsProductAssociations_iAssociationID').val(AssociationID);
+    }
+</script>

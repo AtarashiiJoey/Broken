@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Web;
 using Colmart;
 using Colmart.Models;
+using Colmart.View_Models;
 
 namespace Colmart.Model_Manager
 {
@@ -75,6 +76,43 @@ namespace Colmart.Model_Manager
                     clsProductSize.iQuantityAvailable = item.iQuantityAvailable;
                     clsProductSize.iProductID = item.iProductID;
                     clsProductSize.bIsDeleted = item.bIsDeleted;
+
+                    lstProductSizes.Add(clsProductSize);
+                }
+            }
+
+            return lstProductSizes;
+        }
+
+        //Get By ID
+        public List<clsProductSizes> getAllProductSizesListByID(int iProductID)
+        {
+            List<clsProductSizes> lstProductSizes = new List<clsProductSizes>();
+            var lstGetProductSizesList = db.tblProductSizes.Where(ProductSize => ProductSize.bIsDeleted == false && ProductSize.iQuantityAvailable != 0 && ProductSize.iProductID == iProductID).ToList();
+
+            if (lstGetProductSizesList.Count > 0)
+            {
+                //Manager
+                clsProductsManager clsProductsManager = new clsProductsManager();
+
+                foreach (var item in lstGetProductSizesList)
+                {
+                    clsProductSizes clsProductSize = new clsProductSizes();
+
+                    clsProductSize.iProductSizeID = item.iProductSizeID;
+                    clsProductSize.dtAdded = item.dtAdded;
+                    clsProductSize.iAddedBy = item.iAddedBy;
+                    clsProductSize.dtEdited = item.dtEdited;
+                    clsProductSize.iEditedBy = item.iEditedBy;
+
+                    clsProductSize.strSize = item.strSize;
+                    clsProductSize.dblPrice = item.dblPrice;
+                    clsProductSize.iQuantityAvailable = item.iQuantityAvailable;
+                    clsProductSize.iProductID = item.iProductID;
+                    clsProductSize.bIsDeleted = item.bIsDeleted;
+
+                    if (item.tblProducts != null)
+                        clsProductSize.clsProduct = clsProductsManager.convertProductsTableToClass(item.tblProducts);
 
                     lstProductSizes.Add(clsProductSize);
                 }
@@ -179,6 +217,26 @@ namespace Colmart.Model_Manager
         public clsProductSizes convertProductSizesTableToClass(tblProductSizes tblProductSize)
         {
             clsProductSizes clsProductSize = new clsProductSizes();
+
+            clsProductSize.iProductSizeID = tblProductSize.iProductSizeID;
+            clsProductSize.dtAdded = tblProductSize.dtAdded;
+            clsProductSize.iAddedBy = tblProductSize.iAddedBy;
+            clsProductSize.dtEdited = tblProductSize.dtEdited;
+            clsProductSize.iEditedBy = tblProductSize.iEditedBy;
+
+            clsProductSize.strSize = tblProductSize.strSize;
+            clsProductSize.dblPrice = tblProductSize.dblPrice;
+            clsProductSize.iQuantityAvailable = tblProductSize.iQuantityAvailable;
+            clsProductSize.iProductID = tblProductSize.iProductID;
+            clsProductSize.bIsDeleted = tblProductSize.bIsDeleted;
+
+            return clsProductSize;
+        }
+
+        //Convert database table to class
+        public clsProductSizesOrdered convertProductSizesOrderedTableToClass(tblProductSizes tblProductSize)
+        {
+            clsProductSizesOrdered clsProductSize = new clsProductSizesOrdered();
 
             clsProductSize.iProductSizeID = tblProductSize.iProductSizeID;
             clsProductSize.dtAdded = tblProductSize.dtAdded;

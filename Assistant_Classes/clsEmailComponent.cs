@@ -5,15 +5,15 @@ using System.Web;
 using System.Net.Mail;
 using System.Configuration;
 using System.Text;
-using System.Web.Configuration;
 
-namespace ColmartCMS.Assistant_Classes
+
+namespace Colmart.Assistant_Classes
 {
     public class clsEmailComponent
     {
         #region Mail Methods
 
-        public static void SendMail(string strFrom, string strTo, string strCC, string strBCC, string strSubject, string strContent, Attachment[] atcAttatchedFiles, bool bUseGenericHTML)
+        public static void SendMail(string strFrom, string strTo, string strCC, string strBCC, string strSubject, string strContent, Attachment[] atcAttatchedFiles, bool bUseGenericHTML, bool bRegister)
         {
             //### Create an instance of the MailMessage class 
             using (MailMessage myMail = new MailMessage())
@@ -24,6 +24,7 @@ namespace ColmartCMS.Assistant_Classes
                 //### Send To / From / BCC
                 myMail.From = new MailAddress(strFrom);
                 myMail.To.Add(strTo);
+                //ErrorLogging(strTo);
                 if ((strCC != "") && (strCC != null))
                     myMail.CC.Add(strCC);
                 if ((strBCC != "") && (strBCC != null))
@@ -47,8 +48,15 @@ namespace ColmartCMS.Assistant_Classes
                     strHtmlBody = SendMailGenericHTML(strContent, strSubject);
                 else
                     strHtmlBody += strContent;
-
-                string strPathToLogo = WebConfigurationManager.AppSettings["CMSDirectory"] + "Content\\images\\email\\Banner.png";
+                string strPathToLogo = "";
+                if (bRegister)
+                {
+                    strPathToLogo = AppDomain.CurrentDomain.BaseDirectory + @"\images\Register-Header.jpg";
+                }
+                else
+                {
+                    strPathToLogo = AppDomain.CurrentDomain.BaseDirectory + @"\images\Password-Header.jpg";
+                }
 
                 AlternateView HTMLEmail = AlternateView.CreateAlternateViewFromString(strHtmlBody, null, "text/html");
                 LinkedResource MyImage = new LinkedResource(strPathToLogo);
@@ -56,37 +64,39 @@ namespace ColmartCMS.Assistant_Classes
                 //### <img src="cid:InlineImageID" />
                 MyImage.ContentId = "logo";
 
-                //Other Resources
-                LinkedResource imgFacebook = new LinkedResource(WebConfigurationManager.AppSettings["CMSDirectory"] + "Content\\images\\email\\Social-Media\\imgFacebook.png");
-                imgFacebook.ContentId = "imgFacebook";
-                LinkedResource imgGooglePlus = new LinkedResource(WebConfigurationManager.AppSettings["CMSDirectory"] + "Content\\images\\email\\Social-Media\\imgGooglePlus.png");
-                imgGooglePlus.ContentId = "imgGooglePlus";
-                LinkedResource imgLinkdin = new LinkedResource(WebConfigurationManager.AppSettings["CMSDirectory"] + "Content\\images\\email\\Social-Media\\imgLinkdin.png");
-                imgLinkdin.ContentId = "imgLinkdin";
-                LinkedResource imgYouTube = new LinkedResource(WebConfigurationManager.AppSettings["CMSDirectory"] + "Content\\images\\email\\Social-Media\\imgYouTube.png");
-                imgYouTube.ContentId = "imgYouTube";
-                LinkedResource imgTwitter = new LinkedResource(WebConfigurationManager.AppSettings["CMSDirectory"] + "Content\\images\\email\\Social-Media\\imgTwitter.png");
-                imgTwitter.ContentId = "imgTwitter";
+                ////Other Resources
+                //LinkedResource imgFacebook = new LinkedResource(AppDomain.CurrentDomain.BaseDirectory + @"Content\images\Social-Media\imgFacebook.png");
+                //imgFacebook.ContentId = "imgFacebook";
+                //LinkedResource imgGooglePlus = new LinkedResource(AppDomain.CurrentDomain.BaseDirectory + @"Content\images\Social-Media\imgGooglePlus.png");
+                //imgGooglePlus.ContentId = "imgGooglePlus";
+                //LinkedResource imgLinkdin = new LinkedResource(AppDomain.CurrentDomain.BaseDirectory + @"Content\images\Social-Media\imgLinkdin.png");
+                //imgLinkdin.ContentId = "imgLinkdin";
+                //LinkedResource imgYouTube = new LinkedResource(AppDomain.CurrentDomain.BaseDirectory + @"Content\images\Social-Media\imgYouTube.png");
+                //imgYouTube.ContentId = "imgYouTube";
+                //LinkedResource imgTwitter = new LinkedResource(AppDomain.CurrentDomain.BaseDirectory + @"Content\images\Social-Media\imgTwitter.png");
+                //imgTwitter.ContentId = "imgTwitter";
 
 
                 //### Add this linked resource to HTML view
                 HTMLEmail.LinkedResources.Add(MyImage);
-                HTMLEmail.LinkedResources.Add(imgFacebook);
-                HTMLEmail.LinkedResources.Add(imgGooglePlus);
-                HTMLEmail.LinkedResources.Add(imgLinkdin);
-                HTMLEmail.LinkedResources.Add(imgYouTube);
-                HTMLEmail.LinkedResources.Add(imgTwitter);
+                //HTMLEmail.LinkedResources.Add(imgFacebook);
+                //HTMLEmail.LinkedResources.Add(imgGooglePlus);
+                //HTMLEmail.LinkedResources.Add(imgLinkdin);
+                //HTMLEmail.LinkedResources.Add(imgYouTube);
+                //HTMLEmail.LinkedResources.Add(imgTwitter);
 
                 myMail.AlternateViews.Add(HTMLEmail);
 
                 //### Password protected
-                SmtpClient emailClient = new SmtpClient(ConfigurationManager.AppSettings["SMTP"]);
-                emailClient.Port = Convert.ToInt32(ConfigurationManager.AppSettings["Port"]);
-                emailClient.Credentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings["EmailAddress"], ConfigurationManager.AppSettings["EmailPassword"]);
+                using (SmtpClient emailClient = new SmtpClient(ConfigurationManager.AppSettings["SMTP"]))
+                {
+                    emailClient.Port = Convert.ToInt32(ConfigurationManager.AppSettings["Port"]);
+                    emailClient.Credentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings["EmailAddress"], ConfigurationManager.AppSettings["EmailPassword"]);
+                    //### Now, to send the message, use the Send method of the SmtpMail class 
+                    emailClient.Send(myMail);
 
-                //### Now, to send the message, use the Send method of the SmtpMail class 
-                emailClient.Send(myMail);
-                myMail.Dispose();
+
+                }
             }
         }
 
@@ -95,6 +105,19 @@ namespace ColmartCMS.Assistant_Classes
             StringBuilder strbMailBuilder = new StringBuilder();
 
             strbMailBuilder.AppendLine("<html xmlns='http://www.w3.org/1999/xhtml'><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\"><title>" + strSubject + "</title>");
+
+            strbMailBuilder.AppendLine("<!--[if (gte mso 9)|(IE)]>");
+            strbMailBuilder.AppendLine("<style type='text/css'>");
+            strbMailBuilder.AppendLine("[style*='Arial'] {font-family: 'Poppins',Century Gothic, sans-serif !important}");
+            strbMailBuilder.AppendLine("</style>");
+            strbMailBuilder.AppendLine("<![endif]-->");
+
+            strbMailBuilder.AppendLine("<!--[if mso]>");
+            strbMailBuilder.AppendLine("<style type='text/css'>");
+            strbMailBuilder.AppendLine(".pc-fallback-font {font-family: 'Poppins',Century Gothic, sans-serif !important}");
+            strbMailBuilder.AppendLine(".pc-bold-font {font-weight:bold;}");
+            strbMailBuilder.AppendLine("</style>");
+            strbMailBuilder.AppendLine("<![endif]-->");
 
             strbMailBuilder.AppendLine("<style type='text/css'>");
             strbMailBuilder.AppendLine("/* Client-specific Styles */");
@@ -108,8 +131,8 @@ namespace ColmartCMS.Assistant_Classes
             strbMailBuilder.AppendLine("a img {border:none;}");
             strbMailBuilder.AppendLine(".image_fix {display:block;}");
             strbMailBuilder.AppendLine("p {margin: 0px 0px !important;}");
-            strbMailBuilder.AppendLine("h1, h2, h3, h4, h5, h6 {color: #4471b8 !important;}");
-            strbMailBuilder.AppendLine("h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {color: #33cc66 !important;}");
+            strbMailBuilder.AppendLine("h1, h2, h3, h4, h5, h6 {color: #000000 !important;}");
+            strbMailBuilder.AppendLine("h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {color: #000000 !important;}");
             strbMailBuilder.AppendLine("h1 a:active, h2 a:active,  h3 a:active, h4 a:active, h5 a:active, h6 a:active {");
             strbMailBuilder.AppendLine("color: red !important; ");
             strbMailBuilder.AppendLine("}");
@@ -118,7 +141,7 @@ namespace ColmartCMS.Assistant_Classes
             strbMailBuilder.AppendLine("}");
             strbMailBuilder.AppendLine("table td {border-collapse: collapse;}");
             strbMailBuilder.AppendLine("table { border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; }");
-            strbMailBuilder.AppendLine("a {color: #33cc66;text-decoration: none;text-decoration:none!important;}");
+            strbMailBuilder.AppendLine("a {color: #000000;text-decoration: underline;text-decoration:underline!important;}");
             strbMailBuilder.AppendLine("/*STYLES*/");
             strbMailBuilder.AppendLine("table[class=full] { width: 100%; clear: both; }");
             strbMailBuilder.AppendLine("table[class=button] {");
@@ -132,13 +155,13 @@ namespace ColmartCMS.Assistant_Classes
             strbMailBuilder.AppendLine("@media only screen and (max-width: 640px) {");
             strbMailBuilder.AppendLine("a[href^='tel'], a[href^='sms'] {");
             strbMailBuilder.AppendLine("text-decoration: none;");
-            strbMailBuilder.AppendLine("color: #33cc66; /* or whatever your want */");
+            strbMailBuilder.AppendLine("color: #2d98da; /* or whatever your want */");
             strbMailBuilder.AppendLine("pointer-events: none;");
             strbMailBuilder.AppendLine("cursor: default;");
             strbMailBuilder.AppendLine("}");
             strbMailBuilder.AppendLine(".mobile_link a[href^='tel'], .mobile_link a[href^='sms'] {");
             strbMailBuilder.AppendLine("text-decoration: default;");
-            strbMailBuilder.AppendLine("color: #33cc66 !important;");
+            strbMailBuilder.AppendLine("color: #2d98da !important;");
             strbMailBuilder.AppendLine("pointer-events: auto;");
             strbMailBuilder.AppendLine("cursor: default;");
             strbMailBuilder.AppendLine("}");
@@ -156,13 +179,13 @@ namespace ColmartCMS.Assistant_Classes
             strbMailBuilder.AppendLine("@media only screen and (max-width: 480px) {");
             strbMailBuilder.AppendLine("a[href^='tel'], a[href^='sms'] {");
             strbMailBuilder.AppendLine("text-decoration: none;");
-            strbMailBuilder.AppendLine("color: #33cc66; /* or whatever your want */");
+            strbMailBuilder.AppendLine("color: #2d98da; /* or whatever your want */");
             strbMailBuilder.AppendLine("pointer-events: none;");
             strbMailBuilder.AppendLine("cursor: default;");
             strbMailBuilder.AppendLine("}");
             strbMailBuilder.AppendLine(".mobile_link a[href^='tel'], .mobile_link a[href^='sms'] {");
             strbMailBuilder.AppendLine("text-decoration: default;");
-            strbMailBuilder.AppendLine("color: #33cc66 !important; ");
+            strbMailBuilder.AppendLine("color: #2d98da !important; ");
             strbMailBuilder.AppendLine("pointer-events: auto;");
             strbMailBuilder.AppendLine("cursor: default;");
             strbMailBuilder.AppendLine("}");
@@ -190,19 +213,19 @@ namespace ColmartCMS.Assistant_Classes
             strbMailBuilder.AppendLine("<table width='60%' bgcolor='#ffffff' cellpadding='0' cellspacing='0' border='0' align='center' class='devicewidth' nobg=''>");
             strbMailBuilder.AppendLine("<tbody>");
 
-            strbMailBuilder.AppendLine("<tr>");
-            strbMailBuilder.AppendLine("<td>");
-            strbMailBuilder.AppendLine("<table style='width:100%; background-color:#f5f5f5;' cellpadding='0' cellspacing='0' border='0' align='center' class='devicewidth' nobg=''>");
-            strbMailBuilder.AppendLine("<tbody>");
-            strbMailBuilder.AppendLine("<tr>");
-            strbMailBuilder.AppendLine("<td align='center' valign='middle' style='font-family: Helvetica, sans-serif;font-size: 13px;color: #666666' text=''>");
-            strbMailBuilder.AppendLine("Can't see this email? <a href='#' style='text-transform: uppercase; text-decoration:underline; color: #33cc66; font-size:12px;' link='#' hlite=''>View it Online</a>");
-            strbMailBuilder.AppendLine("</td>");
-            strbMailBuilder.AppendLine("</tr>");
-            strbMailBuilder.AppendLine("</tbody>");
-            strbMailBuilder.AppendLine("</table>");
-            strbMailBuilder.AppendLine("</td>");
-            strbMailBuilder.AppendLine("</tr>");
+            //strbMailBuilder.AppendLine("<tr>");
+            //strbMailBuilder.AppendLine("<td>");
+            //strbMailBuilder.AppendLine("<table style='width:100%; background-color:#f5f5f5;' cellpadding='0' cellspacing='0' border='0' align='center' class='devicewidth' nobg=''>");
+            //strbMailBuilder.AppendLine("<tbody>");
+            //strbMailBuilder.AppendLine("<tr>");
+            //strbMailBuilder.AppendLine("<td align='center' valign='middle' style='font-family: Helvetica, sans-serif;font-size: 13px;color: #666666' text=''>");
+            //strbMailBuilder.AppendLine("Can't see this email? <a href='#' style='text-transform: uppercase; text-decoration:underline; color: #2d98da; font-size:12px;' link='#' hlite=''>View it Online</a>");
+            //strbMailBuilder.AppendLine("</td>");
+            //strbMailBuilder.AppendLine("</tr>");
+            //strbMailBuilder.AppendLine("</tbody>");
+            //strbMailBuilder.AppendLine("</table>");
+            //strbMailBuilder.AppendLine("</td>");
+            //strbMailBuilder.AppendLine("</tr>");
 
             strbMailBuilder.AppendLine("<tr>");
             strbMailBuilder.AppendLine("<td>");
@@ -210,7 +233,7 @@ namespace ColmartCMS.Assistant_Classes
             strbMailBuilder.AppendLine("<tbody>");
             strbMailBuilder.AppendLine("<tr>");
             strbMailBuilder.AppendLine("<td valign='middle' align='center'>");
-            strbMailBuilder.AppendLine("<a href='http://www.softservedigital.co.za'><img src=\"cid:logo\" alt='logo' border='0' style='display:block; border:none; outline:none; text-decoration:none;'></a>");
+            strbMailBuilder.AppendLine("<a href='#'><img src=\"cid:logo\" alt='logo' border='0' style='display:block; border:none; outline:none; text-decoration:none;'></a>");
             strbMailBuilder.AppendLine("</td>");
             strbMailBuilder.AppendLine("</tr>");
             strbMailBuilder.AppendLine("</tbody>");
@@ -234,7 +257,7 @@ namespace ColmartCMS.Assistant_Classes
             strbMailBuilder.AppendLine("</tr>");
             strbMailBuilder.AppendLine("<!-- End Spacing -->");
 
-            strbMailBuilder.AppendLine("<tr>");
+            strbMailBuilder.AppendLine("<tr style='PADDING-LEFT: 80px;PADDING-RIGHT: 80px;'>");
             strbMailBuilder.AppendLine("<td>");
             strbMailBuilder.AppendLine(strContent);
             strbMailBuilder.AppendLine("</td>");
@@ -264,12 +287,12 @@ namespace ColmartCMS.Assistant_Classes
             strbMailBuilder.AppendLine("<tr>");
             strbMailBuilder.AppendLine("<td align='center' valign='top'>");
             strbMailBuilder.AppendLine("<!-- Start Module -->");
-            strbMailBuilder.AppendLine("<table bgcolor='#4471b8' width='100%' cellpadding='0' cellspacing='0' border='0' align='center' class='devicewidth' options='' hlitebg=''>");
+            strbMailBuilder.AppendLine("<table bgcolor='#000000' width='100%' cellpadding='0' cellspacing='0' border='0' align='center' class='devicewidth' options='' hlitebg=''>");
             strbMailBuilder.AppendLine("<tbody>");
             strbMailBuilder.AppendLine("<tr>");
             strbMailBuilder.AppendLine("<td>");
             strbMailBuilder.AppendLine("<!-- Left Column -->");
-            strbMailBuilder.AppendLine("<table width='370' align='left' cellspacing='0' cellpadding='0' class='devicewidth'>");
+            strbMailBuilder.AppendLine("<table width='800' align='center' cellspacing='0' cellpadding='0' class='devicewidth'>");
             strbMailBuilder.AppendLine("<tbody>");
             strbMailBuilder.AppendLine("<tr>");
             strbMailBuilder.AppendLine("<td height='100'>");
@@ -278,8 +301,8 @@ namespace ColmartCMS.Assistant_Classes
             strbMailBuilder.AppendLine("<!-- content -->");
             strbMailBuilder.AppendLine("<tr>");
             strbMailBuilder.AppendLine("<td></td>");
-            strbMailBuilder.AppendLine("<td height='60' valign='middle' style='font-family: Ubuntu;font-size: 16px; color: #ffffff; text-align:center;line-height: 30px; text-transform:uppercase;'>");
-            strbMailBuilder.AppendLine("Looking For Our Client Portal?");
+            strbMailBuilder.AppendLine("<td class='pc-fallback-font' height='60' valign='middle' style='font-size: 16px; color: #ffffff; text-align:center;line-height: 30px; text-transform:uppercase;'>");
+            strbMailBuilder.AppendLine("COPYRIGHT ROLANDO 2018. ALL RIGHTS RESERVED.");
             strbMailBuilder.AppendLine("</td>");
             strbMailBuilder.AppendLine("<td width='20'></td>");
             strbMailBuilder.AppendLine("</tr>");
@@ -291,35 +314,6 @@ namespace ColmartCMS.Assistant_Classes
             strbMailBuilder.AppendLine("</tbody>");
             strbMailBuilder.AppendLine("</table>");
             strbMailBuilder.AppendLine("<!-- Right Column -->");
-            strbMailBuilder.AppendLine("<table width='220' align='right' cellspacing='0' cellpadding='0' class='devicewidth'>");
-            strbMailBuilder.AppendLine("<tbody>");
-            strbMailBuilder.AppendLine("<tr>");
-            strbMailBuilder.AppendLine("<td height='100'>");
-            strbMailBuilder.AppendLine("<!-- button -->");
-            strbMailBuilder.AppendLine("<table bgcolor='#ffffff' border='0' width='180' height='30' align='center' valign='middle' cellpadding='0' cellspacing='0'>");
-            strbMailBuilder.AppendLine("<tbody>");
-            strbMailBuilder.AppendLine("<!-- Spacing -->");
-            strbMailBuilder.AppendLine("<tr>");
-            strbMailBuilder.AppendLine("<td height='10' style='font-size:1px;line-height:1px;'>&nbsp;</td>");
-            strbMailBuilder.AppendLine("</tr>");
-            strbMailBuilder.AppendLine("<!-- Spacing -->");
-            strbMailBuilder.AppendLine("<tr>");
-            strbMailBuilder.AppendLine("<td align='center' valign='middle' style='font-family: Helvetica, Arial, sans-serif;font-size: 12px; font-weight:bold;color: #33cc66; text-align:center;line-height: 15px;'>");
-            strbMailBuilder.AppendLine("    <a style='color: #4db8ec; text-align:center;text-transform: uppercase;' href='" + ConfigurationManager.AppSettings["WebRoot"] + "Login.aspx' hlite=''>Click Here</a>");
-            strbMailBuilder.AppendLine("</td>");
-            strbMailBuilder.AppendLine("</tr>");
-            strbMailBuilder.AppendLine("<!-- Spacing -->");
-            strbMailBuilder.AppendLine("<tr>");
-            strbMailBuilder.AppendLine("<td height='10' style='font-size:1px;line-height:1px;'>&nbsp;</td>");
-            strbMailBuilder.AppendLine("</tr>");
-            strbMailBuilder.AppendLine("<!-- Spacing -->");
-            strbMailBuilder.AppendLine("</tbody>");
-            strbMailBuilder.AppendLine("</table>");
-            strbMailBuilder.AppendLine("<!-- /button -->");
-            strbMailBuilder.AppendLine("</td>");
-            strbMailBuilder.AppendLine("</tr>");
-            strbMailBuilder.AppendLine("</tbody>");
-            strbMailBuilder.AppendLine("</table>");
             strbMailBuilder.AppendLine("</td>");
             strbMailBuilder.AppendLine("</tr>");
             strbMailBuilder.AppendLine("<!--  Spacing -->");
@@ -334,55 +328,55 @@ namespace ColmartCMS.Assistant_Classes
             strbMailBuilder.AppendLine("</td>");
             strbMailBuilder.AppendLine("</tr>");
 
-            strbMailBuilder.AppendLine("<tr bgcolor='#ffffff'>");
-            strbMailBuilder.AppendLine("<td>");
-            strbMailBuilder.AppendLine("<table width='160' height='70' cellpadding='0' cellspacing='0' border='0' align='right' class='emhide'>");
-            strbMailBuilder.AppendLine("<tbody>");
-            strbMailBuilder.AppendLine("<tr>");
-            strbMailBuilder.AppendLine("<td height='70' align='center' valign='middle' class='devicewidth'>");
-            strbMailBuilder.AppendLine("<a href='https://www.facebook.com/softservedigitaldevelopment' style='text-decoration: none; color: #3e454c;'>");
-            strbMailBuilder.AppendLine("<img src=\"cid:imgFacebook\" alt='Facebook' border='0' style='display:block; border:none; outline:none; text-decoration:none;'/>");
-            strbMailBuilder.AppendLine("</a>");
-            strbMailBuilder.AppendLine("</td>");
-            strbMailBuilder.AppendLine("<td height='70' align='center' valign='middle' class='devicewidth'>");
-            strbMailBuilder.AppendLine("<a href='https://plus.google.com/+SoftservedigitalCoZa/about' style='text-decoration: none; color: #3e454c;'>");
-            strbMailBuilder.AppendLine("<img src=\"cid:imgGooglePlus\" alt='Google+' border='0' style='display:block; border:none; outline:none; text-decoration:none;'>");
-            strbMailBuilder.AppendLine("</a>");
-            strbMailBuilder.AppendLine("</td>");
-            strbMailBuilder.AppendLine("<td height='70' align='center' valign='middle' class='devicewidth'>");
-            strbMailBuilder.AppendLine("<a href='https://www.linkedin.com/company/softserve-digital-development' style='text-decoration: none; color: #3e454c;'>");
-            strbMailBuilder.AppendLine("<img src=\"cid:imgLinkdin\" alt='Linkdin' border='0' style='display:block; border:none; outline:none; text-decoration:none;'>");
-            strbMailBuilder.AppendLine("</a>");
-            strbMailBuilder.AppendLine("</td>");
-            strbMailBuilder.AppendLine("<td height='70' align='center' valign='middle' class='devicewidth'>");
-            strbMailBuilder.AppendLine("<a href='https://www.youtube.com/channel/UCCyqGtSxmvLDldp2EmJdujw' style='text-decoration: none; color: #3e454c;'>");
-            strbMailBuilder.AppendLine("<img src=\"cid:imgYouTube\" alt='YouTube' border='0' style='display:block; border:none; outline:none; text-decoration:none;'>");
-            strbMailBuilder.AppendLine("</a>");
-            strbMailBuilder.AppendLine("</td>");
-            strbMailBuilder.AppendLine("<td height='70' align='center' valign='middle' class='devicewidth'>");
-            strbMailBuilder.AppendLine("<a href='https://twitter.com/HelloSoftserve' style='text-decoration: none; color: #3e454c;'>");
-            strbMailBuilder.AppendLine("<img src=\"cid:imgTwitter\" alt='YouTube' border='0' style='display:block; border:none; outline:none; text-decoration:none;'>");
-            strbMailBuilder.AppendLine("</a>");
-            strbMailBuilder.AppendLine("</td>");
-            strbMailBuilder.AppendLine("</tr>");
-            strbMailBuilder.AppendLine("</tbody>");
-            strbMailBuilder.AppendLine("</table>");
-            strbMailBuilder.AppendLine("</td>");
-            strbMailBuilder.AppendLine("</tr>");
+            //strbMailBuilder.AppendLine("<tr bgcolor='#ffffff'>");
+            //strbMailBuilder.AppendLine("<td>");
+            //strbMailBuilder.AppendLine("<table width='160' height='70' cellpadding='0' cellspacing='0' border='0' align='right' class='emhide'>");
+            //strbMailBuilder.AppendLine("<tbody>");
+            //strbMailBuilder.AppendLine("<tr>");
+            //strbMailBuilder.AppendLine("<td height='70' align='center' valign='middle' class='devicewidth'>");
+            //strbMailBuilder.AppendLine("<a href='https://www.facebook.com/softservedigitaldevelopment' style='text-decoration: none; color: #3e454c;'>");
+            //strbMailBuilder.AppendLine("<img src=\"cid:imgFacebook\" alt='Facebook' border='0' style='display:block; border:none; outline:none; text-decoration:none;'/>");
+            //strbMailBuilder.AppendLine("</a>");
+            //strbMailBuilder.AppendLine("</td>");
+            //strbMailBuilder.AppendLine("<td height='70' align='center' valign='middle' class='devicewidth'>");
+            //strbMailBuilder.AppendLine("<a href='https://plus.google.com/+SoftservedigitalCoZa/about' style='text-decoration: none; color: #3e454c;'>");
+            //strbMailBuilder.AppendLine("<img src=\"cid:imgGooglePlus\" alt='Google+' border='0' style='display:block; border:none; outline:none; text-decoration:none;'>");
+            //strbMailBuilder.AppendLine("</a>");
+            //strbMailBuilder.AppendLine("</td>");
+            //strbMailBuilder.AppendLine("<td height='70' align='center' valign='middle' class='devicewidth'>");
+            //strbMailBuilder.AppendLine("<a href='https://www.linkedin.com/company/softserve-digital-development' style='text-decoration: none; color: #3e454c;'>");
+            //strbMailBuilder.AppendLine("<img src=\"cid:imgLinkdin\" alt='Linkdin' border='0' style='display:block; border:none; outline:none; text-decoration:none;'>");
+            //strbMailBuilder.AppendLine("</a>");
+            //strbMailBuilder.AppendLine("</td>");
+            //strbMailBuilder.AppendLine("<td height='70' align='center' valign='middle' class='devicewidth'>");
+            //strbMailBuilder.AppendLine("<a href='https://www.youtube.com/channel/UCCyqGtSxmvLDldp2EmJdujw' style='text-decoration: none; color: #3e454c;'>");
+            //strbMailBuilder.AppendLine("<img src=\"cid:imgYouTube\" alt='YouTube' border='0' style='display:block; border:none; outline:none; text-decoration:none;'>");
+            //strbMailBuilder.AppendLine("</a>");
+            //strbMailBuilder.AppendLine("</td>");
+            //strbMailBuilder.AppendLine("<td height='70' align='center' valign='middle' class='devicewidth'>");
+            //strbMailBuilder.AppendLine("<a href='https://twitter.com/HelloSoftserve' style='text-decoration: none; color: #3e454c;'>");
+            //strbMailBuilder.AppendLine("<img src=\"cid:imgTwitter\" alt='YouTube' border='0' style='display:block; border:none; outline:none; text-decoration:none;'>");
+            //strbMailBuilder.AppendLine("</a>");
+            //strbMailBuilder.AppendLine("</td>");
+            //strbMailBuilder.AppendLine("</tr>");
+            //strbMailBuilder.AppendLine("</tbody>");
+            //strbMailBuilder.AppendLine("</table>");
+            //strbMailBuilder.AppendLine("</td>");
+            //strbMailBuilder.AppendLine("</tr>");
 
-            strbMailBuilder.AppendLine("<tr>");
-            strbMailBuilder.AppendLine("<td>");
-            strbMailBuilder.AppendLine("<table width='100%' bgcolor='#fff' cellpadding='0' cellspacing='0' border='0' align='center' class='devicewidth' nobg=''>");
-            strbMailBuilder.AppendLine("<tbody>");
-            strbMailBuilder.AppendLine("<tr>");
-            strbMailBuilder.AppendLine("<td align='center' valign='middle' style='font-family: Helvetica, Arial, sans-serif;font-size: 13px;color: #6c7480;line-height:20px;' text='postfooter'>");
-            strbMailBuilder.AppendLine("You're receiving this email because you subscribed for updates - <a href='#' style='text-transform: uppercase; text-decoration:underline; color: #33cc66; font-size:12px;' hlite=''>Unsubscribe</a>");
-            strbMailBuilder.AppendLine("</td>");
-            strbMailBuilder.AppendLine("</tr>");
-            strbMailBuilder.AppendLine("</tbody>");
-            strbMailBuilder.AppendLine("</table>");
-            strbMailBuilder.AppendLine("</td>");
-            strbMailBuilder.AppendLine("</tr>");
+            //strbMailBuilder.AppendLine("<tr>");
+            //strbMailBuilder.AppendLine("<td>");
+            //strbMailBuilder.AppendLine("<table width='100%' bgcolor='#fff' cellpadding='0' cellspacing='0' border='0' align='center' class='devicewidth' nobg=''>");
+            //strbMailBuilder.AppendLine("<tbody>");
+            //strbMailBuilder.AppendLine("<tr>");
+            //strbMailBuilder.AppendLine("<td align='center' valign='middle' style='font-family: Helvetica, Arial, sans-serif;font-size: 13px;color: #6c7480;line-height:20px;' text='postfooter'>");
+            //strbMailBuilder.AppendLine("You're receiving this email because you subscribed for updates - <a href='#' style='text-transform: uppercase; text-decoration:underline; color: #2d98da; font-size:12px;' hlite=''>Unsubscribe</a>");
+            //strbMailBuilder.AppendLine("</td>");
+            //strbMailBuilder.AppendLine("</tr>");
+            //strbMailBuilder.AppendLine("</tbody>");
+            //strbMailBuilder.AppendLine("</table>");
+            //strbMailBuilder.AppendLine("</td>");
+            //strbMailBuilder.AppendLine("</tr>");
 
             strbMailBuilder.AppendLine("</tbody>");
             strbMailBuilder.AppendLine("</table>");
