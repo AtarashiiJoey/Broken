@@ -4,6 +4,7 @@ using Colmart.Models;
 using ColmartCMS.View_Models.Products;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -147,6 +148,7 @@ namespace ColmartCMS.Controllers
         [HttpPost]
         public async Task<ActionResult> ProductsImport()
         {
+            var productListLength = 0;
             //Redirect to login if null session exists
             if (Session["clsCMSUser"] == null)
                 return RedirectToAction("Login", "Account");
@@ -183,6 +185,7 @@ namespace ColmartCMS.Controllers
                             XmlNodeList xmlnStyleCode = xmlnProduct.SelectNodes("StyleCode");
                             if (xmlnProductDesc.Count > 0 && xmlnStyleCode.Count > 0)
                             {
+                                productListLength = (int)lstProducts.Count;
                                 if (lstProducts.Any(Product => Product.strStyleCode.ToLower() == xmlnStyleCode[0].InnerText.ToLower() && Product.bIsDeleted == false))
                                     continue;
 
@@ -272,7 +275,7 @@ namespace ColmartCMS.Controllers
                 TempData["bIsProductsImported"] = true;
             else
                 TempData["bIsProductsImported"] = false;
-
+            Debug.WriteLine($"{productListLength.ToString()}products from external DB updated successfully");
             return Json(new { bIsSuccess = bIsSuccess }, JsonRequestBehavior.AllowGet);
         }
 
