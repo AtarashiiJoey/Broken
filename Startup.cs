@@ -25,13 +25,13 @@ namespace Colmart
             var timeMinutes = 15;
             var timeSeconds = 0;
             _timer = new System.Timers.Timer(1000 * ((timeMinutes * 60) + (timeSeconds))); // 5.5 minutes
-            _timer.Elapsed += timer_Elapsed;
+            _timer.Elapsed += PollDataFromColmart;
             _timer.Enabled = true;
             Debug.WriteLine("Timer has started");
             #endregion
         }
-
-        public async void timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        #region Polling action from timer
+        public async void PollDataFromColmart(object sender, System.Timers.ElapsedEventArgs e)
         {
             var timeSinceStart = DateTime.Now - _startTime;
 
@@ -43,5 +43,6 @@ namespace Colmart
                         $"\r\nTime:{DateTime.Now.ToLocalTime()}" +
                         $"\r\nTotal uptime:{(int)Math.Floor(timeSinceStart.TotalSeconds)}\r\n");
         }
+        #endregion
     }
 }
