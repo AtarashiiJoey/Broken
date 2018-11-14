@@ -3,8 +3,6 @@ using Microsoft.Owin;
 using Owin;
 using System;
 using System.Diagnostics;
-using System.Threading.Tasks;
-using System.Web.Mvc;
 
 [assembly: OwinStartup(typeof(Colmart.Startup))]
 namespace Colmart
@@ -35,13 +33,13 @@ namespace Colmart
         {
             var timeSinceStart = DateTime.Now - _startTime;
 
-            ProductsController pc = new ProductsController();
-            var fromProducts = await pc.ProductsImport();
+            var pc = new ProductsController();
+            await pc.ProductsImport();
 
             Debug.Write($"New poll: " +
                         $"\r\nDate:{DateTime.Today.ToLongDateString()}" +
                         $"\r\nTime:{DateTime.Now.ToLocalTime()}" +
-                        $"\r\nTotal uptime:{(int)Math.Floor(timeSinceStart.TotalSeconds)}\r\n");
+                        $"\r\nTotal up-time:{(int)Math.Floor(timeSinceStart.TotalSeconds)}\r\n");
         }
         #endregion
     }
