@@ -2,15 +2,8 @@
 using Microsoft.Owin;
 using Owin;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Web.Mvc;
-using System.Xml;
-using Colmart.Models;
-using Colmart.Model_Manager;
+using System.IO;
 
 [assembly: OwinStartup(typeof(Colmart.Startup))]
 namespace Colmart
@@ -20,6 +13,7 @@ namespace Colmart
         #region Polling timer setup
         private System.Timers.Timer _timer;
         private DateTime _startTime;
+        private string path = @"C:\Users\Dev-2018-Oct-PC\AppData\Roaming\Colmart\Log.txt";
         ProductsController pcCMS = new ProductsController();
         #endregion
 
@@ -29,12 +23,28 @@ namespace Colmart
 
             #region Timer startup, run, and check
             _startTime = DateTime.Now;
-            var timeMinutes = 15;
+            var timeMinutes = 5;
             var timeSeconds = 0;
             _timer = new System.Timers.Timer(1000 * ((timeMinutes * 60) + (timeSeconds))); // 5.5 minutes
             _timer.Elapsed += PollDataFromColmart;
             _timer.Enabled = true;
-            Debug.WriteLine("Timer has started");
+            if (!File.Exists(path))
+            {
+                File.Create(path).Dispose();
+
+                using (TextWriter tw = new StreamWriter(path))
+                {
+                    tw.WriteLine("Colmart Polling log:");
+                }
+            }
+            else if (File.Exists(path))
+            {
+                using (var tw = new StreamWriter(path, true))
+                {
+                    tw.WriteLine($"{DateTime.Now} : Timer has started");
+                }
+            }
+            Debug.WriteLine($"{DateTime.Now} : Timer has started");
             #endregion
         }
         #region Polling action from timer
@@ -42,11 +52,23 @@ namespace Colmart
         {
             var timeSinceStart = DateTime.Now - _startTime;
             await pcCMS.ProductsImport();
+            if (!File.Exists(path))
+            {
+                File.Create(path).Dispose();
 
-            Debug.Write($"New poll: " +
-                        $"\r\nDate:{DateTime.Today.ToLongDateString()}" +
-                        $"\r\nTime:{DateTime.Now.ToLocalTime()}" +
-                        $"\r\nTotal up-time:{(int)Math.Floor(timeSinceStart.TotalSeconds)}\r\n");
+                using (TextWriter tw = new StreamWriter(path))
+                {
+                    tw.WriteLine("Colmart Polling log:");
+                }
+            }
+            else if (File.Exists(path))
+            {
+                using (var tw = new StreamWriter(path, true))
+                {
+                    tw.WriteLine($"{DateTime.Now} : New poll - ");
+                    tw.WriteLine($"{DateTime.Now} : Total up-time {(int)Math.Floor(timeSinceStart.TotalSeconds)} seconds");
+                }
+            }
         }
         #endregion
     }

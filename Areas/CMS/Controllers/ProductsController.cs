@@ -5,6 +5,7 @@ using ColmartCMS.View_Models.Products;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -16,6 +17,8 @@ namespace ColmartCMS.Controllers
     public class ProductsController : Controller
     {
         ColmartDBContext db = new ColmartDBContext();
+
+        private string path = @"C:\Users\Dev-2018-Oct-PC\AppData\Roaming\Colmart\Log.txt";
 
         // GET: Products
         public ActionResult ProductsView()
@@ -276,7 +279,23 @@ namespace ColmartCMS.Controllers
                 TempData["bIsProductsImported"] = true;
             else
                 TempData["bIsProductsImported"] = false;
-            Debug.WriteLine($"{productListLength.ToString()}products from external DB updated successfully");
+            if (!System.IO.File.Exists(path))
+            {
+                System.IO.File.Create(path).Dispose();
+
+                using (TextWriter tw = new StreamWriter(path))
+                {
+                    tw.WriteLine("Colmart Polling log:");
+                }
+            }
+            else if (System.IO.File.Exists(path))
+            {
+                using (var tw = new StreamWriter(path, true))
+                {
+                    tw.WriteLine(
+                        $"{DateTime.Now} : {productListLength.ToString()} products from external DB updated successfully");
+                }
+            }
             return Json(new { bIsSuccess = bIsSuccess }, JsonRequestBehavior.AllowGet);
         }
 

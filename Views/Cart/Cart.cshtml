@@ -208,8 +208,8 @@
             var sizes = this.lstProductSizes;
             $.each(sizes, function () {
                 var spinner = $("#" + this.iProductSizeID).spinner();
-            })
-        })
+            });
+        });
     })
 </script>
 <!-- Update Cart -->
@@ -227,8 +227,8 @@
                 if (iSpinnerValue != null && iSpinnerValue != 0) {
                     cartArray.push({ 'iProductID': iProductID, 'iCartProductID': this.iProductSizeID, 'iProductValue': iSpinnerValue, 'iStockAvailable': this.iQuantityAvailable, 'strStyleCode': styleCode });
                 }
-            })
-        })
+            });
+        });
         console.log(cartArray);
         $.ajax({
             type: "POST",
@@ -243,11 +243,11 @@
                         var spinner = $("#" + this.iProductSizeID).spinner();
                         var spinnerValue = this.iQuantityOrderded;
                         spinner.spinner("value", spinnerValue);
-                    })
-                })
+                    });
+                });
             },
             error: function () { alert('A error'); }
-        })
+        });
     }
 </script>
 <!-- Clear Cart -->
@@ -259,9 +259,9 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
-                window.location = "cart/cart"
+                window.location = "cart/cart";
             },
             error: function () { alert('A error'); }
-        })
+        });
     }
 </script>
