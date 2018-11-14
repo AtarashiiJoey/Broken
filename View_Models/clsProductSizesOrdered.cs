@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Colmart.Models;
+using System;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
-using Colmart.Models;
 
 
 namespace Colmart.View_Models
 {
+    /// <summary>
+    /// Model and properties for clsProductSizesOrdered
+    /// </summary>
     public class clsProductSizesOrdered
     {
         public int iProductSizeID { get; set; }

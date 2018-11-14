@@ -15,16 +15,21 @@ using System.Security.Cryptography;
 using Encoder = System.Text.Encoder;
 
 
-/// <summary>
-/// Summary description for clsCommonFunctions
-/// </summary>
-/// 
+
 namespace ColmartCMS.Assistant_Classes
 {
+    /// <summary>
+    /// Common usage methods
+    /// </summary>
     public class clsCommonFunctions
     {
         #region Password Methods
 
+        /// <summary>
+        /// Password generation function
+        /// </summary>
+        /// <param name="iPasswordLength"></param>
+        /// <returns>a string of letters and numbers length of iPasswordLength</returns>
         public static string strCreateRandomPassword(int iPasswordLength)
         {
             string strAllowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";

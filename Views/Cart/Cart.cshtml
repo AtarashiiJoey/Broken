@@ -1,4 +1,5 @@
-﻿@model  IEnumerable<Colmart.View_Models.clsCart>
+﻿@using System.Diagnostics.Eventing.Reader
+@model  IEnumerable<Colmart.View_Models.clsCart>
 
 @{
     Layout = "~/Views/Shared/_ColmartLayout.cshtml";
@@ -22,75 +23,84 @@
 <div class="cart-main-area ptb-80">
     <div class="container">
         <form action="#">
-            <div class="cart-table table-responsive">
-                <table>
-                    <thead>
-                        <tr>
-                            <th class="p-image"></th>
-                            <th class="p-name">Product Name</th>
-                            <th class="p-amount">Unit Size</th>
-                            <th class="p-quantity">Qty Ordered</th>
-                            <th class="p-total">Unit Price</th>
-                            <th class="p-total">Sub Total</th>
-                            <th class="p-edit">Edit</th>
-                        </tr>
-                    </thead>
-                    @foreach (var item in Model)
-                    {
-
-                        <tbody>
+            @if (!Model.Any())
+            {
+                <div>
+                    <h1>Add items to your cart to see this section</h1>
+                </div>
+            }
+            else
+            {
+                <div class="cart-table table-responsive">
+                    <table>
+                        <thead>
                             <tr>
-                                <td class="p-image">
-                                    <a href="product-details.html"><img alt="" src="@item.strImageURL"></a>
-                                </td>
-                                <td class="p-name"><a href="product-details.html">@item.strTitle</a></td>
-                                <td id="clothingSize">
-                                    @foreach (var size in item.lstProductSizes)
-                                    {
-                                        if (size.iQuantityOrderded != 0)
-                                        {
-                                            @size.strSize<br />
-                                        }
-                                    }
-                                </td>
-                                <td class="p-quantity">
-                                    @foreach (var size in item.lstProductSizes)
-                                    {
-                                        if (size.iQuantityOrderded != 0)
-                                        {
-                                            @*@size.iQuantityOrderded*@
-                                            <input id="@size.iProductSizeID" name="value" min="0" max="@size.iQuantityAvailable" value="@size.iQuantityOrderded"><br />
-                                        }
-                                    }
-                                </td>
-                                <td class="p-total">
-                                    @foreach (var size in item.lstProductSizes)
-                                    {
-                                        if (size.iQuantityOrderded != 0)
-                                        {
-                                            <span>R @size.dblPrice</span><br />
-                                        }
-                                    }
-                                </td>
-                                <td class="p-total">
-                                    @foreach (var size in item.lstProductSizes)
-                                    {
-                                        if (size.iQuantityOrderded != 0)
-                                        {
-                                            {
-                                                double dblSubTotal = size.iQuantityOrderded * size.dblPrice;
-                                                <span>R @dblSubTotal</span><br />
-                                            }
-
-                                        }
-                                    }
-                                </td>
-                                <td class="edit"><a href="product-details.html"><img src="assets/img/icon/delte.png" alt=""></a></td>
+                                <th class="p-image"></th>
+                                <th class="p-name">Product Name</th>
+                                <th class="p-amount">Unit Size</th>
+                                <th class="p-quantity">Qty Ordered</th>
+                                <th class="p-total">Unit Price</th>
+                                <th class="p-total">Sub Total</th>
+                                <th class="p-edit">Edit</th>
                             </tr>
-                        </tbody>
-                    }
-                </table>
-            </div>
+                        </thead>
+                        @foreach (var item in Model)
+                        {
+
+                            <tbody>
+                                <tr>
+                                    <td class="p-image">
+                                        <a href="product-details.html"><img alt="" src="@item.strImageURL"></a>
+                                    </td>
+                                    <td class="p-name"><a href="product-details.html">@item.strTitle</a></td>
+                                    <td id="clothingSize">
+                                        @foreach (var size in item.lstProductSizes)
+                                        {
+                                            if (size.iQuantityOrderded != 0)
+                                            {
+                                                @size.strSize<br />
+                                            }
+                                        }
+                                    </td>
+                                    <td class="p-quantity">
+                                        @foreach (var size in item.lstProductSizes)
+                                        {
+                                            if (size.iQuantityOrderded != 0)
+                                            {
+                                                @*@size.iQuantityOrderded*@
+                                                <input id="@size.iProductSizeID" name="value" min="0" max="@size.iQuantityAvailable" value="@size.iQuantityOrderded"><br />
+                                            }
+                                        }
+                                    </td>
+                                    <td class="p-total">
+                                        @foreach (var size in item.lstProductSizes)
+                                        {
+                                            if (size.iQuantityOrderded != 0)
+                                            {
+                                                <span>R @size.dblPrice</span><br />
+                                            }
+                                        }
+                                    </td>
+                                    <td class="p-total">
+                                        @foreach (var size in item.lstProductSizes)
+                                        {
+                                            if (size.iQuantityOrderded != 0)
+                                            {
+                                                {
+                                                    double dblSubTotal = size.iQuantityOrderded * size.dblPrice;
+                                                    <span>R @dblSubTotal</span><br />
+                                                }
+
+                                            }
+                                        }
+                                    </td>
+                                    <td class="edit"><a href="product-details.html"><img src="assets/img/icon/delte.png" alt=""></a></td>
+                                </tr>
+                            </tbody>
+                        }
+                    </table>
+                </div>
+            }
             <div class="all-cart-buttons">
                 <button class="button" type="button" onclick=""><span>Continue Shopping</span></button>
                 <button class="button" type="button" onclick="clearCart();"><span>CLEAR CART</span></button>
@@ -99,81 +109,81 @@
             <div class="row">
                 <div class="col-lg-4 col-md-12">
                     @*<div class="ht-shipping-content">
-                        <h3>RELATED PRODUCTS</h3>
-                        <p>Base on your selection, you may be interested in the following items:</p>
-                    </div>*@
+                            <h3>RELATED PRODUCTS</h3>
+                            <p>Base on your selection, you may be interested in the following items:</p>
+                        </div>*@
                 </div>
                 <div class="col-lg-4 col-md-12">
                     @*<div class="ht-shipping-content">
-                        <h3>Discount Code</h3>
-                        <p>Enter your coupon code if you have one</p>
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12">
-                                <div class="postal-code">
-                                    <input type="text" placeholder="">
-                                </div>
-                                <div class="buttons-set">
-                                    <button class="button" type="button"><span>Apply Coupon</span></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ht-shipping-content">
-                        <h4>Estimate Shipping And Tax</h4>
-                        <p>Enter your destination to get shipping &amp; tax</p>
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-6">
-                                <div class="level">
-                                    Country <span class="required">*</span>
-                                </div>
-                                <div class=" shipping-wrapper">
-                                    <select class="country">
-                                        <option value="state">Select</option>
-                                        <option value="state">Bahasa Indonesia</option>
-                                        <option value="state">Bahasa Melayu</option>
-                                        <option value="state">Deutsch (Deutschland)</option>
-                                        <option value="state">English (Australia)</option>
-                                        <option value="state">English (Canada)</option>
-                                        <option value="state">English (India)</option>
-                                        <option value="state">English (Ireland)</option>
-                                        <option value="state">English (Maktoob)</option>
-                                        <option value="state">English (Malaysia)</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-12 col-md-12 col-sm-6">
-                                <div class="level">
-                                    State/Province
-                                </div>
-                                <div class=" shipping-wrapper">
-                                    <select class="country">
-                                        <option value="state">Select</option>
-                                        <option value="state">South Carolina</option>
-                                        <option value="state">South Dakota</option>
-                                        <option value="state">Tennessee</option>
-                                        <option value="state">Texas</option>
-                                        <option value="state">Utah</option>
-                                        <option value="state">Vermont</option>
-                                        <option value="state">Virginia</option>
-                                        <option value="state">Washington</option>
-                                        <option value="state">West Virginia</option>
-                                        <option value="state">Wyoming</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-12 col-md-12 col-sm-12">
-                                <div class="postal-code">
-                                    <div class="level">
-                                        Zip / Postal Code
+                            <h3>Discount Code</h3>
+                            <p>Enter your coupon code if you have one</p>
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="postal-code">
+                                        <input type="text" placeholder="">
                                     </div>
-                                    <input type="text" placeholder="" name="zip-code">
-                                </div>
-                                <div class="buttons-set">
-                                    <button class="button" type="button"><span>Get a Quote</span></button>
+                                    <div class="buttons-set">
+                                        <button class="button" type="button"><span>Apply Coupon</span></button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>*@
+                        <div class="ht-shipping-content">
+                            <h4>Estimate Shipping And Tax</h4>
+                            <p>Enter your destination to get shipping &amp; tax</p>
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-6">
+                                    <div class="level">
+                                        Country <span class="required">*</span>
+                                    </div>
+                                    <div class=" shipping-wrapper">
+                                        <select class="country">
+                                            <option value="state">Select</option>
+                                            <option value="state">Bahasa Indonesia</option>
+                                            <option value="state">Bahasa Melayu</option>
+                                            <option value="state">Deutsch (Deutschland)</option>
+                                            <option value="state">English (Australia)</option>
+                                            <option value="state">English (Canada)</option>
+                                            <option value="state">English (India)</option>
+                                            <option value="state">English (Ireland)</option>
+                                            <option value="state">English (Maktoob)</option>
+                                            <option value="state">English (Malaysia)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-6">
+                                    <div class="level">
+                                        State/Province
+                                    </div>
+                                    <div class=" shipping-wrapper">
+                                        <select class="country">
+                                            <option value="state">Select</option>
+                                            <option value="state">South Carolina</option>
+                                            <option value="state">South Dakota</option>
+                                            <option value="state">Tennessee</option>
+                                            <option value="state">Texas</option>
+                                            <option value="state">Utah</option>
+                                            <option value="state">Vermont</option>
+                                            <option value="state">Virginia</option>
+                                            <option value="state">Washington</option>
+                                            <option value="state">West Virginia</option>
+                                            <option value="state">Wyoming</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="postal-code">
+                                        <div class="level">
+                                            Zip / Postal Code
+                                        </div>
+                                        <input type="text" placeholder="" name="zip-code">
+                                    </div>
+                                    <div class="buttons-set">
+                                        <button class="button" type="button"><span>Get a Quote</span></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
                 </div>
                 <div class="col-lg-4 col-md-12">
                     <div class="ht-shipping-content">

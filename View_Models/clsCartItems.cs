@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace Colmart.View_Models
+﻿namespace Colmart.View_Models
 {
+    /// <summary>
+    /// Model and properties for clsCartItems
+    /// </summary>
     public class clsCartItems
     {
         public int iProductID { get; set; }

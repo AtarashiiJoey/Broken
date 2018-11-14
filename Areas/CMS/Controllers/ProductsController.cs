@@ -305,7 +305,7 @@ namespace ColmartCMS.Controllers
             return Json(bCanUseTitle, JsonRequestBehavior.AllowGet);
         }
 
-        private int getProductCategoryID(string strTitle)
+        public int getProductCategoryID(string strTitle)
         {
             int iProductCategoryID = 0;
             clsProductCategoriesManager clsProductCategoriesManager = new clsProductCategoriesManager();
@@ -326,7 +326,7 @@ namespace ColmartCMS.Controllers
             return iProductCategoryID;
         }
 
-        private int getProductSubCategoryID(string strTitle)
+        public int getProductSubCategoryID(string strTitle)
         {
             int iProductSubCategoryID = 0;
             clsProductSubCategoriesManager clsProductSubCategoriesManager = new clsProductSubCategoriesManager();

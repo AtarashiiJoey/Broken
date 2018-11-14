@@ -1,18 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Colmart.Models;
+using System;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using Colmart.Models;
 
 namespace Colmart.View_Models
 {
+    /// <summary>
+    /// Model and properties for clsUserLoginRegister
+    /// </summary>
     public class clsUserLoginRegister
     {
         public clsUserLoginRegister()
         {
-            clsUserLogin =  new clsUserLogin();
+            clsUserLogin = new clsUserLogin();
             //clsUsers = new clsUsers();
         }
 

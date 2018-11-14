@@ -1,13 +1,11 @@
 ﻿using Colmart.Models;
-using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
 
 namespace Colmart.View_Models
 {
+    /// <summary>
+    /// Model and properties for clsRecentlyViewed
+    /// </summary>
     public class clsRecentlyViewed
     {
         public List<clsProducts> lstRecentlyViewed { get; set; }

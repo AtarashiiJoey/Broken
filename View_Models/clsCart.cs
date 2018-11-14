@@ -1,14 +1,14 @@
-﻿using System;
+﻿using Colmart.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using Colmart.Models;
-using Colmart.View_Models;
 
 namespace Colmart.View_Models
 {
+    /// <summary>
+    /// Model and properties for clsCart
+    /// </summary>
     public class clsCart
     {
         public int iProductID { get; set; }

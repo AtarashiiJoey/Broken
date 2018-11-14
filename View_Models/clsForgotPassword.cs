@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Colmart.View_Models
 {
+    /// <summary>
+    /// Model and properties for clsForgotPassword
+    /// </summary>
     public class clsForgotPassword
     {
         [Required]
