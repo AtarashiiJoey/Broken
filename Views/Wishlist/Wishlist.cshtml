@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Colmart.Models.clsProducts>
+﻿@model Colmart.View_Models.clsWishlistLeads
 
 @{
     ViewBag.Title = "Wishlist";
@@ -34,21 +34,33 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if (Model.Count() != 0)
+                            @if (!Model.lstProducts.Any())
                             {
-                                foreach (var wishlistproduct in Model)
-                                {
-                            <tr>
-                                <td class="product-remove"><a onclick="removeFromWishList(@wishlistproduct.iProductID)">×</a></td>
-                                <td class="product-thumbnail"><a href="product-details.html"><img src="@wishlistproduct.strImageURL" alt="" /></a></td>
-                                <td class="product-name"><a href="product-details.html">@wishlistproduct.strTitle</a></td>
-                                <td class="product-stock-status"><span class="wishlist-in-stock">In Stock</span></td>
-                            </tr>
-                                }
+                                <tr>Please be advised that your wishlist is currently empty.</tr>
                             }
                             else
                             {
-                                <tr>Please be advised that your wishlist is currently empty.</tr>
+                                foreach (var wishlistproduct in Model.lstProducts)
+                                {
+                                    <tr>
+                                        <td class="product-thumbnail">
+                                            <a href="~/Views/Product/ProductDetails.cshtml">
+                                                <img src="@wishlistproduct.strImageURL" alt="" />
+                                            </a>
+                                        </td>
+                                        @*product-details.html*@
+                                        <td class="product-remove">
+                                            <a onclick="removeFromWishList(@wishlistproduct.iProductID)">×</a>
+                                        </td>
+                                        @*product-details.html*@
+                                        <td class="product-name">
+                                            <a href="~/Views/Product/ProductDetails.cshtml">@wishlistproduct.strTitle</a>
+                                        </td>
+                                        <td class="product-stock-status">
+                                            <span class="wishlist-in-stock">In Stock</span>
+                                        </td>
+                                    </tr>
+                                }
                             }
                         </tbody>
                         <tfoot>
@@ -66,8 +78,7 @@
                                 </td>
                                 <td>
                                     <div class="form-action">
-                                        <p class="lost_password"><a href="@Url.Action("ForgotPassword","Login")">Save your Wishlist?</a></p>
-                                        <button type="submit">Yes</button>
+                                        <button id="makeWish">Save Wishlist</button>
                                     </div>
                                 </td>
                             </tr>
@@ -79,3 +90,86 @@
     </div>
 </div>
 <!-- Wishlist Area end -->
+<!-- Modal Details -->
+<div id="makeWishModal" class="modal">
+    <!-- Modal Content -->
+    <div class="modal-content">
+        <div class="modal-header">
+            <div>
+                <h2>Details</h2>
+            </div>
+            <span class="close">&times;</span>
+        </div>
+        <div class="modal-body">
+            @using (Html.BeginForm("MakeAWish", "Wishlist", FormMethod.Post, new { @id = "frmUserLogin", @name = "frmUserLogin" }))
+            {
+            <div class="form-fields">
+                @ViewBag.Message
+
+                <div class="col-lg-12 col-md-12 col-sm-12" style="float:left;position: relative;z-index: 10;">
+                    <p>
+                        <label for="reg-wish" class="important">First Name</label>
+                        @Html.EditorFor(wishlistLead => wishlistLead.clsLeads.strFirstName, null, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(wishlistLead => wishlistLead.clsLeads.strFirstName, null, new { @class = "text-danger" })
+                    </p>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <p>
+                        <label for="reg-wish" class="important">Email Address</label>
+                        @Html.TextBoxFor(wishlistLead => wishlistLead.clsLeads.strEmail, null, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(wishlistLead => wishlistLead.clsLeads.strEmail, null, new { @class = "text-danger" })
+                    </p>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <p>
+                        <label for="reg-wish" class="important">Phone Number</label>
+                        @Html.TextBoxFor(wishlistLead => wishlistLead.clsLeads.strPhone, null, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(wishlistLead => wishlistLead.clsLeads.strPhone, null, new { @class = "text-danger" })
+                    </p>
+                </div>
+            </div>
+                <div class="form-action">
+                    <button type="submit">Save List</button>
+                </div>
+            }
+        </div>
+        <div class="modal-footer">
+            <div>
+                <h3>Modal Footer</h3>
+            </div>
+            <div>
+                <button type="submit" id="subWishlist"></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Details End -->
+<script>
+
+@*// Get the modal*@
+    var modal = document.getElementById('makeWishModal');
+
+// Get the button that opens the modal
+    var btn = document.getElementById("makeWish");
+
+@*// Get the <span> element that closes the modal*@
+var span = document.getElementsByClassName("close")[0];
+
+@*// When the user clicks on the button, open the modal*@
+btn.onclick = function() {
+modal.style.display = "block";
+}
+
+@*// When the user clicks on <span> (x), close the modal*@
+span.onclick = function() {
+modal.style.display = "none";
+}
+
+@*// When the user clicks anywhere outside of the modal, close it*@
+window.onclick = function(event) {
+if (event.target == modal) {
+modal.style.display = "none";
+}
+}
+</script>

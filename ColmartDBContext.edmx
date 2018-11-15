@@ -76,6 +76,64 @@
           <Property Name="strImageName" Type="varchar" MaxLength="250" />
           <Property Name="bIsDeleted" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="tblLeads">
+          <Key>
+            <PropertyRef Name="iLeadID" />
+          </Key>
+          <Property Name="iLeadID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="dtAdded" Type="datetime" />
+          <Property Name="iAddedBy" Type="int" />
+          <Property Name="dtEdited" Type="datetime" />
+          <Property Name="iEditedBy" Type="int" />
+          <Property Name="strFirstName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="strEmail" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="strPhone" Type="varchar" MaxLength="12" Nullable="false" />
+          <Property Name="bIsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblLeadWishlists">
+          <Key>
+            <PropertyRef Name="iLeadWishlistID" />
+          </Key>
+          <Property Name="iLeadWishlistID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="dtAdded" Type="datetime" />
+          <Property Name="iAddedBy" Type="int" />
+          <Property Name="dtEdited" Type="datetime" />
+          <Property Name="iEditedBy" Type="int" />
+          <Property Name="iProductID" Type="int" Nullable="false" />
+          <Property Name="iProductSizeID" Type="int" Nullable="false" />
+          <Property Name="iProductQuantity" Type="int" Nullable="false" />
+          <Property Name="iLeadID" Type="int" Nullable="false" />
+          <Property Name="bIsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblOrderItems">
+          <Key>
+            <PropertyRef Name="iOrderItemID" />
+          </Key>
+          <Property Name="iOrderItemID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="dtAdded" Type="datetime" />
+          <Property Name="iAddedBy" Type="int" />
+          <Property Name="dtEdited" Type="datetime" />
+          <Property Name="iEditedBy" Type="int" />
+          <Property Name="iOrderID" Type="int" Nullable="false" />
+          <Property Name="iProductID" Type="int" Nullable="false" />
+          <Property Name="iProductSizeID" Type="int" Nullable="false" />
+          <Property Name="iProductQuantity" Type="int" Nullable="false" />
+          <Property Name="bIsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblOrders">
+          <Key>
+            <PropertyRef Name="iOrderID" />
+          </Key>
+          <Property Name="iOrderID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="dtAdded" Type="datetime" Nullable="false" />
+          <Property Name="iAddedBy" Type="int" Nullable="false" />
+          <Property Name="dtEdited" Type="datetime" />
+          <Property Name="iEditedBy" Type="int" />
+          <Property Name="iUserID" Type="int" Nullable="false" />
+          <Property Name="iOrderStatusID" Type="int" Nullable="false" />
+          <Property Name="bIsConfirmed" Type="bit" Nullable="false" />
+          <Property Name="bIsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="tblPages">
           <Key>
             <PropertyRef Name="iPageID" />
@@ -244,6 +302,78 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tblLeads_tblLeads">
+          <End Role="tblLeads" Type="Self.tblLeads" Multiplicity="1" />
+          <End Role="tblLeads1" Type="Self.tblLeads" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="tblLeads">
+              <PropertyRef Name="iLeadID" />
+            </Principal>
+            <Dependent Role="tblLeads1">
+              <PropertyRef Name="iLeadID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblLeadWishlists_tblLeads">
+          <End Role="tblLeads" Type="Self.tblLeads" Multiplicity="1" />
+          <End Role="tblLeadWishlists" Type="Self.tblLeadWishlists" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblLeads">
+              <PropertyRef Name="iLeadID" />
+            </Principal>
+            <Dependent Role="tblLeadWishlists">
+              <PropertyRef Name="iLeadID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblLeadWishlists_tblProducts">
+          <End Role="tblProducts" Type="Self.tblProducts" Multiplicity="1" />
+          <End Role="tblLeadWishlists" Type="Self.tblLeadWishlists" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblProducts">
+              <PropertyRef Name="iProductID" />
+            </Principal>
+            <Dependent Role="tblLeadWishlists">
+              <PropertyRef Name="iProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblLeadWishlists_tblProductSizes">
+          <End Role="tblProductSizes" Type="Self.tblProductSizes" Multiplicity="1" />
+          <End Role="tblLeadWishlists" Type="Self.tblLeadWishlists" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblProductSizes">
+              <PropertyRef Name="iProductSizeID" />
+            </Principal>
+            <Dependent Role="tblLeadWishlists">
+              <PropertyRef Name="iProductSizeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblOrders_tblOrders">
+          <End Role="tblOrders" Type="Self.tblOrders" Multiplicity="1" />
+          <End Role="tblOrders1" Type="Self.tblOrders" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="tblOrders">
+              <PropertyRef Name="iOrderID" />
+            </Principal>
+            <Dependent Role="tblOrders1">
+              <PropertyRef Name="iOrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblOrders_tblUsers">
+          <End Role="tblUsers" Type="Self.tblUsers" Multiplicity="1" />
+          <End Role="tblOrders" Type="Self.tblOrders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUsers">
+              <PropertyRef Name="iUserID" />
+            </Principal>
+            <Dependent Role="tblOrders">
+              <PropertyRef Name="iUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tblProductAssociationLinkTable_tblAssociations">
           <End Role="tblAssociations" Type="Self.tblAssociations" Multiplicity="1" />
           <End Role="tblProductAssociationLinkTable" Type="Self.tblProductAssociationLinkTable" Multiplicity="*" />
@@ -334,6 +464,10 @@
           <EntitySet Name="tblCMSRoleTypes" EntityType="Self.tblCMSRoleTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblCMSUserAccess" EntityType="Self.tblCMSUserAccess" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblCMSUsers" EntityType="Self.tblCMSUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblLeads" EntityType="Self.tblLeads" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblLeadWishlists" EntityType="Self.tblLeadWishlists" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblOrderItems" EntityType="Self.tblOrderItems" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblOrders" EntityType="Self.tblOrders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblPages" EntityType="Self.tblPages" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblProductAssociationLinkTable" EntityType="Self.tblProductAssociationLinkTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblProductCategories" EntityType="Self.tblProductCategories" Schema="dbo" store:Type="Tables" />
@@ -354,6 +488,30 @@
           <AssociationSet Name="FK_tblCMSUsers_tblCMSRoleTypes" Association="Self.FK_tblCMSUsers_tblCMSRoleTypes">
             <End Role="tblCMSRoleTypes" EntitySet="tblCMSRoleTypes" />
             <End Role="tblCMSUsers" EntitySet="tblCMSUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblLeads_tblLeads" Association="Self.FK_tblLeads_tblLeads">
+            <End Role="tblLeads" EntitySet="tblLeads" />
+            <End Role="tblLeads1" EntitySet="tblLeads" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblLeadWishlists_tblLeads" Association="Self.FK_tblLeadWishlists_tblLeads">
+            <End Role="tblLeads" EntitySet="tblLeads" />
+            <End Role="tblLeadWishlists" EntitySet="tblLeadWishlists" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblLeadWishlists_tblProducts" Association="Self.FK_tblLeadWishlists_tblProducts">
+            <End Role="tblProducts" EntitySet="tblProducts" />
+            <End Role="tblLeadWishlists" EntitySet="tblLeadWishlists" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblLeadWishlists_tblProductSizes" Association="Self.FK_tblLeadWishlists_tblProductSizes">
+            <End Role="tblProductSizes" EntitySet="tblProductSizes" />
+            <End Role="tblLeadWishlists" EntitySet="tblLeadWishlists" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblOrders_tblOrders" Association="Self.FK_tblOrders_tblOrders">
+            <End Role="tblOrders" EntitySet="tblOrders" />
+            <End Role="tblOrders1" EntitySet="tblOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblOrders_tblUsers" Association="Self.FK_tblOrders_tblUsers">
+            <End Role="tblUsers" EntitySet="tblUsers" />
+            <End Role="tblOrders" EntitySet="tblOrders" />
           </AssociationSet>
           <AssociationSet Name="FK_tblProductAssociationLinkTable_tblAssociations" Association="Self.FK_tblProductAssociationLinkTable_tblAssociations">
             <End Role="tblAssociations" EntitySet="tblAssociations" />
@@ -467,6 +625,73 @@
           <NavigationProperty Name="tblCMSRoleTypes" Relationship="Self.FK_tblCMSUsers_tblCMSRoleTypes" FromRole="tblCMSUsers" ToRole="tblCMSRoleTypes" />
           <NavigationProperty Name="tblCMSUserAccess" Relationship="Self.FK_tblCMSUserAccess_tblCMSUsers" FromRole="tblCMSUsers" ToRole="tblCMSUserAccess" />
         </EntityType>
+        <EntityType Name="tblLeads">
+          <Key>
+            <PropertyRef Name="iLeadID" />
+          </Key>
+          <Property Name="iLeadID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="dtAdded" Type="DateTime" Precision="3" />
+          <Property Name="iAddedBy" Type="Int32" />
+          <Property Name="dtEdited" Type="DateTime" Precision="3" />
+          <Property Name="iEditedBy" Type="Int32" />
+          <Property Name="strFirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="strEmail" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="strPhone" Type="String" MaxLength="12" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="bIsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tblLeads1" Relationship="Self.FK_tblLeads_tblLeads" FromRole="tblLeads" ToRole="tblLeads1" />
+          <NavigationProperty Name="tblLeads2" Relationship="Self.FK_tblLeads_tblLeads" FromRole="tblLeads1" ToRole="tblLeads" />
+          <NavigationProperty Name="tblLeadWishlists" Relationship="Self.FK_tblLeadWishlists_tblLeads" FromRole="tblLeads" ToRole="tblLeadWishlists" />
+        </EntityType>
+        <EntityType Name="tblLeadWishlists">
+          <Key>
+            <PropertyRef Name="iLeadWishlistID" />
+          </Key>
+          <Property Name="iLeadWishlistID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="dtAdded" Type="DateTime" Precision="3" />
+          <Property Name="iAddedBy" Type="Int32" />
+          <Property Name="dtEdited" Type="DateTime" Precision="3" />
+          <Property Name="iEditedBy" Type="Int32" />
+          <Property Name="iProductID" Type="Int32" Nullable="false" />
+          <Property Name="iProductSizeID" Type="Int32" Nullable="false" />
+          <Property Name="iProductQuantity" Type="Int32" Nullable="false" />
+          <Property Name="iLeadID" Type="Int32" Nullable="false" />
+          <Property Name="bIsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tblLeads" Relationship="Self.FK_tblLeadWishlists_tblLeads" FromRole="tblLeadWishlists" ToRole="tblLeads" />
+          <NavigationProperty Name="tblProducts" Relationship="Self.FK_tblLeadWishlists_tblProducts" FromRole="tblLeadWishlists" ToRole="tblProducts" />
+          <NavigationProperty Name="tblProductSizes" Relationship="Self.FK_tblLeadWishlists_tblProductSizes" FromRole="tblLeadWishlists" ToRole="tblProductSizes" />
+        </EntityType>
+        <EntityType Name="tblOrderItems">
+          <Key>
+            <PropertyRef Name="iOrderItemID" />
+          </Key>
+          <Property Name="iOrderItemID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="dtAdded" Type="DateTime" Precision="3" />
+          <Property Name="iAddedBy" Type="Int32" />
+          <Property Name="dtEdited" Type="DateTime" Precision="3" />
+          <Property Name="iEditedBy" Type="Int32" />
+          <Property Name="iOrderID" Type="Int32" Nullable="false" />
+          <Property Name="iProductID" Type="Int32" Nullable="false" />
+          <Property Name="iProductSizeID" Type="Int32" Nullable="false" />
+          <Property Name="iProductQuantity" Type="Int32" Nullable="false" />
+          <Property Name="bIsDeleted" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblOrders">
+          <Key>
+            <PropertyRef Name="iOrderID" />
+          </Key>
+          <Property Name="iOrderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="dtAdded" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="iAddedBy" Type="Int32" Nullable="false" />
+          <Property Name="dtEdited" Type="DateTime" Precision="3" />
+          <Property Name="iEditedBy" Type="Int32" />
+          <Property Name="iUserID" Type="Int32" Nullable="false" />
+          <Property Name="iOrderStatusID" Type="Int32" Nullable="false" />
+          <Property Name="bIsConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="bIsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tblOrders1" Relationship="Self.FK_tblOrders_tblOrders" FromRole="tblOrders" ToRole="tblOrders1" />
+          <NavigationProperty Name="tblOrders2" Relationship="Self.FK_tblOrders_tblOrders" FromRole="tblOrders1" ToRole="tblOrders" />
+          <NavigationProperty Name="tblUsers" Relationship="Self.FK_tblOrders_tblUsers" FromRole="tblOrders" ToRole="tblUsers" />
+        </EntityType>
         <EntityType Name="tblPages">
           <Key>
             <PropertyRef Name="iPageID" />
@@ -521,6 +746,7 @@
           <Property Name="iProductCategoryID" Type="Int32" Nullable="false" />
           <Property Name="iProductSubCategoryID" Type="Int32" Nullable="false" />
           <Property Name="bIsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tblLeadWishlists" Relationship="Self.FK_tblLeadWishlists_tblProducts" FromRole="tblProducts" ToRole="tblLeadWishlists" />
           <NavigationProperty Name="tblProductCategories" Relationship="Self.FK_tblProducts_tblProductCategories" FromRole="tblProducts" ToRole="tblProductCategories" />
           <NavigationProperty Name="tblProductSubCategories" Relationship="Self.FK_tblProducts_tblProductSubCategories" FromRole="tblProducts" ToRole="tblProductSubCategories" />
           <NavigationProperty Name="tblProductSizes" Relationship="Self.FK_tblProductSizes_tblProducts" FromRole="tblProducts" ToRole="tblProductSizes" />
@@ -539,6 +765,7 @@
           <Property Name="iQuantityAvailable" Type="Int32" Nullable="false" />
           <Property Name="iProductID" Type="Int32" Nullable="false" />
           <Property Name="bIsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tblLeadWishlists" Relationship="Self.FK_tblLeadWishlists_tblProductSizes" FromRole="tblProductSizes" ToRole="tblLeadWishlists" />
           <NavigationProperty Name="tblProducts" Relationship="Self.FK_tblProductSizes_tblProducts" FromRole="tblProductSizes" ToRole="tblProducts" />
         </EntityType>
         <EntityType Name="tblProductSubCategories">
@@ -609,6 +836,7 @@
           <Property Name="strImageName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="bIsConfirmed" Type="Boolean" Nullable="false" />
           <Property Name="bIsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tblOrders" Relationship="Self.FK_tblOrders_tblUsers" FromRole="tblUsers" ToRole="tblOrders" />
           <NavigationProperty Name="tblRoleTypes" Relationship="Self.FK_tblUsers_tblRoleTypes" FromRole="tblUsers" ToRole="tblRoleTypes" />
           <NavigationProperty Name="tblUserAccess" Relationship="Self.FK_tblUserAccess_tblUsers" FromRole="tblUsers" ToRole="tblUserAccess" />
         </EntityType>
@@ -657,6 +885,78 @@
             </Principal>
             <Dependent Role="tblCMSUserAccess">
               <PropertyRef Name="iCMSUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblLeads_tblLeads">
+          <End Role="tblLeads" Type="Self.tblLeads" Multiplicity="1" />
+          <End Role="tblLeads1" Type="Self.tblLeads" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="tblLeads">
+              <PropertyRef Name="iLeadID" />
+            </Principal>
+            <Dependent Role="tblLeads1">
+              <PropertyRef Name="iLeadID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblLeadWishlists_tblLeads">
+          <End Role="tblLeads" Type="Self.tblLeads" Multiplicity="1" />
+          <End Role="tblLeadWishlists" Type="Self.tblLeadWishlists" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblLeads">
+              <PropertyRef Name="iLeadID" />
+            </Principal>
+            <Dependent Role="tblLeadWishlists">
+              <PropertyRef Name="iLeadID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblLeadWishlists_tblProducts">
+          <End Role="tblProducts" Type="Self.tblProducts" Multiplicity="1" />
+          <End Role="tblLeadWishlists" Type="Self.tblLeadWishlists" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblProducts">
+              <PropertyRef Name="iProductID" />
+            </Principal>
+            <Dependent Role="tblLeadWishlists">
+              <PropertyRef Name="iProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblLeadWishlists_tblProductSizes">
+          <End Role="tblProductSizes" Type="Self.tblProductSizes" Multiplicity="1" />
+          <End Role="tblLeadWishlists" Type="Self.tblLeadWishlists" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblProductSizes">
+              <PropertyRef Name="iProductSizeID" />
+            </Principal>
+            <Dependent Role="tblLeadWishlists">
+              <PropertyRef Name="iProductSizeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblOrders_tblOrders">
+          <End Role="tblOrders" Type="Self.tblOrders" Multiplicity="1" />
+          <End Role="tblOrders1" Type="Self.tblOrders" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="tblOrders">
+              <PropertyRef Name="iOrderID" />
+            </Principal>
+            <Dependent Role="tblOrders1">
+              <PropertyRef Name="iOrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblOrders_tblUsers">
+          <End Role="tblUsers" Type="Self.tblUsers" Multiplicity="1" />
+          <End Role="tblOrders" Type="Self.tblOrders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUsers">
+              <PropertyRef Name="iUserID" />
+            </Principal>
+            <Dependent Role="tblOrders">
+              <PropertyRef Name="iUserID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -738,6 +1038,10 @@
           <EntitySet Name="tblCMSRoleTypes" EntityType="Self.tblCMSRoleTypes" />
           <EntitySet Name="tblCMSUserAccess" EntityType="Self.tblCMSUserAccess" />
           <EntitySet Name="tblCMSUsers" EntityType="Self.tblCMSUsers" />
+          <EntitySet Name="tblLeads" EntityType="Self.tblLeads" />
+          <EntitySet Name="tblLeadWishlists" EntityType="Self.tblLeadWishlists" />
+          <EntitySet Name="tblOrderItems" EntityType="Self.tblOrderItems" />
+          <EntitySet Name="tblOrders" EntityType="Self.tblOrders" />
           <EntitySet Name="tblPages" EntityType="Self.tblPages" />
           <EntitySet Name="tblProductAssociationLinkTable" EntityType="Self.tblProductAssociationLinkTable" />
           <EntitySet Name="tblProductCategories" EntityType="Self.tblProductCategories" />
@@ -762,6 +1066,30 @@
           <AssociationSet Name="FK_tblCMSUserAccess_tblCMSUsers" Association="Self.FK_tblCMSUserAccess_tblCMSUsers">
             <End Role="tblCMSUsers" EntitySet="tblCMSUsers" />
             <End Role="tblCMSUserAccess" EntitySet="tblCMSUserAccess" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblLeads_tblLeads" Association="Self.FK_tblLeads_tblLeads">
+            <End Role="tblLeads" EntitySet="tblLeads" />
+            <End Role="tblLeads1" EntitySet="tblLeads" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblLeadWishlists_tblLeads" Association="Self.FK_tblLeadWishlists_tblLeads">
+            <End Role="tblLeads" EntitySet="tblLeads" />
+            <End Role="tblLeadWishlists" EntitySet="tblLeadWishlists" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblLeadWishlists_tblProducts" Association="Self.FK_tblLeadWishlists_tblProducts">
+            <End Role="tblProducts" EntitySet="tblProducts" />
+            <End Role="tblLeadWishlists" EntitySet="tblLeadWishlists" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblLeadWishlists_tblProductSizes" Association="Self.FK_tblLeadWishlists_tblProductSizes">
+            <End Role="tblProductSizes" EntitySet="tblProductSizes" />
+            <End Role="tblLeadWishlists" EntitySet="tblLeadWishlists" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblOrders_tblOrders" Association="Self.FK_tblOrders_tblOrders">
+            <End Role="tblOrders" EntitySet="tblOrders" />
+            <End Role="tblOrders1" EntitySet="tblOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblOrders_tblUsers" Association="Self.FK_tblOrders_tblUsers">
+            <End Role="tblUsers" EntitySet="tblUsers" />
+            <End Role="tblOrders" EntitySet="tblOrders" />
           </AssociationSet>
           <AssociationSet Name="FK_tblUserAccess_tblPages" Association="Self.FK_tblUserAccess_tblPages">
             <End Role="tblPages" EntitySet="tblPages" />
@@ -866,6 +1194,68 @@
                 <ScalarProperty Name="strPassword" ColumnName="strPassword" />
                 <ScalarProperty Name="strImagePath" ColumnName="strImagePath" />
                 <ScalarProperty Name="strImageName" ColumnName="strImageName" />
+                <ScalarProperty Name="bIsDeleted" ColumnName="bIsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblLeads">
+            <EntityTypeMapping TypeName="ColmartDBModel.tblLeads">
+              <MappingFragment StoreEntitySet="tblLeads">
+                <ScalarProperty Name="iLeadID" ColumnName="iLeadID" />
+                <ScalarProperty Name="dtAdded" ColumnName="dtAdded" />
+                <ScalarProperty Name="iAddedBy" ColumnName="iAddedBy" />
+                <ScalarProperty Name="dtEdited" ColumnName="dtEdited" />
+                <ScalarProperty Name="iEditedBy" ColumnName="iEditedBy" />
+                <ScalarProperty Name="strFirstName" ColumnName="strFirstName" />
+                <ScalarProperty Name="strEmail" ColumnName="strEmail" />
+                <ScalarProperty Name="strPhone" ColumnName="strPhone" />
+                <ScalarProperty Name="bIsDeleted" ColumnName="bIsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblLeadWishlists">
+            <EntityTypeMapping TypeName="ColmartDBModel.tblLeadWishlists">
+              <MappingFragment StoreEntitySet="tblLeadWishlists">
+                <ScalarProperty Name="iLeadWishlistID" ColumnName="iLeadWishlistID" />
+                <ScalarProperty Name="dtAdded" ColumnName="dtAdded" />
+                <ScalarProperty Name="iAddedBy" ColumnName="iAddedBy" />
+                <ScalarProperty Name="dtEdited" ColumnName="dtEdited" />
+                <ScalarProperty Name="iEditedBy" ColumnName="iEditedBy" />
+                <ScalarProperty Name="iProductID" ColumnName="iProductID" />
+                <ScalarProperty Name="iProductSizeID" ColumnName="iProductSizeID" />
+                <ScalarProperty Name="iProductQuantity" ColumnName="iProductQuantity" />
+                <ScalarProperty Name="iLeadID" ColumnName="iLeadID" />
+                <ScalarProperty Name="bIsDeleted" ColumnName="bIsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblOrderItems">
+            <EntityTypeMapping TypeName="ColmartDBModel.tblOrderItems">
+              <MappingFragment StoreEntitySet="tblOrderItems">
+                <ScalarProperty Name="iOrderItemID" ColumnName="iOrderItemID" />
+                <ScalarProperty Name="dtAdded" ColumnName="dtAdded" />
+                <ScalarProperty Name="iAddedBy" ColumnName="iAddedBy" />
+                <ScalarProperty Name="dtEdited" ColumnName="dtEdited" />
+                <ScalarProperty Name="iEditedBy" ColumnName="iEditedBy" />
+                <ScalarProperty Name="iOrderID" ColumnName="iOrderID" />
+                <ScalarProperty Name="iProductID" ColumnName="iProductID" />
+                <ScalarProperty Name="iProductSizeID" ColumnName="iProductSizeID" />
+                <ScalarProperty Name="iProductQuantity" ColumnName="iProductQuantity" />
+                <ScalarProperty Name="bIsDeleted" ColumnName="bIsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblOrders">
+            <EntityTypeMapping TypeName="ColmartDBModel.tblOrders">
+              <MappingFragment StoreEntitySet="tblOrders">
+                <ScalarProperty Name="iOrderID" ColumnName="iOrderID" />
+                <ScalarProperty Name="dtAdded" ColumnName="dtAdded" />
+                <ScalarProperty Name="iAddedBy" ColumnName="iAddedBy" />
+                <ScalarProperty Name="dtEdited" ColumnName="dtEdited" />
+                <ScalarProperty Name="iEditedBy" ColumnName="iEditedBy" />
+                <ScalarProperty Name="iUserID" ColumnName="iUserID" />
+                <ScalarProperty Name="iOrderStatusID" ColumnName="iOrderStatusID" />
+                <ScalarProperty Name="bIsConfirmed" ColumnName="bIsConfirmed" />
                 <ScalarProperty Name="bIsDeleted" ColumnName="bIsDeleted" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -29,20 +29,20 @@ namespace Colmart.Model_Manager
 
                 foreach (var item in lstGetProductSizesList)
                 {
-                    clsProductSizes clsProductSize = new clsProductSizes();
-
-                    clsProductSize.iProductSizeID = item.iProductSizeID;
-                    clsProductSize.dtAdded = item.dtAdded;
-                    clsProductSize.iAddedBy = item.iAddedBy;
-                    clsProductSize.dtEdited = item.dtEdited;
-                    clsProductSize.iEditedBy = item.iEditedBy;
-
-                    clsProductSize.strSize = item.strSize;
-                    clsProductSize.dblPrice = item.dblPrice;
-                    clsProductSize.iQuantityAvailable = item.iQuantityAvailable;
-                    clsProductSize.iProductID = item.iProductID;
-                    clsProductSize.bIsDeleted = item.bIsDeleted;
-
+                    clsProductSizes clsProductSize = new clsProductSizes
+                    {
+                        iProductSizeID = item.iProductSizeID,
+                        dtAdded = item.dtAdded,
+                        iAddedBy = item.iAddedBy,
+                        dtEdited = item.dtEdited,
+                        iEditedBy = item.iEditedBy,
+                        strSize = item.strSize,
+                        dblPrice = item.dblPrice,
+                        iQuantityAvailable = item.iQuantityAvailable,
+                        iProductID = item.iProductID,
+                        bIsDeleted = item.bIsDeleted
+                    };
+                    
                     if (item.tblProducts != null)
                         clsProductSize.clsProduct = clsProductsManager.convertProductsTableToClass(item.tblProducts);
 

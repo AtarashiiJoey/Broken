@@ -17,6 +17,7 @@ namespace Colmart
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public tblUsers()
         {
+            this.tblOrders = new HashSet<tblOrders>();
             this.tblUserAccess = new HashSet<tblUserAccess>();
         }
     
@@ -42,6 +43,8 @@ namespace Colmart
         public bool bIsConfirmed { get; set; }
         public bool bIsDeleted { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblOrders> tblOrders { get; set; }
         public virtual tblRoleTypes tblRoleTypes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblUserAccess> tblUserAccess { get; set; }

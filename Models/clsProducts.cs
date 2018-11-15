@@ -10,6 +10,15 @@ namespace Colmart.Models
     /// </summary>
     public class clsProducts
     {
+
+        public clsProducts()
+        {
+            clsLeads = new clsLeads();
+            //clsUsers = new clsUsers();
+        }
+
+        public clsLeads clsLeads { get; set; }
+
         public int iProductID { get; set; }
         public DateTime dtAdded { get; set; }
         public int iAddedBy { get; set; }

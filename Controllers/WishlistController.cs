@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Colmart.Models;
 using Colmart.Model_Manager;
+using Colmart.View_Models;
 
 namespace Colmart.Controllers
 {
@@ -19,24 +20,31 @@ namespace Colmart.Controllers
         {
             clsProductsManager clsProductsManager = new clsProductsManager();
             List<clsProducts> wishListProducts = new List<clsProducts>();
+            var clsWishlistLeads = new clsWishlistLeads();
             if (Request.Cookies["WishList"] != null)
             {
                 // Your cookie exists - grab your value and create your List
-                List<int> productWishList = Request.Cookies["WishList"].Value.Split(',').Select(x => Convert.ToInt32(x)).ToList();
-                foreach(var product in productWishList)
+                List<int> productWishList = Request.Cookies["WishList"].Value.Split(',').Select(x => Convert.ToInt32(x))
+                    .ToList();
+                foreach (var product in productWishList)
                 {
                     clsProducts clsWishListProduct;
                     clsWishListProduct = clsProductsManager.getProductByID(product);
+                    
                     wishListProducts.Add(clsWishListProduct);
                 }
             }
+
             if (Session["clsUser"] != null)
                 ViewBag.Layout = "_ColmartLayout.cshtml";
             else
                 ViewBag.Layout = "_RolandoLayout.cshtml";
-            return View(wishListProducts);
+
+            clsWishlistLeads.lstProducts = wishListProducts;
+            clsWishlistLeads.clsLeads = new clsLeads();
+            return View(clsWishlistLeads);
         }
-        
+
         /// <summary>
         /// Cookie management for the Wishlist, Adds a new cookie if current cookie is stale (older than 7 days)
         /// </summary>
@@ -47,14 +55,17 @@ namespace Colmart.Controllers
             if (Request.Cookies["WishList"] != null)
             {
                 // Your cookie exists - grab your value and create your List
-                List<int> productWishList = Request.Cookies["WishList"].Value.Split(',').Select(x => Convert.ToInt32(x)).ToList();
-                if(productWishList.Contains(iProductID))
+                List<int> productWishList = Request.Cookies["WishList"].Value.Split(',').Select(x => Convert.ToInt32(x))
+                    .ToList();
+                if (productWishList.Contains(iProductID))
                 {
 
                 }
-                else { 
-                productWishList.Add(iProductID);
+                else
+                {
+                    productWishList.Add(iProductID);
                 }
+
                 var WishListString = String.Join(",", productWishList);
                 System.Web.HttpContext.Current.Response.Cookies.Remove("WishList");
                 HttpCookie WishListCookie = new HttpCookie("WishList", WishListString);
@@ -76,6 +87,7 @@ namespace Colmart.Controllers
                 {
                     productWishList.Add(iProductID);
                 }
+
                 // Stringify your list
                 var WishListString = String.Join(",", productWishList);
 
@@ -88,7 +100,9 @@ namespace Colmart.Controllers
                 // Write the Cookie to your Response
                 Response.Cookies.Add(WishListCookie);
             }
-            return Json(new { success = true, message = "The product has been added to your wishlist." }, JsonRequestBehavior.AllowGet);
+
+            return Json(new {success = true, message = "The product has been added to your wishlist."},
+                JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
@@ -101,13 +115,15 @@ namespace Colmart.Controllers
             if (Request.Cookies["WishList"] != null)
             {
                 // Your cookie exists - grab your value and create your List
-                List<int> productWishList = Request.Cookies["WishList"].Value.Split(',').Select(x => Convert.ToInt32(x)).ToList();
+                List<int> productWishList = Request.Cookies["WishList"].Value.Split(',').Select(x => Convert.ToInt32(x))
+                    .ToList();
                 var productToRemove = productWishList.FindIndex(x => x == iProductID);
-                if(productToRemove >= 0)
+                if (productToRemove >= 0)
                 {
                     productWishList.RemoveAt(productToRemove);
-                }          
-                if(productWishList.Count == 0)
+                }
+
+                if (productWishList.Count == 0)
                 {
                     HttpCookie currentUserCookie = System.Web.HttpContext.Current.Request.Cookies["WishList"];
                     System.Web.HttpContext.Current.Response.Cookies.Remove("WishList");
@@ -127,7 +143,37 @@ namespace Colmart.Controllers
                     Response.Cookies.Add(wishListCookie);
                 }
             }
-            return Json(new { success = true, responseText = "The product has been removed from the wishlist." }, JsonRequestBehavior.AllowGet);
+
+            return Json(new {success = true, responseText = "The product has been removed from the wishlist."},
+                    JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult MakeAWish(clsWishlistLeads clsWishlistLeads)
+        {
+            clsLeadsManager clsLeadsManager = new clsLeadsManager();
+            clsProductsManager clsProductsManager = new clsProductsManager();
+            List<clsProducts> wishListProducts = new List<clsProducts>();
+            int iLeadID = clsLeadsManager.SaveLead(clsWishlistLeads.clsLeads);
+
+            if (Request.Cookies["WishList"] != null)
+            {
+                // Your cookie exists - grab your value and create your List
+                List<int> productWishList = Request.Cookies["WishList"].Value.Split(',').Select(x => Convert.ToInt32(x))
+                    .ToList();
+                foreach (var product in productWishList)
+                {
+                    clsProducts clsWishListProduct;
+                    clsWishListProduct = clsProductsManager.getProductByID(product);
+
+                    wishListProducts.Add(clsWishListProduct);
+                }
+
+            }
+
+            return RedirectToAction("Index", "Home"); // login succeed 
+        }
+
     }
 }

@@ -12,34 +12,27 @@ namespace Colmart
     using System;
     using System.Collections.Generic;
     
-    public partial class tblProducts
+    public partial class tblLeads
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tblProducts()
+        public tblLeads()
         {
             this.tblLeadWishlists = new HashSet<tblLeadWishlists>();
-            this.tblProductSizes = new HashSet<tblProductSizes>();
         }
     
-        public int iProductID { get; set; }
-        public System.DateTime dtAdded { get; set; }
-        public int iAddedBy { get; set; }
+        public int iLeadID { get; set; }
+        public Nullable<System.DateTime> dtAdded { get; set; }
+        public Nullable<int> iAddedBy { get; set; }
         public Nullable<System.DateTime> dtEdited { get; set; }
-        public int iEditedBy { get; set; }
-        public string strTitle { get; set; }
-        public string strStyleCode { get; set; }
-        public string strProductColour { get; set; }
-        public string strFullDescription { get; set; }
-        public string strImageURL { get; set; }
-        public int iProductCategoryID { get; set; }
-        public int iProductSubCategoryID { get; set; }
+        public Nullable<int> iEditedBy { get; set; }
+        public string strFirstName { get; set; }
+        public string strEmail { get; set; }
+        public string strPhone { get; set; }
         public bool bIsDeleted { get; set; }
     
+        public virtual tblLeads tblLeads1 { get; set; }
+        public virtual tblLeads tblLeads2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblLeadWishlists> tblLeadWishlists { get; set; }
-        public virtual tblProductCategories tblProductCategories { get; set; }
-        public virtual tblProductSubCategories tblProductSubCategories { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblProductSizes> tblProductSizes { get; set; }
     }
 }

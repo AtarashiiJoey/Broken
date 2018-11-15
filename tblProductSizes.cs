@@ -14,6 +14,12 @@ namespace Colmart
     
     public partial class tblProductSizes
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public tblProductSizes()
+        {
+            this.tblLeadWishlists = new HashSet<tblLeadWishlists>();
+        }
+    
         public int iProductSizeID { get; set; }
         public System.DateTime dtAdded { get; set; }
         public int iAddedBy { get; set; }
@@ -25,6 +31,8 @@ namespace Colmart
         public int iProductID { get; set; }
         public bool bIsDeleted { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblLeadWishlists> tblLeadWishlists { get; set; }
         public virtual tblProducts tblProducts { get; set; }
     }
 }

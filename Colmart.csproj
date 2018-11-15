@@ -257,6 +257,7 @@
     <Compile Include="Models\clsCMSRoleTypes.cs" />
     <Compile Include="Models\clsCMSUserAccess.cs" />
     <Compile Include="Models\clsCMSUsers.cs" />
+    <Compile Include="Models\clsLeads.cs" />
     <Compile Include="Models\clsProductAssociations.cs" />
     <Compile Include="Models\clsUserLogin.cs" />
     <Compile Include="Models\clsPages.cs" />
@@ -267,6 +268,7 @@
     <Compile Include="Models\clsRoleTypes.cs" />
     <Compile Include="Models\clsUserAccess.cs" />
     <Compile Include="Models\clsUsers.cs" />
+    <Compile Include="Models\clsLeadWishlists.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Model_Manager\clsAssociationManager.cs" />
@@ -283,6 +285,8 @@
     <Compile Include="Model_Manager\clsRoleTypesManager.cs" />
     <Compile Include="Model_Manager\clsUserAccessManager.cs" />
     <Compile Include="Model_Manager\clsUsersManager.cs" />
+    <Compile Include="Model_Manager\clsLeadsManager.cs" />
+    <Compile Include="Model_Manager\clsLeadWishlistsManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="tblAssociations.cs">
@@ -298,6 +302,18 @@
       <DependentUpon>ColmartDBContext.tt</DependentUpon>
     </Compile>
     <Compile Include="tblCMSUsers.cs">
+      <DependentUpon>ColmartDBContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblLeads.cs">
+      <DependentUpon>ColmartDBContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblLeadWishlists.cs">
+      <DependentUpon>ColmartDBContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblOrderItems.cs">
+      <DependentUpon>ColmartDBContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblOrders.cs">
       <DependentUpon>ColmartDBContext.tt</DependentUpon>
     </Compile>
     <Compile Include="tblPages.cs">
@@ -338,6 +354,7 @@
     <Compile Include="View_Models\clsProductSizesOrdered.cs" />
     <Compile Include="View_Models\clsRecentlyViewed.cs" />
     <Compile Include="View_Models\clsUserLoginRegister.cs" />
+    <Compile Include="View_Models\clsWishlistLeads.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\CMS\Content\assets\ajax\ajax-loading-progress.html" />
@@ -2759,13 +2776,6 @@
     <Content Include="fonts\moon_light-webfont.woff" />
     <Content Include="fonts\moon_light-webfont.woff2" />
     <Content Include="Areas\CMS\Views\ProductAssociation\ProductAssociation.cshtml" />
-    <EntityDeploy Include="ColmartDBContext.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>ColmartDBContext.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="ColmartDBContext.edmx.diagram">
-      <DependentUpon>ColmartDBContext.edmx</DependentUpon>
-    </Content>
     <Content Include="Scripts\bootstrap.min.js.map" />
     <Content Include="Scripts\bootstrap.js.map" />
     <Content Include="Scripts\bootstrap.bundle.min.js.map" />
@@ -2784,6 +2794,13 @@
     <Content Include="Scripts\esm\popper.js.map" />
     <Content Include="Scripts\esm\popper-utils.min.js.map" />
     <Content Include="Scripts\esm\popper-utils.js.map" />
+    <EntityDeploy Include="ColmartDBContext.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ColmartDBContext.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="ColmartDBContext.edmx.diagram">
+      <DependentUpon>ColmartDBContext.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Cart.js" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />

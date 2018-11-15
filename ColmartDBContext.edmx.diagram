@@ -4,25 +4,35 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="dafbcb0d519748fe84652db76c36568c" Name="Diagram1">
-        <EntityTypeShape EntityType="ColmartDBModel.tblAssociations" Width="1.5" PointX="0.75" PointY="12" IsExpanded="true" />
-        <EntityTypeShape EntityType="ColmartDBModel.tblCMSPages" Width="1.5" PointX="13" PointY="6.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="ColmartDBModel.tblCMSRoleTypes" Width="1.5" PointX="10.75" PointY="1.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="ColmartDBModel.tblCMSUserAccess" Width="1.5" PointX="15.25" PointY="1.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="ColmartDBModel.tblCMSUsers" Width="1.5" PointX="13" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="ColmartDBModel.tblPages" Width="1.5" PointX="8" PointY="2.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="ColmartDBModel.tblProductAssociationLinkTable" Width="1.5" PointX="3" PointY="12.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="ColmartDBModel.tblProductCategories" Width="1.5" PointX="0.75" PointY="1.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ColmartDBModel.tblProducts" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="ColmartDBModel.tblProductSizes" Width="1.5" PointX="5.25" PointY="1.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="ColmartDBModel.tblProductSubCategories" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ColmartDBModel.tblRoleTypes" Width="1.5" PointX="5.75" PointY="7.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="ColmartDBModel.tblUserAccess" Width="1.5" PointX="10.25" PointY="7.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="ColmartDBModel.tblUsers" Width="1.5" PointX="8" PointY="6.125" IsExpanded="true" />
+      <Diagram DiagramId="21363ffb41e64a4f9a033253bf06bb37" Name="Diagram1" ZoomLevel="74">
+        <EntityTypeShape EntityType="ColmartDBModel.tblAssociations" Width="1.5" PointX="0.75" PointY="13.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ColmartDBModel.tblCMSPages" Width="1.5" PointX="10" PointY="17" IsExpanded="true" />
+        <EntityTypeShape EntityType="ColmartDBModel.tblCMSRoleTypes" Width="1.5" PointX="7.75" PointY="12" IsExpanded="true" />
+        <EntityTypeShape EntityType="ColmartDBModel.tblCMSUserAccess" Width="1.5" PointX="12.25" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ColmartDBModel.tblCMSUsers" Width="1.5" PointX="10" PointY="11.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ColmartDBModel.tblLeads" Width="1.5" PointX="5.25" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ColmartDBModel.tblLeadWishlists" Width="1.5" PointX="7.5" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ColmartDBModel.tblOrderItems" Width="1.5" PointX="5.75" PointY="15.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ColmartDBModel.tblOrders" Width="1.5" PointX="14.25" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ColmartDBModel.tblPages" Width="1.5" PointX="15" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ColmartDBModel.tblProductAssociationLinkTable" Width="1.5" PointX="3" PointY="13.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ColmartDBModel.tblProductCategories" Width="1.5" PointX="0.75" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ColmartDBModel.tblProducts" Width="1.5" PointX="3" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="ColmartDBModel.tblProductSizes" Width="1.5" PointX="5.25" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ColmartDBModel.tblProductSubCategories" Width="1.5" PointX="0.75" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ColmartDBModel.tblRoleTypes" Width="1.5" PointX="9.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ColmartDBModel.tblUserAccess" Width="1.5" PointX="17.25" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ColmartDBModel.tblUsers" Width="1.5" PointX="12" PointY="3.25" IsExpanded="true" />
         <AssociationConnector Association="ColmartDBModel.FK_tblProductAssociationLinkTable_tblAssociations" ManuallyRouted="false" />
         <AssociationConnector Association="ColmartDBModel.FK_tblCMSUserAccess_tblCMSPages" ManuallyRouted="false" />
         <AssociationConnector Association="ColmartDBModel.FK_tblCMSUsers_tblCMSRoleTypes" ManuallyRouted="false" />
         <AssociationConnector Association="ColmartDBModel.FK_tblCMSUserAccess_tblCMSUsers" ManuallyRouted="false" />
+        <AssociationConnector Association="ColmartDBModel.FK_tblLeads_tblLeads" ManuallyRouted="false" />
+        <AssociationConnector Association="ColmartDBModel.FK_tblLeadWishlists_tblLeads" ManuallyRouted="false" />
+        <AssociationConnector Association="ColmartDBModel.FK_tblLeadWishlists_tblProducts" ManuallyRouted="false" />
+        <AssociationConnector Association="ColmartDBModel.FK_tblLeadWishlists_tblProductSizes" ManuallyRouted="false" />
+        <AssociationConnector Association="ColmartDBModel.FK_tblOrders_tblOrders" ManuallyRouted="false" />
+        <AssociationConnector Association="ColmartDBModel.FK_tblOrders_tblUsers" ManuallyRouted="false" />
         <AssociationConnector Association="ColmartDBModel.FK_tblUserAccess_tblPages" ManuallyRouted="false" />
         <AssociationConnector Association="ColmartDBModel.FK_tblProducts_tblProductCategories" ManuallyRouted="false" />
         <AssociationConnector Association="ColmartDBModel.FK_tblProducts_tblProductSubCategories" ManuallyRouted="false" />
