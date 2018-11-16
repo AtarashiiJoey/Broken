@@ -12,27 +12,23 @@ namespace Colmart
     using System;
     using System.Collections.Generic;
     
-    public partial class tblOrders
+    public partial class tblOrderStatuses
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tblOrders()
+        public tblOrderStatuses()
         {
-            this.tblOrderItems = new HashSet<tblOrderItems>();
+            this.tblOrders = new HashSet<tblOrders>();
         }
     
-        public int iOrderID { get; set; }
-        public System.DateTime dtAdded { get; set; }
-        public int iAddedBy { get; set; }
+        public int iOrderStatusID { get; set; }
+        public Nullable<System.DateTime> dtAdded { get; set; }
+        public Nullable<int> iAddedBy { get; set; }
         public Nullable<System.DateTime> dtEdited { get; set; }
         public Nullable<int> iEditedBy { get; set; }
-        public int iUserID { get; set; }
-        public int iOrderStatusID { get; set; }
-        public bool bIsConfirmed { get; set; }
+        public string strOrderStatus { get; set; }
         public bool bIsDeleted { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblOrderItems> tblOrderItems { get; set; }
-        public virtual tblOrderStatuses tblOrderStatuses { get; set; }
-        public virtual tblUsers tblUsers { get; set; }
+        public virtual ICollection<tblOrders> tblOrders { get; set; }
     }
 }

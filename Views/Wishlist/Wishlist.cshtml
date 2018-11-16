@@ -27,10 +27,10 @@
                     <table>
                         <thead>
                             <tr>
-                                <th class="product-remove"><span>Remove</span></th>
                                 <th class="product-thumbnail">Image</th>
                                 <th class="product-name"><span>Product</span></th>
                                 <th class="product-stock-stauts"><span> Stock Status </span></th>
+                                <th class="product-remove"><span>Remove</span></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -48,16 +48,14 @@
                                                 <img src="@wishlistproduct.strImageURL" alt="" />
                                             </a>
                                         </td>
-                                        @*product-details.html*@
-                                        <td class="product-remove">
-                                            <a onclick="removeFromWishList(@wishlistproduct.iProductID)">×</a>
-                                        </td>
-                                        @*product-details.html*@
                                         <td class="product-name">
                                             <a href="~/Views/Product/ProductDetails.cshtml">@wishlistproduct.strTitle</a>
                                         </td>
                                         <td class="product-stock-status">
                                             <span class="wishlist-in-stock">In Stock</span>
+                                        </td>
+                                        <td class="product-remove">
+                                            <a onclick="removeFromWishList(@wishlistproduct.iProductID)">&times;</a>
                                         </td>
                                     </tr>
                                 }
@@ -78,7 +76,7 @@
                                 </td>
                                 <td>
                                     <div class="form-action">
-                                        <button id="makeWish">Save Wishlist</button>
+                                        <button id="makeWish">Submit</button>
                                     </div>
                                 </td>
                             </tr>
@@ -103,43 +101,38 @@
         <div class="modal-body">
             @using (Html.BeginForm("MakeAWish", "Wishlist", FormMethod.Post, new { @id = "frmUserLogin", @name = "frmUserLogin" }))
             {
-            <div class="form-fields">
-                @ViewBag.Message
+                <div class="form-fields">
+                    @ViewBag.Message
 
-                <div class="col-lg-12 col-md-12 col-sm-12" style="float:left;position: relative;z-index: 10;">
-                    <p>
-                        <label for="reg-wish" class="important">First Name</label>
-                        @Html.EditorFor(wishlistLead => wishlistLead.clsLeads.strFirstName, null, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(wishlistLead => wishlistLead.clsLeads.strFirstName, null, new { @class = "text-danger" })
-                    </p>
+                    <div class="col-lg-12 col-md-12 col-sm-12" style="float:left;position: relative;z-index: 10;">
+                        <p>
+                            <label for="reg-wish" class="important">First Name</label>
+                            @Html.EditorFor(wishlistLead => wishlistLead.clsLeads.strFirstName, null, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(wishlistLead => wishlistLead.clsLeads.strFirstName, null, new { @class = "text-danger" })
+                        </p>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <p>
+                            <label for="reg-wish" class="important">Email Address</label>
+                            @Html.TextBoxFor(wishlistLead => wishlistLead.clsLeads.strEmail, null, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(wishlistLead => wishlistLead.clsLeads.strEmail, null, new { @class = "text-danger" })
+                        </p>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <p>
+                            <label for="reg-wish" class="important">Phone Number</label>
+                            @Html.TextBoxFor(wishlistLead => wishlistLead.clsLeads.strPhone, null, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(wishlistLead => wishlistLead.clsLeads.strPhone, null, new { @class = "text-danger" })
+                        </p>
+                    </div>
                 </div>
-                <div class="col-lg-12 col-md-12 col-sm-12">
-                    <p>
-                        <label for="reg-wish" class="important">Email Address</label>
-                        @Html.TextBoxFor(wishlistLead => wishlistLead.clsLeads.strEmail, null, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(wishlistLead => wishlistLead.clsLeads.strEmail, null, new { @class = "text-danger" })
-                    </p>
-                </div>
-                <div class="col-lg-12 col-md-12 col-sm-12">
-                    <p>
-                        <label for="reg-wish" class="important">Phone Number</label>
-                        @Html.TextBoxFor(wishlistLead => wishlistLead.clsLeads.strPhone, null, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(wishlistLead => wishlistLead.clsLeads.strPhone, null, new { @class = "text-danger" })
-                    </p>
-                </div>
-            </div>
                 <div class="form-action">
                     <button type="submit">Save List</button>
                 </div>
             }
         </div>
         <div class="modal-footer">
-            <div>
-                <h3>Modal Footer</h3>
-            </div>
-            <div>
-                <button type="submit" id="subWishlist"></button>
-            </div>
+            <p>Remember to click "Save List" so that a reseller can contact you about your interest in our products</p>
         </div>
     </div>
 </div>

@@ -258,6 +258,9 @@
     <Compile Include="Models\clsCMSUserAccess.cs" />
     <Compile Include="Models\clsCMSUsers.cs" />
     <Compile Include="Models\clsLeads.cs" />
+    <Compile Include="Models\clsOrderItems.cs" />
+    <Compile Include="Models\clsOrders.cs" />
+    <Compile Include="Models\clsOrderStatuses.cs" />
     <Compile Include="Models\clsProductAssociations.cs" />
     <Compile Include="Models\clsUserLogin.cs" />
     <Compile Include="Models\clsPages.cs" />
@@ -272,6 +275,9 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Model_Manager\clsAssociationManager.cs" />
+    <Compile Include="Model_Manager\clsOrderItemsManager.cs" />
+    <Compile Include="Model_Manager\clsOrdersManager.cs" />
+    <Compile Include="Model_Manager\clsOrderStatusesManager.cs" />
     <Compile Include="Model_Manager\clsProductAssociationsManager.cs" />
     <Compile Include="Model_Manager\clsProductSubCategoriesManager.cs" />
     <Compile Include="Model_Manager\clsProductSizesManager.cs" />
@@ -316,6 +322,9 @@
     <Compile Include="tblOrders.cs">
       <DependentUpon>ColmartDBContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="tblOrderStatuses.cs">
+      <DependentUpon>ColmartDBContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="tblPages.cs">
       <DependentUpon>ColmartDBContext.tt</DependentUpon>
     </Compile>
@@ -350,6 +359,7 @@
     <Compile Include="View_Models\clsCartItems.cs" />
     <Compile Include="View_Models\clsCartView.cs" />
     <Compile Include="View_Models\clsHomeCarousel.cs" />
+    <Compile Include="View_Models\clsOrderItemOrders.cs" />
     <Compile Include="View_Models\clsProductDetails.cs" />
     <Compile Include="View_Models\clsProductSizesOrdered.cs" />
     <Compile Include="View_Models\clsRecentlyViewed.cs" />

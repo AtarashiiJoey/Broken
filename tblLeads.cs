@@ -30,8 +30,6 @@ namespace Colmart
         public string strPhone { get; set; }
         public bool bIsDeleted { get; set; }
     
-        public virtual tblLeads tblLeads1 { get; set; }
-        public virtual tblLeads tblLeads2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblLeadWishlists> tblLeadWishlists { get; set; }
     }

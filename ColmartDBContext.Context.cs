@@ -34,6 +34,7 @@ namespace Colmart
         public virtual DbSet<tblLeadWishlists> tblLeadWishlists { get; set; }
         public virtual DbSet<tblOrderItems> tblOrderItems { get; set; }
         public virtual DbSet<tblOrders> tblOrders { get; set; }
+        public virtual DbSet<tblOrderStatuses> tblOrderStatuses { get; set; }
         public virtual DbSet<tblPages> tblPages { get; set; }
         public virtual DbSet<tblProductAssociationLinkTable> tblProductAssociationLinkTable { get; set; }
         public virtual DbSet<tblProductCategories> tblProductCategories { get; set; }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 
@@ -25,11 +26,10 @@ namespace Colmart.Models
         [StringLength(10, MinimumLength = 10, ErrorMessage = "Incorrect contact number length")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "Please enter a valid contact number")]
         public string strPhone { get; set; }
-
-        public int iLeadWishlistID { get; set; }
+        
         public bool bIsDeleted { get; set; }
 
         // Foreign key thingies
-        public virtual clsLeadWishlists clsLeadWishlist { get; set; }
+        public virtual ICollection<tblLeadWishlists> tblLeadWishlists { get; set; }
     }
 }

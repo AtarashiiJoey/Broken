@@ -18,6 +18,7 @@ namespace Colmart
         public tblProducts()
         {
             this.tblLeadWishlists = new HashSet<tblLeadWishlists>();
+            this.tblOrderItems = new HashSet<tblOrderItems>();
             this.tblProductSizes = new HashSet<tblProductSizes>();
         }
     
@@ -37,6 +38,8 @@ namespace Colmart
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblLeadWishlists> tblLeadWishlists { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblOrderItems> tblOrderItems { get; set; }
         public virtual tblProductCategories tblProductCategories { get; set; }
         public virtual tblProductSubCategories tblProductSubCategories { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

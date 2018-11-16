@@ -24,5 +24,9 @@ namespace Colmart
         public int iProductSizeID { get; set; }
         public int iProductQuantity { get; set; }
         public bool bIsDeleted { get; set; }
+    
+        public virtual tblOrders tblOrders { get; set; }
+        public virtual tblProducts tblProducts { get; set; }
+        public virtual tblProductSizes tblProductSizes { get; set; }
     }
 }
