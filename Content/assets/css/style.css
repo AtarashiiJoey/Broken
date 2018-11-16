@@ -44,6 +44,11 @@
 /*----------------------------------------*/
 /*      2.1 Header Top
 /*----------------------------------------*/
+
+#makeWish {
+    cursor: pointer;
+}
+
 #snackbar {
     visibility: hidden;
     min-width: 250px;

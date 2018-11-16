@@ -154,6 +154,7 @@ namespace Colmart.Controllers
         {
             clsLeadsManager clsLeadsManager = new clsLeadsManager();
             clsProductsManager clsProductsManager = new clsProductsManager();
+            clsLeadWishlistsManager clsLeadWishlistsManager = new clsLeadWishlistsManager();
             List<clsProducts> wishListProducts = new List<clsProducts>();
             int iLeadID = clsLeadsManager.SaveLead(clsWishlistLeads.clsLeads);
 
@@ -164,12 +165,14 @@ namespace Colmart.Controllers
                     .ToList();
                 foreach (var product in productWishList)
                 {
-                    clsProducts clsWishListProduct;
-                    clsWishListProduct = clsProductsManager.getProductByID(product);
-
-                    wishListProducts.Add(clsWishListProduct);
+                    var clsLeadsWishlist = new clsLeadWishlists();
+                    clsLeadsWishlist.iProductID = product;
+                    clsLeadsWishlist.iProductSizeID = 1;
+                    clsLeadsWishlist.iProductQuantity = 0;
+                    clsLeadsWishlist.iLeadID = iLeadID;
+                    clsLeadWishlistsManager.SaveLeadWishList(clsLeadsWishlist);
                 }
-
+                Response.Cookies["WishList"].Expires = DateTime.Now.AddDays(-1);
             }
 
             return RedirectToAction("Index", "Home"); // login succeed 

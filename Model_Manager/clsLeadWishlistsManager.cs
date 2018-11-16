@@ -1,5 +1,7 @@
-﻿using Colmart.Models;
+﻿using System;
+using Colmart.Models;
 using System.Collections.Generic;
+using System.Data.Entity.Migrations;
 using System.Linq;
 
 namespace Colmart.Model_Manager
@@ -47,41 +49,40 @@ namespace Colmart.Model_Manager
             return lstLeadWishlists;
         }
 
-        //public void SaveLeadWishList(int iWishlist)
-        //{
-        //    tblLeads tblLeads = new tblLeads();
+        public void SaveLeadWishList(clsLeadWishlists clsLeadWishlists)
+        {
+            tblLeadWishlists tblLeadWishlists = new tblLeadWishlists();
 
-        //    tblLeads.iLeadID = clsLeads.iLeadID;
-        //    tblLeads.strFirstName = clsLeads.strFirstName;
-        //    tblLeads.strEmail = clsLeads.strEmail;
-        //    tblLeads.strPhone = clsLeads.strPhone;
-        //    tblLeads.bIsDeleted = clsLeads.bIsDeleted;
+            tblLeadWishlists.iLeadWishlistID = clsLeadWishlists.iLeadWishlistID;
+            tblLeadWishlists.iLeadID = clsLeadWishlists.iLeadID;
+            tblLeadWishlists.iProductID = clsLeadWishlists.iProductID;
+            tblLeadWishlists.iProductSizeID = clsLeadWishlists.iProductSizeID;
+            tblLeadWishlists.iProductQuantity = clsLeadWishlists.iProductQuantity;
+            tblLeadWishlists.bIsDeleted = clsLeadWishlists.bIsDeleted;
 
-        //    //Add
-        //    if (tblLeads.iLeadID == 0)
-        //    {
-        //        tblLeads.dtAdded = DateTime.Now;
-        //        tblLeads.iAddedBy = 1;
-        //        tblLeads.dtEdited = DateTime.Now;
-        //        tblLeads.iEditedBy = 1;
+            //Add
+            if (tblLeadWishlists.iLeadWishlistID == 0)
+            {
+                tblLeadWishlists.dtAdded = DateTime.Now;
+                tblLeadWishlists.iAddedBy = 1;
+                tblLeadWishlists.dtEdited = DateTime.Now;
+                tblLeadWishlists.iEditedBy = 1;
 
-        //        db.tblLeads.Add(tblLeads);
-        //        db.SaveChanges();
-        //    }
-        //    //Update
-        //    else
-        //    {
-        //        tblLeads.dtAdded = clsLeads.dtAdded;
-        //        tblLeads.iAddedBy = clsLeads.iAddedBy;
-        //        tblLeads.dtEdited = DateTime.Now;
-        //        tblLeads.iEditedBy = 1;
+                db.tblLeadWishlists.Add(tblLeadWishlists);
+                db.SaveChanges();
+            }
+            //Update
+            else
+            {
+                tblLeadWishlists.dtAdded = clsLeadWishlists.dtAdded;
+                tblLeadWishlists.iAddedBy = clsLeadWishlists.iAddedBy;
+                tblLeadWishlists.dtEdited = DateTime.Now;
+                tblLeadWishlists.iEditedBy = 1;
 
-        //        db.Set<tblLeads>().AddOrUpdate(tblLeads);
-        //        db.SaveChanges();
-        //    }
-
-        //    return tblLeads.iLeadID;
-        //}
+                db.Set<tblLeadWishlists>().AddOrUpdate(tblLeadWishlists);
+                db.SaveChanges();
+            }
+        }
 
         public clsLeadWishlists convertWishlistsTableToClass(tblLeadWishlists tblWishlists)
         {
