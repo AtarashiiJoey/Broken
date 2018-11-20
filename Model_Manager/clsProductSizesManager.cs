@@ -1,14 +1,11 @@
-﻿using System;
+﻿using Colmart.Models;
+using Colmart.View_Models;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
-using Colmart;
-using Colmart.Models;
-using Colmart.View_Models;
 
 namespace Colmart.Model_Manager
 {
@@ -42,7 +39,7 @@ namespace Colmart.Model_Manager
                         iProductID = item.iProductID,
                         bIsDeleted = item.bIsDeleted
                     };
-                    
+
                     if (item.tblProducts != null)
                         clsProductSize.clsProduct = clsProductsManager.convertProductsTableToClass(item.tblProducts);
 
@@ -156,9 +153,8 @@ namespace Colmart.Model_Manager
         //Save
         public void saveProductSize(clsProductSizes clsProductSize)
         {
-            if (HttpContext.Current.Session["clsCMSUser"] != null)
-            {
-                clsCMSUsers clsCMSUser = (clsCMSUsers)HttpContext.Current.Session["clsCMSUser"];
+            
+                //clsCMSUsers clsCMSUser = (clsCMSUsers)HttpContext.Current.Session["clsCMSUser"];
                 tblProductSizes tblProductSizes = new tblProductSizes();
 
                 tblProductSizes.iProductSizeID = clsProductSize.iProductSizeID;
@@ -173,11 +169,11 @@ namespace Colmart.Model_Manager
                 if (tblProductSizes.iProductSizeID == 0)
                 {
                     tblProductSizes.dtAdded = DateTime.Now;
-                    tblProductSizes.iAddedBy = clsCMSUser.iCMSUserID;
+                    tblProductSizes.iAddedBy = -50;//clsCMSUser.iCMSUserID;
                     tblProductSizes.dtEdited = DateTime.Now;
-                    tblProductSizes.iEditedBy = clsCMSUser.iCMSUserID;
+                    tblProductSizes.iEditedBy = -50;//clsCMSUser.iCMSUserID;
 
-                    db.tblProductSizes.Add(tblProductSizes);
+                db.tblProductSizes.Add(tblProductSizes);
                     db.SaveChanges();
                 }
                 //Update
@@ -186,12 +182,12 @@ namespace Colmart.Model_Manager
                     tblProductSizes.dtAdded = clsProductSize.dtAdded;
                     tblProductSizes.iAddedBy = clsProductSize.iAddedBy;
                     tblProductSizes.dtEdited = DateTime.Now;
-                    tblProductSizes.iEditedBy = clsCMSUser.iCMSUserID;
+                    tblProductSizes.iEditedBy = -50;//clsCMSUser.iCMSUserID;
 
-                    db.Set<tblProductSizes>().AddOrUpdate(tblProductSizes);
+                db.Set<tblProductSizes>().AddOrUpdate(tblProductSizes);
                     db.SaveChanges();
                 }
-            }
+            
         }
 
         //Remove

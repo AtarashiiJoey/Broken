@@ -426,45 +426,42 @@ namespace Colmart.Model_Manager
         //Save
         public void saveProduct(clsProducts clsProduct)
         {
-            if (HttpContext.Current.Session["clsCMSUser"] != null)
+            //clsCMSUsers clsCMSUser = (clsCMSUsers)HttpContext.Current.Session["clsCMSUser"];
+            tblProducts tblProducts = new tblProducts();
+
+            tblProducts.iProductID = clsProduct.iProductID;
+
+            tblProducts.strTitle = clsProduct.strTitle;
+            tblProducts.strStyleCode = clsProduct.strStyleCode;
+            tblProducts.strProductColour = clsProduct.strProductColour;
+            tblProducts.strFullDescription = clsProduct.strFullDescription;
+            tblProducts.strImageURL = clsProduct.strImageURL;
+
+            tblProducts.iProductCategoryID = clsProduct.iProductCategoryID;
+            tblProducts.iProductSubCategoryID = clsProduct.iProductSubCategoryID;
+            tblProducts.bIsDeleted = clsProduct.bIsDeleted;
+
+            //Add
+            if (tblProducts.iProductID == 0)
             {
-                clsCMSUsers clsCMSUser = (clsCMSUsers)HttpContext.Current.Session["clsCMSUser"];
-                tblProducts tblProducts = new tblProducts();
+                tblProducts.dtAdded = DateTime.Now;
+                tblProducts.iAddedBy = -50/*clsCMSUser.iCMSUserID*/;
+                tblProducts.dtEdited = DateTime.Now;
+                tblProducts.iEditedBy = -50/*clsCMSUser.iCMSUserID*/;
 
-                tblProducts.iProductID = clsProduct.iProductID;
+                db.tblProducts.Add(tblProducts);
+                db.SaveChanges();
+            }
+            //Update
+            else
+            {
+                tblProducts.dtAdded = clsProduct.dtAdded;
+                tblProducts.iAddedBy = clsProduct.iAddedBy;
+                tblProducts.dtEdited = DateTime.Now;
+                tblProducts.iEditedBy = -50/*clsCMSUser.iCMSUserID*/;
 
-                tblProducts.strTitle = clsProduct.strTitle;
-                tblProducts.strStyleCode = clsProduct.strStyleCode;
-                tblProducts.strProductColour = clsProduct.strProductColour;
-                tblProducts.strFullDescription = clsProduct.strFullDescription;
-                tblProducts.strImageURL = clsProduct.strImageURL;
-
-                tblProducts.iProductCategoryID = clsProduct.iProductCategoryID;
-                tblProducts.iProductSubCategoryID = clsProduct.iProductSubCategoryID;
-                tblProducts.bIsDeleted = clsProduct.bIsDeleted;
-
-                //Add
-                if (tblProducts.iProductID == 0)
-                {
-                    tblProducts.dtAdded = DateTime.Now;
-                    tblProducts.iAddedBy = clsCMSUser.iCMSUserID;
-                    tblProducts.dtEdited = DateTime.Now;
-                    tblProducts.iEditedBy = clsCMSUser.iCMSUserID;
-
-                    db.tblProducts.Add(tblProducts);
-                    db.SaveChanges();
-                }
-                //Update
-                else
-                {
-                    tblProducts.dtAdded = clsProduct.dtAdded;
-                    tblProducts.iAddedBy = clsProduct.iAddedBy;
-                    tblProducts.dtEdited = DateTime.Now;
-                    tblProducts.iEditedBy = clsCMSUser.iCMSUserID;
-
-                    db.Set<tblProducts>().AddOrUpdate(tblProducts);
-                    db.SaveChanges();
-                }
+                db.Set<tblProducts>().AddOrUpdate(tblProducts);
+                db.SaveChanges();
             }
         }
 
@@ -472,49 +469,45 @@ namespace Colmart.Model_Manager
         public int saveProductAndGetID(clsProducts clsProduct)
         {
             int iProductID = 0;
-            if (HttpContext.Current.Session["clsCMSUser"] != null)
+
+            //clsCMSUsers clsCMSUser = (clsCMSUsers)HttpContext.Current.Session["clsCMSUser"];
+            tblProducts tblProducts = new tblProducts();
+
+            tblProducts.iProductID = clsProduct.iProductID;
+
+            tblProducts.strTitle = clsProduct.strTitle;
+            tblProducts.strStyleCode = clsProduct.strStyleCode;
+            tblProducts.strProductColour = clsProduct.strProductColour;
+            tblProducts.strFullDescription = clsProduct.strFullDescription;
+            tblProducts.strImageURL = clsProduct.strImageURL;
+
+            tblProducts.iProductCategoryID = clsProduct.iProductCategoryID;
+            tblProducts.iProductSubCategoryID = clsProduct.iProductSubCategoryID;
+            tblProducts.bIsDeleted = clsProduct.bIsDeleted;
+
+            //Add
+            if (tblProducts.iProductID == 0)
             {
-                clsCMSUsers clsCMSUser = (clsCMSUsers)HttpContext.Current.Session["clsCMSUser"];
-                tblProducts tblProducts = new tblProducts();
+                tblProducts.dtAdded = DateTime.Now;
+                tblProducts.iAddedBy = -50/*clsCMSUser.iCMSUserID*/;
+                tblProducts.dtEdited = DateTime.Now;
+                tblProducts.iEditedBy = -50/*clsCMSUser.iCMSUserID*/;
 
-                tblProducts.iProductID = clsProduct.iProductID;
-
-                tblProducts.strTitle = clsProduct.strTitle;
-                tblProducts.strStyleCode = clsProduct.strStyleCode;
-                tblProducts.strProductColour = clsProduct.strProductColour;
-                tblProducts.strFullDescription = clsProduct.strFullDescription;
-                tblProducts.strImageURL = clsProduct.strImageURL;
-
-                tblProducts.iProductCategoryID = clsProduct.iProductCategoryID;
-                tblProducts.iProductSubCategoryID = clsProduct.iProductSubCategoryID;
-                tblProducts.bIsDeleted = clsProduct.bIsDeleted;
-
-                //Add
-                if (tblProducts.iProductID == 0)
-                {
-                    tblProducts.dtAdded = DateTime.Now;
-                    tblProducts.iAddedBy = clsCMSUser.iCMSUserID;
-                    tblProducts.dtEdited = DateTime.Now;
-                    tblProducts.iEditedBy = clsCMSUser.iCMSUserID;
-
-                    db.tblProducts.Add(tblProducts);
-                    db.SaveChanges();
-                }
-                //Update
-                else
-                {
-                    tblProducts.dtAdded = clsProduct.dtAdded;
-                    tblProducts.iAddedBy = clsProduct.iAddedBy;
-                    tblProducts.dtEdited = DateTime.Now;
-                    tblProducts.iEditedBy = clsCMSUser.iCMSUserID;
-
-                    db.Set<tblProducts>().AddOrUpdate(tblProducts);
-                    db.SaveChanges();
-                }
-
-                iProductID = tblProducts.iProductID;
+                db.tblProducts.Add(tblProducts);
+                db.SaveChanges();
             }
+            //Update
+            else
+            {
+                tblProducts.dtAdded = clsProduct.dtAdded;
+                tblProducts.iAddedBy = clsProduct.iAddedBy;
+                tblProducts.dtEdited = DateTime.Now;
+                tblProducts.iEditedBy = -50/*clsCMSUser.iCMSUserID*/;
 
+                db.Set<tblProducts>().AddOrUpdate(tblProducts);
+                db.SaveChanges();
+            }
+            iProductID = tblProducts.iProductID;
             return iProductID;
         }
 

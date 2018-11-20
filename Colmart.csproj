@@ -2891,6 +2891,7 @@
     <Content Include="Scripts\WishList.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Sync\Log.txt" />
+    <Content Include="Sync\UpdateLog.txt" />
     <Content Include="Sync\XML\Templates\CheckPublishDate.xml" />
     <Content Include="Sync\XML\Templates\CreateInvoiceFromSalesOrder.xml" />
     <Content Include="Sync\XML\Templates\GetCustomers.xml" />

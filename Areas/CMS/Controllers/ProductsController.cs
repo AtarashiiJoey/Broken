@@ -152,10 +152,10 @@ namespace ColmartCMS.Controllers
         {
             var productListLength = 0;
             //Redirect to login if null session exists
-            /*
+            
             if (Session["clsCMSUser"] == null)
                 return RedirectToAction("Login", "Account");
-                */
+                
             bool bIsSuccess = false;
 
             using (var client = new HttpClient())

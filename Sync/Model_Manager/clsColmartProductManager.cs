@@ -10,18 +10,61 @@ namespace Colmart.Sync.Model_Manager
     {
         ColmartViewsDBContext dbv = new ColmartViewsDBContext();
 
-        //Get All
+        #region Get All : getAllColmartProductList
         public List<clsColmartProducts> getAllColmartProductList()
         {
-            List<clsColmartProducts> lstProductSizes = new List<clsColmartProducts>();
+            var lstProductSizes = new List<clsColmartProducts>();
             var lstGetColmartProductList = dbv.ColmartProducts.ToList();
 
             if (lstGetColmartProductList.Count > 0)
             {
                 foreach (var item in lstGetColmartProductList)
                 {
-                    clsColmartProducts clsColmartProducts = new clsColmartProducts
+                    var clsColmartProducts = new clsColmartProducts
                     {
+                        fProductStockID = item.fProductStockID,
+                        Branch = item.Branch,
+                        Category = item.Category,
+                        ImageURL = item.ImageURL,
+                        Price = item.Price,
+                        Qty_OnHand = item.Qty_OnHand,
+                        Size = item.Size,
+                        SizeOrdinal = item.SizeOrdinal,
+                        StyleCode = item.StyleCode,
+                        Title = item.Title
+                    };
+
+                    lstProductSizes.Add(clsColmartProducts);
+                }
+
+                return lstProductSizes;
+            }
+            return lstProductSizes;
+        }
+        #endregion
+
+        #region Get Style and Title
+        public List<clsColmartProducts> getAllColmartProductListByStyle(string StyleCode)
+        {
+            List<clsColmartProducts> lstProductSizes = new List<clsColmartProducts>();
+            var lstGetColmartProductList = dbv.ColmartProducts.Where(product => product.StyleCode == StyleCode).ToList();
+
+            if (lstGetColmartProductList.Count > 0)
+            {
+                foreach (var item in lstGetColmartProductList)
+                {
+                    clsColmartProducts clsColmartProducts = new clsColmartProducts()
+                    {
+                        fProductStockID = item.fProductStockID,
+                        Branch = item.Branch,
+                        Category = item.Category,
+                        ImageURL = item.ImageURL,
+                        Price = item.Price,
+                        Qty_OnHand = item.Qty_OnHand,
+                        Size = item.Size,
+                        SizeOrdinal = item.SizeOrdinal,
+                        StyleCode = item.StyleCode,
+                        Title = item.Title
                     };
                     lstProductSizes.Add(clsColmartProducts);
                 }
@@ -29,45 +72,6 @@ namespace Colmart.Sync.Model_Manager
 
             return lstProductSizes;
         }
-
-        //Get All
-        public List<clsColmartProducts> getAllColmartProductOnlyList()
-        {
-            List<clsColmartProducts> lstProductSizes = new List<clsColmartProducts>();
-            var lstGetColmartProductList = dbv.ColmartProducts.ToList();
-
-            if (lstGetColmartProductList.Count > 0)
-            {
-                foreach (var item in lstGetColmartProductList)
-                {
-                    clsColmartProducts clsColmartProducts = new clsColmartProducts();
-
-                    
-
-                    lstProductSizes.Add(clsColmartProducts);
-                }
-            }
-
-            return lstProductSizes;
-        }
-
-        //Get By ID
-        public List<clsColmartProducts> getAllColmartProductListByID(string StyleCode, string Title)
-        {
-            List<clsColmartProducts> lstProductSizes = new List<clsColmartProducts>();
-            var lstGetColmartProductList = dbv.ColmartProducts.Where(Product => Product.StyleCode == StyleCode && Product.Title == Title).ToList();
-
-            if (lstGetColmartProductList.Count > 0)
-            {
-                foreach (var item in lstGetColmartProductList)
-                {
-                    clsColmartProducts clsColmartProducts = new clsColmartProducts();
-                    
-                    lstProductSizes.Add(clsColmartProducts);
-                }
-            }
-
-            return lstProductSizes;
-        }
+        #endregion
     }
 }
