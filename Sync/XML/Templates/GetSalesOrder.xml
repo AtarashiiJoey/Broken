@@ -1,0 +1,5 @@
+<SalesOrderQueryCriteria  xmlns="http://schemas.datacontract.org/2004/07/iSync.EAI.DTO" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+  <CustomerID>123</CustomerID>
+  <IncludeLineItems>true</IncludeLineItems>
+  <PONumber>str1234</PONumber>
+</SalesOrderQueryCriteria>

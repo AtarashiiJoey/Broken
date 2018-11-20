@@ -1,0 +1,6 @@
+<InvoiceQueryCriteria  xmlns="http://schemas.datacontract.org/2004/07/iSync.EAI.DTO" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+  <IncludeLineItems>true</IncludeLineItems>
+  <InvoiceNumber>str1234</InvoiceNumber>
+  <ProductInvoiceID>123</ProductInvoiceID>
+  <SalesOrderID>123</SalesOrderID>
+</InvoiceQueryCriteria>

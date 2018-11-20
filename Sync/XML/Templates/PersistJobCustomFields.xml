@@ -1,0 +1,11 @@
+<ArrayOfJobCustomField  xmlns="http://schemas.datacontract.org/2004/07/iSync.EAI.DTO" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+  <JobCustomField>
+    <Category>str1234</Category>
+    <CustomField>str1234</CustomField>
+    <CustomFieldTypeID>123</CustomFieldTypeID>
+    <JobCustomFieldID>123</JobCustomFieldID>
+    <JobNumber>str1234</JobNumber>
+    <Ordinal>123</Ordinal>
+    <Value>str1234</Value>
+  </JobCustomField>
+</ArrayOfJobCustomField>

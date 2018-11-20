@@ -4,7 +4,6 @@ using Colmart.Models;
 using ColmartCMS.View_Models.Products;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -18,7 +17,7 @@ namespace ColmartCMS.Controllers
     {
         ColmartDBContext db = new ColmartDBContext();
 
-        private string path = @"C:\Users\Dev-2018-Oct-PC\AppData\Roaming\Colmart\Log.txt";
+        private readonly string path = @"C:\Users\Dev-2018-Oct-PC\AppData\Roaming\Colmart\Log.txt";
 
         // GET: Products
         public ActionResult ProductsView()
@@ -189,7 +188,7 @@ namespace ColmartCMS.Controllers
                             XmlNodeList xmlnStyleCode = xmlnProduct.SelectNodes("StyleCode");
                             if (xmlnProductDesc.Count > 0 && xmlnStyleCode.Count > 0)
                             {
-                                productListLength = (int)lstProducts.Count;
+                                productListLength = lstProducts.Count;
                                 if (lstProducts.Any(Product => Product.strStyleCode.ToLower() == xmlnStyleCode[0].InnerText.ToLower() && Product.bIsDeleted == false))
                                     continue;
 
@@ -279,13 +278,16 @@ namespace ColmartCMS.Controllers
                 TempData["bIsProductsImported"] = true;
             else
                 TempData["bIsProductsImported"] = false;
+
+            #region Write success to log
+            
             if (!System.IO.File.Exists(path))
             {
                 System.IO.File.Create(path).Dispose();
 
                 using (TextWriter tw = new StreamWriter(path))
                 {
-                    tw.WriteLine("Colmart Polling log:");
+                    tw.WriteLine("Colmart Product Update log:");
                 }
             }
             else if (System.IO.File.Exists(path))
@@ -296,6 +298,8 @@ namespace ColmartCMS.Controllers
                         $"{DateTime.Now} : {productListLength.ToString()} products from external DB updated successfully");
                 }
             }
+
+            #endregion
             return Json(new { bIsSuccess = bIsSuccess }, JsonRequestBehavior.AllowGet);
         }
 

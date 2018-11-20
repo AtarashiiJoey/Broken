@@ -1,0 +1,8 @@
+<CustomerQueryCriteria xmlns="http://schemas.datacontract.org/2004/07/iSync.EAI.DTO" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+  <CustomerID>123</CustomerID>
+  <ExternalAccNo>str1234</ExternalAccNo>
+  <Name>str1234</Name>
+  <OnlyActive>true</OnlyActive>
+  <SimpleResults>true</SimpleResults>
+  <TrackingNo>str1234</TrackingNo>
+</CustomerQueryCriteria>

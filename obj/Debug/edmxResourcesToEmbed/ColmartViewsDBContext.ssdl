@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SyncColbarModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SyncColbar.Reporting.ColmartCustomers' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="ColmartCustomers">
+    <Key>
+      <PropertyRef Name="CustomerID" />
+      <PropertyRef Name="CustomerName" />
+      <PropertyRef Name="AccountNo" />
+      <PropertyRef Name="ContactName" />
+      <PropertyRef Name="ContactEmail" />
+      <PropertyRef Name="ContactPhone" />
+      <PropertyRef Name="VATNumber" />
+      <PropertyRef Name="Active" />
+      <PropertyRef Name="BranchName" />
+    </Key>
+    <Property Name="CustomerID" Type="int" Nullable="false" />
+    <Property Name="CustomerName" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="AccountNo" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="ContactName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="ContactEmail" Type="varchar" MaxLength="1000" Nullable="false" />
+    <Property Name="ContactPhone" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="VATNumber" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="Terms" Type="varchar" MaxLength="30" />
+    <Property Name="Active" Type="bit" Nullable="false" />
+    <Property Name="BranchName" Type="varchar" MaxLength="3" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SyncColbar.Reporting.ColmartProducts' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="ColmartProducts">
+    <Key>
+      <PropertyRef Name="fProductStockID" />
+      <PropertyRef Name="Branch" />
+      <PropertyRef Name="ImageURL" />
+      <PropertyRef Name="Size" />
+      <PropertyRef Name="SizeOrdinal" />
+    </Key>
+    <Property Name="fProductStockID" Type="int" Nullable="false" />
+    <Property Name="Branch" Type="varchar" MaxLength="3" Nullable="false" />
+    <Property Name="StyleCode" Type="varchar" MaxLength="30" />
+    <Property Name="Title" Type="varchar" MaxLength="100" />
+    <Property Name="Category" Type="varchar" MaxLength="50" />
+    <Property Name="ImageURL" Type="varchar" MaxLength="85" Nullable="false" />
+    <Property Name="Size" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="SizeOrdinal" Type="int" Nullable="false" />
+    <Property Name="Price" Type="money" />
+    <Property Name="Qty_OnHand" Type="decimal" Precision="38" Scale="0" />
+  </EntityType>
+  <EntityContainer Name="SyncColbarModelStoreContainer">
+    <EntitySet Name="ColmartCustomers" EntityType="Self.ColmartCustomers" store:Type="Views" store:Schema="Reporting">
+      <DefiningQuery>SELECT 
+    [ColmartCustomers].[CustomerID] AS [CustomerID], 
+    [ColmartCustomers].[CustomerName] AS [CustomerName], 
+    [ColmartCustomers].[AccountNo] AS [AccountNo], 
+    [ColmartCustomers].[ContactName] AS [ContactName], 
+    [ColmartCustomers].[ContactEmail] AS [ContactEmail], 
+    [ColmartCustomers].[ContactPhone] AS [ContactPhone], 
+    [ColmartCustomers].[VATNumber] AS [VATNumber], 
+    [ColmartCustomers].[Terms] AS [Terms], 
+    [ColmartCustomers].[Active] AS [Active], 
+    [ColmartCustomers].[BranchName] AS [BranchName]
+    FROM [Reporting].[ColmartCustomers] AS [ColmartCustomers]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="ColmartProducts" EntityType="Self.ColmartProducts" store:Type="Views" store:Schema="Reporting">
+      <DefiningQuery>SELECT 
+    [ColmartProducts].[fProductStockID] AS [fProductStockID], 
+    [ColmartProducts].[Branch] AS [Branch], 
+    [ColmartProducts].[StyleCode] AS [StyleCode], 
+    [ColmartProducts].[Title] AS [Title], 
+    [ColmartProducts].[Category] AS [Category], 
+    [ColmartProducts].[ImageURL] AS [ImageURL], 
+    [ColmartProducts].[Size] AS [Size], 
+    [ColmartProducts].[SizeOrdinal] AS [SizeOrdinal], 
+    [ColmartProducts].[Price] AS [Price], 
+    [ColmartProducts].[Qty_OnHand] AS [Qty_OnHand]
+    FROM [Reporting].[ColmartProducts] AS [ColmartProducts]</DefiningQuery>
+    </EntitySet>
+  </EntityContainer>
+</Schema>

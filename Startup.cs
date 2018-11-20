@@ -4,6 +4,7 @@ using Owin;
 using System;
 using System.Diagnostics;
 using System.IO;
+using MsgApp.Controllers;
 
 [assembly: OwinStartup(typeof(Colmart.Startup))]
 namespace Colmart
@@ -20,7 +21,8 @@ namespace Colmart
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
-
+            UpdateController Uc = new UpdateController();
+            Uc.UpdateProductsFromColmart();
             #region Timer startup, run, and check
             _startTime = DateTime.Now;
             var timeMinutes = 5;

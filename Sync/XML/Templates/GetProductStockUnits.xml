@@ -1,0 +1,3 @@
+<ProductStockUnitsQueryCriteria xmlns="http://schemas.datacontract.org/2004/07/iSync.EAI.DTO" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+  <AddedDate>2012-12-13T12:12:12</AddedDate>
+</ProductStockUnitsQueryCriteria>

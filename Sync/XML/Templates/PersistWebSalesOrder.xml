@@ -1,0 +1,36 @@
+<WebSalesOrder xmlns="http://schemas.datacontract.org/2004/07/iSync.EAI.DTO" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+  <Comments/>
+  <DeliveryDetail>
+    <AddressLine1>10 Downing Street</AddressLine1>
+    <AddressLine2>Westminster</AddressLine2>
+    <AltNumber>08358798897</AltNumber>
+    <City>London</City>
+    <Company/>
+    <Country>England</Country>
+    <Email>johndoe@gmail.com</Email>
+    <FullName>John Doe</FullName>
+    <Mobile>08358798897</Mobile>
+    <Phone>08358798897</Phone>
+    <PostCode>0007</PostCode>
+    <Province>-</Province>
+  </DeliveryDetail>
+  <IsGift>false</IsGift>
+  <LineItems>
+    <WebSalesOrderDetail>
+      <CNTypeID>0</CNTypeID>
+      <Discount>0.00</Discount>
+      <ExRate>1</ExRate>
+      <SellingPrice>200</SellingPrice>
+      <StatusID>3</StatusID>
+      <ThirdPartyBarcode>ABSCLS2110_00000000000621</ThirdPartyBarcode>
+      <Units>1</Units>
+    </WebSalesOrderDetail>
+  </LineItems>
+  <PONumber>1000124</PONumber>
+  <PaymentMethodID>0</PaymentMethodID>
+  <PrintInvoice>true</PrintInvoice>
+  <RequiredDate>2014-04-09T17:38:42</RequiredDate>
+  <SpecialInstructions/>
+  <StatusID>3</StatusID>
+  <TrackNo>A1567516</TrackNo>
+</WebSalesOrder>

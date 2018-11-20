@@ -1,0 +1,3 @@
+<WebSalesOrderQueryCriteria xmlns="http://schemas.datacontract.org/2004/07/iSync.EAI.DTO" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+  <PONumber>081341987533</PONumber>
+</WebSalesOrderQueryCriteria>

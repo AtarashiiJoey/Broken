@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SyncColbarModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="ColmartCustomers">
+    <Key>
+      <PropertyRef Name="CustomerID" />
+      <PropertyRef Name="CustomerName" />
+      <PropertyRef Name="AccountNo" />
+      <PropertyRef Name="ContactName" />
+      <PropertyRef Name="ContactEmail" />
+      <PropertyRef Name="ContactPhone" />
+      <PropertyRef Name="VATNumber" />
+      <PropertyRef Name="Active" />
+      <PropertyRef Name="BranchName" />
+    </Key>
+    <Property Name="CustomerID" Type="Int32" Nullable="false" />
+    <Property Name="CustomerName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="AccountNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ContactName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ContactEmail" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ContactPhone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="VATNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Terms" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="Active" Type="Boolean" Nullable="false" />
+    <Property Name="BranchName" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ColmartProducts">
+    <Key>
+      <PropertyRef Name="fProductStockID" />
+      <PropertyRef Name="Branch" />
+      <PropertyRef Name="ImageURL" />
+      <PropertyRef Name="Size" />
+      <PropertyRef Name="SizeOrdinal" />
+    </Key>
+    <Property Name="fProductStockID" Type="Int32" Nullable="false" />
+    <Property Name="Branch" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="StyleCode" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Category" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ImageURL" Type="String" MaxLength="85" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Size" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="SizeOrdinal" Type="Int32" Nullable="false" />
+    <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="Qty_OnHand" Type="Decimal" Precision="38" Scale="0" />
+  </EntityType>
+  <EntityContainer Name="ColmartViewsDBContext" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="ColmartCustomers" EntityType="Self.ColmartCustomers" />
+    <EntitySet Name="ColmartProducts" EntityType="Self.ColmartProducts" />
+  </EntityContainer>
+</Schema>

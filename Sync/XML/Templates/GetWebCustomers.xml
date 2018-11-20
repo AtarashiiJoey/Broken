@@ -1,0 +1,6 @@
+<WebCustomerQueryCriteria  xmlns="http://schemas.datacontract.org/2004/07/iSync.EAI.DTO" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+  <Name>str1234</Name>
+  <OnlyActive>true</OnlyActive>
+  <SimpleResults>true</SimpleResults>
+  <TrackNo>str1234</TrackNo>
+</WebCustomerQueryCriteria>
