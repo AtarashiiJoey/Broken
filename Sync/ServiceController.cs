@@ -25,7 +25,7 @@ namespace MsgApp.Controllers
 
             // Variables
             var ops = Client.GetAvailableOperations().ToList();
-            var Type = ops[operation];
+            var type = ops[operation];
             var act = string.Empty;
 
             switch (operation)
@@ -47,7 +47,7 @@ namespace MsgApp.Controllers
             // Populate the doc
 
 
-            xmlDocument = GenerateXmlFromXsd(Type);
+            xmlDocument = GenerateXmlFromXsd(operation, type);
 
             // SETUP AND CREATE THE REQUEST
             var request = new Request
@@ -55,7 +55,7 @@ namespace MsgApp.Controllers
                 Action = act,                      // Compulsory ./
                 Identifier = "0",                       // Optional consider using for BRANCH
                 Instance = "0",                         // Optional consider using for ?
-                MessageType = Type,                     // Compulsory add layer of abstraction 
+                MessageType = type,                     // Compulsory add layer of abstraction 
                 MessageXml = xmlDocument.OuterXml,      // Compulsory ./
                 PublishDate = DateTime.Now,             // Compulsory ./
                 SessionKey = "key",                     // TODO: Grab the current web-session key
@@ -66,13 +66,13 @@ namespace MsgApp.Controllers
             // This executes the current request
             var response = Client.Execute(request);
 
-            Debug.WriteLine(PushLogger(logPath, response, request, Type, operation));
+            Debug.WriteLine(PushLogger(logPath, response, request, type, operation));
         }
 
-        private XmlDocument GenerateXmlFromXsd(string opperation)
+        private XmlDocument GenerateXmlFromXsd(int type, string operation)
         {
-            var xsdPath = $@"{root}Schemas\{opperation}.xsd";
-            var xmlPath = $@"{root}XML\{opperation}.xml";
+            var xsdPath = $@"{root}Schemas\{operation}.xsd";
+            var xmlPath = $@"{root}XML\{operation}.xml";
 
             var textWriter = new XmlTextWriter(xmlPath, null);
             textWriter.Formatting = Formatting.Indented;
