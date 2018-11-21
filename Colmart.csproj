@@ -2858,6 +2858,7 @@
     <Content Include="Scripts\umd\popper.min.js" />
     <Content Include="Scripts\WishList.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Sync\Log.txt" />
     <Content Include="Sync\XML\CheckPublishDate.xml" />
     <Content Include="Sync\XML\CreateInvoiceFromSalesOrder.xml" />
     <Content Include="Sync\XML\GetCustomers.xml" />
