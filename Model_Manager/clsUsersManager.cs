@@ -1,14 +1,11 @@
-﻿using System;
+﻿using Colmart.Models;
+using Colmart.View_Models;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
-using Colmart;
-using Colmart.Models;
-using Colmart.View_Models;
 
 namespace Colmart.Model_Manager
 {
@@ -29,33 +26,39 @@ namespace Colmart.Model_Manager
 
                 foreach (var item in lstGetUsersList)
                 {
-                    clsUsers clsUser = new clsUsers();
+                    clsUsers clsUser = new clsUsers
+                    {
+                        iUserID = item.iUserID,
+                        dtAdded = item.dtAdded,
+                        iAddedBy = item.iAddedBy,
+                        dtEdited = item.dtEdited,
+                        iEditedBy = item.iEditedBy,
+                        iRoleTypeID = item.iRoleTypeID,
 
-                    clsUser.iUserID = item.iUserID;
-                    clsUser.dtAdded = item.dtAdded;
-                    clsUser.iAddedBy = item.iAddedBy;
-                    clsUser.dtEdited = item.dtEdited;
-                    clsUser.iEditedBy = item.iEditedBy;
+                        strFirstName = item.strFirstName,
+                        strSurname = item.strSurname,
+                        strPrimaryContact = item.strPrimaryContact,
+                        strSecondaryContact = item.strSecondaryContact,
+                        strPrimaryContactNumber = item.strPrimaryContactNumber,
+                        strSecondaryContactNumber = item.strSecondaryContactNumber,
 
-                    clsUser.iRoleTypeID = item.iRoleTypeID;
-                    clsUser.strFirstName = item.strFirstName;
-                    clsUser.strSurname = item.strSurname;
-                    clsUser.strBiographicalInfo = item.strBiographicalInfo;
-                    clsUser.strContactNumber = item.strContactNumber;
+                        strEmailAddress = item.strEmailAddress,
+                        strCompanyName = item.strCompanyName,
+                        strVatNumber = item.strVatNumber,
+                        strBusinessPurpose = item.strBusinessPurpose,
+                        strPassword = item.strPassword,
+                        strPasswordConfirm = item.strPasswordConfirm,
+                        strImagePath = item.strImagePath,
+                        strImageName = item.strImageName,
 
-                    clsUser.strEmailAddress = item.strEmailAddress;
-                    clsUser.strCompanyName = item.strCompanyName;
-                    clsUser.strArea = item.strArea;
-                    clsUser.strVatNumber = item.strVatNumber;
-                    clsUser.strBusinessPurpose = item.strBusinessPurpose;
-                    clsUser.strPassword = item.strPassword;
-                    clsUser.strPasswordConfirm = item.strPasswordConfirm;
-                    clsUser.strImagePath = item.strImagePath;
-                    clsUser.strImageName = item.strImageName;
-                    clsUser.bIsDeleted = item.bIsDeleted;
-                    clsUser.bIsConfirmed = item.bIsConfirmed;
+                        bIsDeleted = item.bIsDeleted,
+                        bIsConfirmed = item.bIsConfirmed,
+                        lstUserAccess = new List<clsUserAccess>()
+                    };
 
-                    clsUser.lstUserAccess = new List<clsUserAccess>();
+
+
+
                     if (item.tblUserAccess.Count > 0)
                     {
                         foreach (var UserAccessItem in item.tblUserAccess)
@@ -88,34 +91,36 @@ namespace Colmart.Model_Manager
 
                 foreach (var item in lstGetUsersList)
                 {
-                    clsUsers clsUser = new clsUsers();
+                    clsUsers clsUser = new clsUsers()
+                    {
+                        iUserID = item.iUserID,
+                        dtAdded = item.dtAdded,
+                        iAddedBy = item.iAddedBy,
+                        dtEdited = item.dtEdited,
+                        iEditedBy = item.iEditedBy,
+                        iRoleTypeID = item.iRoleTypeID,
 
-                    clsUser.iUserID = item.iUserID;
-                    clsUser.dtAdded = item.dtAdded;
-                    clsUser.iAddedBy = item.iAddedBy;
-                    clsUser.dtEdited = item.dtEdited;
-                    clsUser.iEditedBy = item.iEditedBy;
+                        strFirstName = item.strFirstName,
+                        strSurname = item.strSurname,
+                        strPrimaryContact = item.strPrimaryContact,
+                        strSecondaryContact = item.strSecondaryContact,
+                        strPrimaryContactNumber = item.strPrimaryContactNumber,
+                        strSecondaryContactNumber = item.strSecondaryContactNumber,
 
-                    clsUser.iRoleTypeID = item.iRoleTypeID;
-                    clsUser.strFirstName = item.strFirstName;
-                    clsUser.strSurname = item.strSurname;
-                    clsUser.strBiographicalInfo = item.strBiographicalInfo;
-                    clsUser.strContactNumber = item.strContactNumber;
+                        strEmailAddress = item.strEmailAddress,
+                        strCompanyName = item.strCompanyName,
+                        strVatNumber = item.strVatNumber,
+                        strBusinessPurpose = item.strBusinessPurpose,
+                        strPassword = item.strPassword,
+                        strPasswordConfirm = item.strPasswordConfirm,
+                        strImagePath = item.strImagePath,
+                        strImageName = item.strImageName,
 
-                    clsUser.strEmailAddress = item.strEmailAddress;
-                    clsUser.strCompanyName = item.strCompanyName;
-                    clsUser.strArea = item.strArea;
-                    clsUser.strVatNumber = item.strVatNumber;
-                    clsUser.strBusinessPurpose = item.strBusinessPurpose;
-                    clsUser.strPassword = item.strPassword;
-                    clsUser.strPasswordConfirm = item.strPasswordConfirm;
-                    clsUser.strImagePath = item.strImagePath;
-                    clsUser.strImageName = item.strImageName;
-                    clsUser.bIsDeleted = item.bIsDeleted;
-                    clsUser.bIsConfirmed = item.bIsConfirmed;
+                        bIsDeleted = item.bIsDeleted,
+                        bIsConfirmed = item.bIsConfirmed,
 
-                    clsUser.lstUserAccess = new List<clsUserAccess>();
-
+                        lstUserAccess = new List<clsUserAccess>()
+                    };
                     lstUsers.Add(clsUser);
                 }
             }
@@ -134,32 +139,39 @@ namespace Colmart.Model_Manager
                 clsUserAccessManager clsUserAccessManager = new clsUserAccessManager(); //User Access Manager
                 clsRoleTypesManager clsRoleTypesManager = new clsRoleTypesManager(); //Role Type Manager
 
-                clsUser = new clsUsers();
-                clsUser.iUserID = tblUser.iUserID;
-                clsUser.dtAdded = tblUser.dtAdded;
-                clsUser.iAddedBy = tblUser.iAddedBy;
-                clsUser.dtEdited = tblUser.dtEdited;
-                clsUser.iEditedBy = tblUser.iEditedBy;
+                clsUser = new clsUsers
+                {
+                    iUserID = tblUser.iUserID,
+                    dtAdded = tblUser.dtAdded,
+                    iAddedBy = tblUser.iAddedBy,
+                    dtEdited = tblUser.dtEdited,
+                    iEditedBy = tblUser.iEditedBy,
+                    iRoleTypeID = tblUser.iRoleTypeID,
 
-                clsUser.iRoleTypeID = tblUser.iRoleTypeID;
-                clsUser.strFirstName = tblUser.strFirstName;
-                clsUser.strSurname = tblUser.strSurname;
-                clsUser.strBiographicalInfo = tblUser.strBiographicalInfo;
-                clsUser.strContactNumber = tblUser.strContactNumber;
+                    strFirstName = tblUser.strFirstName,
+                    strSurname = tblUser.strSurname,
+                    strPrimaryContact = tblUser.strPrimaryContact,
+                    strSecondaryContact = tblUser.strSecondaryContact,
+                    strPrimaryContactNumber = tblUser.strPrimaryContactNumber,
+                    strSecondaryContactNumber = tblUser.strSecondaryContactNumber,
 
-                clsUser.strEmailAddress = tblUser.strEmailAddress;
-                clsUser.strCompanyName = tblUser.strCompanyName;
-                clsUser.strArea = tblUser.strArea;
-                clsUser.strVatNumber = tblUser.strVatNumber;
-                clsUser.strBusinessPurpose = tblUser.strBusinessPurpose;
-                clsUser.strPassword = tblUser.strPassword;
-                clsUser.strPasswordConfirm = tblUser.strPasswordConfirm;
-                clsUser.strImagePath = tblUser.strImagePath;
-                clsUser.strImageName = tblUser.strImageName;
-                clsUser.bIsDeleted = tblUser.bIsDeleted;
-                clsUser.bIsConfirmed = tblUser.bIsConfirmed;
+                    strEmailAddress = tblUser.strEmailAddress,
+                    strCompanyName = tblUser.strCompanyName,
+                    strVatNumber = tblUser.strVatNumber,
+                    strBusinessPurpose = tblUser.strBusinessPurpose,
+                    strPassword = tblUser.strPassword,
+                    strPasswordConfirm = tblUser.strPasswordConfirm,
+                    strImagePath = tblUser.strImagePath,
+                    strImageName = tblUser.strImageName,
 
-                clsUser.lstUserAccess = new List<clsUserAccess>();
+                    bIsDeleted = tblUser.bIsDeleted,
+                    bIsConfirmed = tblUser.bIsConfirmed,
+
+                    lstUserAccess = new List<clsUserAccess>()
+                };
+
+
+
                 if (tblUser.tblUserAccess.Count > 0)
                 {
                     foreach (var UserAccessItem in tblUser.tblUserAccess)
@@ -187,30 +199,36 @@ namespace Colmart.Model_Manager
                 clsUserAccessManager clsUserAccessManager = new clsUserAccessManager(); //User Access Manager
                 clsRoleTypesManager clsRoleTypesManager = new clsRoleTypesManager(); //Role Type Manager
 
-                clsUser = new clsAccountUpdate();
-                clsUser.iUserID = tblUser.iUserID;
-                clsUser.dtAdded = tblUser.dtAdded;
-                clsUser.iAddedBy = tblUser.iAddedBy;
-                clsUser.dtEdited = tblUser.dtEdited;
-                clsUser.iEditedBy = tblUser.iEditedBy;
+                clsUser = new clsAccountUpdate
+                {
+                    iUserID = tblUser.iUserID,
+                    dtAdded = tblUser.dtAdded,
+                    iAddedBy = tblUser.iAddedBy,
+                    dtEdited = tblUser.dtEdited,
+                    iEditedBy = tblUser.iEditedBy,
+                    iRoleTypeID = tblUser.iRoleTypeID,
+                    strFirstName = tblUser.strFirstName,
+                    strSurname = tblUser.strSurname,
 
-                clsUser.iRoleTypeID = tblUser.iRoleTypeID;
-                clsUser.strFirstName = tblUser.strFirstName;
-                clsUser.strSurname = tblUser.strSurname;
-                clsUser.strBiographicalInfo = tblUser.strBiographicalInfo;
-                clsUser.strContactNumber = tblUser.strContactNumber;
+                    strPrimaryContact = tblUser.strPrimaryContact,
+                    strSecondaryContact = tblUser.strSecondaryContact,
+                    strPrimaryContactNumber = tblUser.strPrimaryContactNumber,
+                    strSecondaryContactNumber = tblUser.strSecondaryContactNumber,
 
-                clsUser.strEmailAddress = tblUser.strEmailAddress;
-                clsUser.strCompanyName = tblUser.strCompanyName;
-                clsUser.strArea = tblUser.strArea;
-                clsUser.strVatNumber = tblUser.strVatNumber;
-                clsUser.strBusinessPurpose = tblUser.strBusinessPurpose;
-                clsUser.strPassword = tblUser.strPassword;
-                clsUser.strPasswordConfirm = tblUser.strPasswordConfirm;
-                clsUser.strImagePath = tblUser.strImagePath;
-                clsUser.strImageName = tblUser.strImageName;
-                clsUser.bIsDeleted = tblUser.bIsDeleted;
-                clsUser.bIsConfirmed = tblUser.bIsConfirmed;       
+                    strEmailAddress = tblUser.strEmailAddress,
+                    strCompanyName = tblUser.strCompanyName,
+                    strVatNumber = tblUser.strVatNumber,
+                    strBusinessPurpose = tblUser.strBusinessPurpose,
+                    strPassword = tblUser.strPassword,
+                    strPasswordConfirm = tblUser.strPasswordConfirm,
+                    strImagePath = tblUser.strImagePath,
+                    strImageName = tblUser.strImageName,
+                    bIsDeleted = tblUser.bIsDeleted,
+                    bIsConfirmed = tblUser.bIsConfirmed
+                };
+
+
+
             }
 
             return clsUser;
@@ -227,32 +245,37 @@ namespace Colmart.Model_Manager
                 clsUserAccessManager clsUserAccessManager = new clsUserAccessManager(); //User Access Manager
                 clsRoleTypesManager clsRoleTypesManager = new clsRoleTypesManager(); //Role Type Manager
 
-                clsUser = new clsUsers();
-                clsUser.iUserID = tblUser.iUserID;
-                clsUser.dtAdded = tblUser.dtAdded;
-                clsUser.iAddedBy = tblUser.iAddedBy;
-                clsUser.dtEdited = tblUser.dtEdited;
-                clsUser.iEditedBy = tblUser.iEditedBy;
+                clsUser = new clsUsers
+                {
+                    iUserID = tblUser.iUserID,
+                    dtAdded = tblUser.dtAdded,
+                    iAddedBy = tblUser.iAddedBy,
+                    dtEdited = tblUser.dtEdited,
+                    iEditedBy = tblUser.iEditedBy,
+                    iRoleTypeID = tblUser.iRoleTypeID,
+                    strFirstName = tblUser.strFirstName,
+                    strSurname = tblUser.strSurname,
 
-                clsUser.iRoleTypeID = tblUser.iRoleTypeID;
-                clsUser.strFirstName = tblUser.strFirstName;
-                clsUser.strSurname = tblUser.strSurname;
-                clsUser.strBiographicalInfo = tblUser.strBiographicalInfo;
-                clsUser.strContactNumber = tblUser.strContactNumber;
+                    strPrimaryContact = tblUser.strPrimaryContact,
+                    strSecondaryContact = tblUser.strSecondaryContact,
+                    strPrimaryContactNumber = tblUser.strPrimaryContactNumber,
+                    strSecondaryContactNumber = tblUser.strSecondaryContactNumber,
 
-                clsUser.strEmailAddress = tblUser.strEmailAddress;
-                clsUser.strCompanyName = tblUser.strCompanyName;
-                clsUser.strArea = tblUser.strArea;
-                clsUser.strVatNumber = tblUser.strVatNumber;
-                clsUser.strBusinessPurpose = tblUser.strBusinessPurpose;
-                clsUser.strPassword = tblUser.strPassword;
-                clsUser.strPasswordConfirm = tblUser.strPasswordConfirm;
-                clsUser.strImagePath = tblUser.strImagePath;
-                clsUser.strImageName = tblUser.strImageName;
-                clsUser.bIsConfirmed = tblUser.bIsConfirmed;
-                clsUser.bIsDeleted = tblUser.bIsDeleted;
+                    strEmailAddress = tblUser.strEmailAddress,
+                    strCompanyName = tblUser.strCompanyName,
+                    strVatNumber = tblUser.strVatNumber,
+                    strBusinessPurpose = tblUser.strBusinessPurpose,
+                    strPassword = tblUser.strPassword,
+                    strPasswordConfirm = tblUser.strPasswordConfirm,
+                    strImagePath = tblUser.strImagePath,
+                    strImageName = tblUser.strImageName,
+                    bIsDeleted = tblUser.bIsDeleted,
+                    bIsConfirmed = tblUser.bIsConfirmed,
 
-                clsUser.lstUserAccess = new List<clsUserAccess>();
+                    lstUserAccess = new List<clsUserAccess>()
+                };
+
+
                 if (tblUser.tblUserAccess.Count > 0)
                 {
                     foreach (var UserAccessItem in tblUser.tblUserAccess)
@@ -275,27 +298,31 @@ namespace Colmart.Model_Manager
             if (HttpContext.Current.Session["clsCMSUser"] != null)
             {
                 clsCMSUsers clsSessionCMSUser = (clsCMSUsers)HttpContext.Current.Session["clsCMSUser"];
-                tblUsers tblUser = new tblUsers();
+                tblUsers tblUser = new tblUsers
+                {
+                    iUserID = clsUser.iUserID,
+                    iRoleTypeID = clsUser.iRoleTypeID,
+                    strFirstName = clsUser.strFirstName,
+                    strSurname = clsUser.strSurname,
 
-                tblUser.iUserID = clsUser.iUserID;
+                    strEmailAddress = clsUser.strEmailAddress,
+                    strCompanyName = clsUser.strCompanyName,
+                    strVatNumber = clsUser.strVatNumber,
+                    strBusinessPurpose = clsUser.strBusinessPurpose,
+                    strPassword = clsUser.strPassword,
+                    strPasswordConfirm = clsUser.strPasswordConfirm,
+                    strImagePath = clsUser.strImagePath,
+                    strImageName = clsUser.strImageName,
+                    bIsDeleted = clsUser.bIsDeleted,
+                    bIsConfirmed = clsUser.bIsConfirmed,
+                    strPrimaryContact = clsUser.strPrimaryContact,
+                    strSecondaryContact = clsUser.strSecondaryContact,
+                    strPrimaryContactNumber = clsUser.strPrimaryContactNumber,
+                    strSecondaryContactNumber = clsUser.strSecondaryContactNumber
+                };
 
-                tblUser.iRoleTypeID = clsUser.iRoleTypeID;
-                tblUser.strFirstName = clsUser.strFirstName;
-                tblUser.strSurname = clsUser.strSurname;
-                tblUser.strBiographicalInfo = clsUser.strBiographicalInfo;
-                tblUser.strContactNumber = clsUser.strContactNumber;
 
-                tblUser.strEmailAddress = clsUser.strEmailAddress;
-                tblUser.strCompanyName = clsUser.strCompanyName;
-                tblUser.strArea = clsUser.strArea;
-                tblUser.strVatNumber = clsUser.strVatNumber;
-                tblUser.strBusinessPurpose = clsUser.strBusinessPurpose;
-                tblUser.strPassword = clsUser.strPassword;
-                tblUser.strPasswordConfirm = clsUser.strPasswordConfirm;
-                tblUser.strImagePath = clsUser.strImagePath;
-                tblUser.strImageName = clsUser.strImageName;
-                tblUser.bIsDeleted = clsUser.bIsDeleted;
-                tblUser.bIsConfirmed = clsUser.bIsConfirmed;
+
 
                 //Add
                 if (tblUser.iUserID == 0)
@@ -325,50 +352,52 @@ namespace Colmart.Model_Manager
         //Save
         public int registerUser(clsUsers clsUser)
         {
-                tblUsers tblUser = new tblUsers();
+            tblUsers tblUser = new tblUsers
+            {
 
-                tblUser.iUserID = clsUser.iUserID;
+                iUserID = clsUser.iUserID,
+                iRoleTypeID = clsUser.iRoleTypeID,
+                strFirstName = clsUser.strFirstName,
+                strSurname = clsUser.strSurname,
 
-                tblUser.iRoleTypeID = clsUser.iRoleTypeID;
-                tblUser.strFirstName = clsUser.strFirstName;
-                tblUser.strSurname = clsUser.strSurname;
-                tblUser.strBiographicalInfo = clsUser.strBiographicalInfo;
-                tblUser.strContactNumber = clsUser.strContactNumber;
+                strEmailAddress = clsUser.strEmailAddress,
+                strCompanyName = clsUser.strCompanyName,
+                strVatNumber = clsUser.strVatNumber,
+                strBusinessPurpose = clsUser.strBusinessPurpose,
+                strPassword = clsUser.strPassword,
+                strPasswordConfirm = clsUser.strPasswordConfirm,
+                strImagePath = clsUser.strImagePath,
+                strImageName = clsUser.strImageName,
+                bIsDeleted = clsUser.bIsDeleted,
+                bIsConfirmed = clsUser.bIsConfirmed,
+                strPrimaryContact = clsUser.strPrimaryContact,
+                strSecondaryContact = clsUser.strSecondaryContact,
+                strPrimaryContactNumber = clsUser.strPrimaryContactNumber,
+                strSecondaryContactNumber = clsUser.strSecondaryContactNumber
+            };
 
-                tblUser.strEmailAddress = clsUser.strEmailAddress;
-                tblUser.strCompanyName = clsUser.strCompanyName;
-                tblUser.strArea = clsUser.strArea;
-                tblUser.strVatNumber = clsUser.strVatNumber;
-                tblUser.strBusinessPurpose = clsUser.strBusinessPurpose;
-                tblUser.strPassword = clsUser.strPassword;
-                tblUser.strPasswordConfirm = clsUser.strPasswordConfirm;
-                tblUser.strImagePath = clsUser.strImagePath;
-                tblUser.strImageName = clsUser.strImageName;
-                tblUser.bIsDeleted = clsUser.bIsDeleted;
-                tblUser.bIsConfirmed = clsUser.bIsConfirmed;
+            //Add
+            if (tblUser.iUserID == 0)
+            {
+                tblUser.dtAdded = DateTime.Now;
+                tblUser.iAddedBy = 1;
+                tblUser.dtEdited = DateTime.Now;
+                tblUser.iEditedBy = 1;
 
-                //Add
-                if (tblUser.iUserID == 0)
-                {
-                    tblUser.dtAdded = DateTime.Now;
-                    tblUser.iAddedBy = 1;
-                    tblUser.dtEdited = DateTime.Now;
-                    tblUser.iEditedBy = 1;
+                db.tblUsers.Add(tblUser);
+                db.SaveChanges();
+            }
+            //Update
+            else
+            {
+                tblUser.dtAdded = clsUser.dtAdded;
+                tblUser.iAddedBy = clsUser.iAddedBy;
+                tblUser.dtEdited = DateTime.Now;
+                tblUser.iEditedBy = 1;
 
-                    db.tblUsers.Add(tblUser);
-                    db.SaveChanges();
-                }
-                //Update
-                else
-                {
-                    tblUser.dtAdded = clsUser.dtAdded;
-                    tblUser.iAddedBy = clsUser.iAddedBy;
-                    tblUser.dtEdited = DateTime.Now;
-                    tblUser.iEditedBy = 1;
-
-                    db.Set<tblUsers>().AddOrUpdate(tblUser);
-                    db.SaveChanges();
-                }
+                db.Set<tblUsers>().AddOrUpdate(tblUser);
+                db.SaveChanges();
+            }
             return tblUser.iUserID;
         }
 
@@ -401,32 +430,33 @@ namespace Colmart.Model_Manager
         //Convert database table to class
         public clsUsers convertUsersTableToClass(tblUsers tblUser)
         {
-            clsUsers clsUser = new clsUsers();
+            clsUsers clsUser = new clsUsers
+            {
+                iUserID = tblUser.iUserID,
+                dtAdded = tblUser.dtAdded,
+                iAddedBy = tblUser.iAddedBy,
+                dtEdited = tblUser.dtEdited,
+                iEditedBy = tblUser.iEditedBy,
+                iRoleTypeID = tblUser.iRoleTypeID,
+                strFirstName = tblUser.strFirstName,
+                strSurname = tblUser.strSurname,
 
-            clsUser.iUserID = tblUser.iUserID;
-            clsUser.dtAdded = tblUser.dtAdded;
-            clsUser.iAddedBy = tblUser.iAddedBy;
-            clsUser.dtEdited = tblUser.dtEdited;
-            clsUser.iEditedBy = tblUser.iEditedBy;
+                strPrimaryContact = tblUser.strPrimaryContact,
+                strSecondaryContact = tblUser.strSecondaryContact,
+                strPrimaryContactNumber = tblUser.strPrimaryContactNumber,
+                strSecondaryContactNumber = tblUser.strSecondaryContactNumber,
 
-            clsUser.iRoleTypeID = tblUser.iRoleTypeID;
-            clsUser.strFirstName = tblUser.strFirstName;
-            clsUser.strSurname = tblUser.strSurname;
-            clsUser.strBiographicalInfo = tblUser.strBiographicalInfo;
-            clsUser.strContactNumber = tblUser.strContactNumber;
-
-            clsUser.strEmailAddress = tblUser.strEmailAddress;
-            clsUser.strCompanyName = tblUser.strCompanyName;
-            clsUser.strArea = tblUser.strArea;
-            clsUser.strVatNumber = tblUser.strVatNumber;
-            clsUser.strBusinessPurpose = tblUser.strBusinessPurpose;
-            clsUser.strPassword = tblUser.strPassword;
-            clsUser.strPasswordConfirm = tblUser.strPasswordConfirm;
-            clsUser.strImagePath = tblUser.strImagePath;
-            clsUser.strImageName = tblUser.strImageName;
-            clsUser.bIsConfirmed = tblUser.bIsConfirmed;
-            clsUser.bIsDeleted = tblUser.bIsDeleted;
-
+                strEmailAddress = tblUser.strEmailAddress,
+                strCompanyName = tblUser.strCompanyName,
+                strVatNumber = tblUser.strVatNumber,
+                strBusinessPurpose = tblUser.strBusinessPurpose,
+                strPassword = tblUser.strPassword,
+                strPasswordConfirm = tblUser.strPasswordConfirm,
+                strImagePath = tblUser.strImagePath,
+                strImageName = tblUser.strImageName,
+                bIsDeleted = tblUser.bIsDeleted,
+                bIsConfirmed = tblUser.bIsConfirmed
+            };
             return clsUser;
         }
 
@@ -434,7 +464,7 @@ namespace Colmart.Model_Manager
         public void resetUserPassword(clsUsers clsUser)
         {
             clsUsers clsSessionUser = (clsUsers)HttpContext.Current.Session["clsUser"];
-            tblUsers tblUser = db.tblUsers.Where(User => User.iUserID == clsUser.iUserID && User.bIsDeleted == false).FirstOrDefault();
+            tblUsers tblUser = db.tblUsers.FirstOrDefault(User => User.iUserID == clsUser.iUserID && User.bIsDeleted == false);
 
             if (tblUser != null)
             {

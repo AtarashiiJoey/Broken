@@ -4,6 +4,8 @@ using Colmart.Models;
 using Colmart.View_Models;
 using ColmartCMS.Assistant_Classes;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Mail;
 using System.Text;
 using System.Web;
@@ -17,7 +19,14 @@ namespace Colmart.Controllers
         // GET: Account
         public ActionResult Login()
         {
-            var clsUserLoginRegister = new clsUserLoginRegister();
+            var clsAreaManager = new clsAreaManager();
+            var clsUserLoginRegister = new clsUserLoginRegister()
+            {
+                clsAreas = clsAreaManager.getAllAreasList(),
+                iAreaID = -1
+            };
+
+
             HttpCookie hcUserEmailCookie = Request.Cookies["strUserEmail"];
             if (hcUserEmailCookie != null)
             {
@@ -52,6 +61,10 @@ namespace Colmart.Controllers
         [AllowAnonymous]
         public ActionResult Login(clsUserLoginRegister clsUserLoginRegister)
         {
+            var clsAreaManager = new clsAreaManager();
+
+            clsUserLoginRegister.clsAreas = clsAreaManager.getAllAreasList();
+            clsUserLoginRegister.iAreaID = -1;
             //CMS Users Manager
             clsUsersManager clsUsersManager = new clsUsersManager();
             //CMS User
@@ -94,9 +107,11 @@ namespace Colmart.Controllers
                     //Set cookie
                     if (clsUserLoginRegister.clsUserLogin.bRememberMe == true)
                     {
-                        HttpCookie hcUserEmailCookie = new HttpCookie("strUserEmail");
-                        hcUserEmailCookie.Value = clsUserLoginRegister.clsUserLogin.strEmail;
-                        hcUserEmailCookie.Expires = DateTime.Now.AddDays(30); // expires after 30 days
+                        var hcUserEmailCookie = new HttpCookie("strUserEmail")
+                        {
+                            Value = clsUserLoginRegister.clsUserLogin.strEmail, Expires = DateTime.Now.AddDays(30)
+                        };
+                        // expires after 30 days
                         HttpContext.Response.Cookies.Add(hcUserEmailCookie);
                     }
                     else
@@ -122,35 +137,42 @@ namespace Colmart.Controllers
             if (ModelState.IsValid)
             {
                 var clsUsersManager = new clsUsersManager();
-                var clsUser = new clsUsers();
-                string strPasswordHash = "";
+                var strPasswordHash = "";
 
-                clsUser.iRoleTypeID = 1;
-                clsUser.strFirstName = clsUserLoginRegister.strFirstName;
-                clsUser.strSurname = clsUserLoginRegister.strSurname;
-                clsUser.strBiographicalInfo = clsUserLoginRegister.strBiographicalInfo;
-                clsUser.strContactNumber = clsUserLoginRegister.strContactNumber;
-                clsUser.strEmailAddress = clsUserLoginRegister.strEmailAddress;
-                clsUser.strCompanyName = clsUserLoginRegister.strCompanyName;
-                clsUser.strArea = clsUserLoginRegister.strArea;
-                clsUser.strVatNumber = clsUserLoginRegister.strVatNumber;
-                clsUser.strBusinessPurpose = clsUserLoginRegister.strBusinessPurpose;
+                var clsUser = new clsUsers
+                {
+                    iRoleTypeID = 1,
+                    strFirstName = clsUserLoginRegister.strFirstName,
+                    strSurname = clsUserLoginRegister.strSurname,
+                    strPrimaryContactNumber = clsUserLoginRegister.strPrimaryContactNumber,
+                    strPrimaryContact = clsUserLoginRegister.strFirstName + " " + clsUserLoginRegister.strSurname,
+                    iAreaID = clsUserLoginRegister.iAreaID,
+
+                    strEmailAddress = clsUserLoginRegister.strEmailAddress,
+                    strCompanyName = clsUserLoginRegister.strCompanyName,
+                    strVatNumber = clsUserLoginRegister.strVatNumber,
+                    strBusinessPurpose = clsUserLoginRegister.strBusinessPurpose,
+                    strImagePath = clsUserLoginRegister.strImagePath,
+                    strImageName = clsUserLoginRegister.strImageName,
+                    bIsConfirmed = false,
+                    bIsDeleted = false
+                };
+
 
                 if (clsUserLoginRegister.strPassword != null && clsUserLoginRegister.strPassword != "")
                     strPasswordHash = clsCommonFunctions.GetMd5Sum(clsUserLoginRegister.strPassword);
 
+
                 clsUser.strPassword = strPasswordHash;
                 clsUser.strPasswordConfirm = strPasswordHash;
-                clsUser.strImagePath = clsUserLoginRegister.strImagePath;
-                clsUser.strImageName = clsUserLoginRegister.strImageName;
-                clsUser.bIsConfirmed = false;
-                clsUser.bIsDeleted = false;
 
                 int iUserID = clsUsersManager.registerUser(clsUser);
 
-                HttpCookie hcUserEmailCookie = new HttpCookie("strUserEmail");
-                hcUserEmailCookie.Value = clsUserLoginRegister.strEmailAddress;
-                hcUserEmailCookie.Expires = DateTime.Now.AddDays(30); // expires after 30 days
+                var hcUserEmailCookie = new HttpCookie("strUserEmail")
+                {
+                    Value = clsUserLoginRegister.strEmailAddress, Expires = DateTime.Now.AddDays(30)
+                };
+                // expires after 30 days
                 HttpContext.Response.Cookies.Add(hcUserEmailCookie);
 
                 ConfirmationEmail(clsUser.strFirstName, clsUser.strEmailAddress, iUserID);

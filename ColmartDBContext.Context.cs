@@ -25,6 +25,7 @@ namespace Colmart
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<tblAreas> tblAreas { get; set; }
         public virtual DbSet<tblAssociations> tblAssociations { get; set; }
         public virtual DbSet<tblCMSPages> tblCMSPages { get; set; }
         public virtual DbSet<tblCMSRoleTypes> tblCMSRoleTypes { get; set; }

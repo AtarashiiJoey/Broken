@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace Colmart.Models
@@ -26,11 +23,17 @@ namespace Colmart.Models
         [Required(ErrorMessage = "Field is required")]
         [StringLength(250, MinimumLength = 2, ErrorMessage = "Last name must be at least 2 characters long")]
         public string strSurname { get; set; }
-        public string strBiographicalInfo { get; set; }
 
-        [StringLength(10, MinimumLength = 10, ErrorMessage = "Incorrect contact number length")]
+        public string strPrimaryContact { get; set; }
+        public string strSecondaryContact { get; set; }
+
         [RegularExpression("^[0-9]*$", ErrorMessage = "Please enter a valid contact number")]
-        public string strContactNumber { get; set; }
+        [StringLength(10, MinimumLength = 10, ErrorMessage = "Incorrect contact number length")]
+        public string strPrimaryContactNumber { get; set; }
+
+        [RegularExpression("^[0-9]*$", ErrorMessage = "Please enter a valid contact number")]
+        [StringLength(10, MinimumLength = 10, ErrorMessage = "Incorrect contact number length")]
+        public string strSecondaryContactNumber { get; set; }
 
         [Required(ErrorMessage = "Field is required")]
         [EmailAddress(ErrorMessage = "Please enter a valid email")]
@@ -39,9 +42,10 @@ namespace Colmart.Models
         [Required(ErrorMessage = "Field is required")]
         public string strCompanyName { get; set; }
         [Required(ErrorMessage = "Field is required")]
-        public string strArea { get; set; }
+        public int? iAreaID { get; set; }
         [Required(ErrorMessage = "Field is required")]
         public string strVatNumber { get; set; }
+        public string strTerms { get; set; }
         [Required(ErrorMessage = "Field is required")]
         public string strBusinessPurpose { get; set; }
         [DataType(DataType.Password)]
@@ -56,7 +60,9 @@ namespace Colmart.Models
         public string strImageName { get; set; }
         public bool bIsConfirmed { get; set; }
         public bool bIsDeleted { get; set; }
-
+        
+        public virtual clsAreas clsAreas { get; set; }
+        public virtual ICollection<tblOrders> tblOrders { get; set; }
         public clsRoleTypes clsRoleType { get; set; }
         public List<clsUserAccess> lstUserAccess { get; set; }
     }

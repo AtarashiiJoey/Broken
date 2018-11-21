@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
-using System.Web;
 
 namespace Colmart.Model_Manager
 {
@@ -153,41 +152,41 @@ namespace Colmart.Model_Manager
         //Save
         public void saveProductSize(clsProductSizes clsProductSize)
         {
-            
-                //clsCMSUsers clsCMSUser = (clsCMSUsers)HttpContext.Current.Session["clsCMSUser"];
-                tblProductSizes tblProductSizes = new tblProductSizes();
 
-                tblProductSizes.iProductSizeID = clsProductSize.iProductSizeID;
+            //clsCMSUsers clsCMSUser = (clsCMSUsers)HttpContext.Current.Session["clsCMSUser"];
+            tblProductSizes tblProductSizes = new tblProductSizes();
 
-                tblProductSizes.strSize = clsProductSize.strSize;
-                tblProductSizes.dblPrice = clsProductSize.dblPrice;
-                tblProductSizes.iQuantityAvailable = clsProductSize.iQuantityAvailable;
-                tblProductSizes.iProductID = clsProductSize.iProductID;
-                tblProductSizes.bIsDeleted = clsProductSize.bIsDeleted;
+            tblProductSizes.iProductSizeID = clsProductSize.iProductSizeID;
 
-                //Add
-                if (tblProductSizes.iProductSizeID == 0)
-                {
-                    tblProductSizes.dtAdded = DateTime.Now;
-                    tblProductSizes.iAddedBy = -50;//clsCMSUser.iCMSUserID;
-                    tblProductSizes.dtEdited = DateTime.Now;
-                    tblProductSizes.iEditedBy = -50;//clsCMSUser.iCMSUserID;
+            tblProductSizes.strSize = clsProductSize.strSize;
+            tblProductSizes.dblPrice = clsProductSize.dblPrice;
+            tblProductSizes.iQuantityAvailable = clsProductSize.iQuantityAvailable;
+            tblProductSizes.iProductID = clsProductSize.iProductID;
+            tblProductSizes.bIsDeleted = clsProductSize.bIsDeleted;
+
+            //Add
+            if (tblProductSizes.iProductSizeID == 0)
+            {
+                tblProductSizes.dtAdded = DateTime.Now;
+                tblProductSizes.iAddedBy = -50;//clsCMSUser.iCMSUserID;
+                tblProductSizes.dtEdited = DateTime.Now;
+                tblProductSizes.iEditedBy = -50;//clsCMSUser.iCMSUserID;
 
                 db.tblProductSizes.Add(tblProductSizes);
-                    db.SaveChanges();
-                }
-                //Update
-                else
-                {
-                    tblProductSizes.dtAdded = clsProductSize.dtAdded;
-                    tblProductSizes.iAddedBy = clsProductSize.iAddedBy;
-                    tblProductSizes.dtEdited = DateTime.Now;
-                    tblProductSizes.iEditedBy = -50;//clsCMSUser.iCMSUserID;
+                db.SaveChanges();
+            }
+            //Update
+            else
+            {
+                tblProductSizes.dtAdded = clsProductSize.dtAdded;
+                tblProductSizes.iAddedBy = clsProductSize.iAddedBy;
+                tblProductSizes.dtEdited = DateTime.Now;
+                tblProductSizes.iEditedBy = -50;//clsCMSUser.iCMSUserID;
 
                 db.Set<tblProductSizes>().AddOrUpdate(tblProductSizes);
-                    db.SaveChanges();
-                }
-            
+                db.SaveChanges();
+            }
+
         }
 
         //Remove

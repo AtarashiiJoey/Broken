@@ -1,4 +1,5 @@
 ﻿using iSync.EAI;
+using Microsoft.Xml.XMLGen;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -9,40 +10,77 @@ namespace MsgApp.Controllers
 {
     public class ServiceController
     {
+        // Managers etc.
         MessageServiceClient Client = new MessageServiceClient();
         XmlDocument xmlDocument = new XmlDocument();
 
         // Move to Web.config ASAP
-        string logPath = @"C:\Users\Dev-2018-Oct-PC\Desktop\Colmart\RepoVPS\Colmart\Colmart\Sync\Log.txt";
-        private readonly string xmlPath =
-            @"C:\Users\Dev-2018-Oct-PC\Desktop\Colmart\RepoVPS\Colmart\Colmart\Sync\XML\Templates\";
+        readonly string logPath = @"C:\Users\Dev-2018-Oct-PC\Desktop\Colmart\RepoVPS\Colmart\Colmart\Sync\Log.txt";
+        private readonly string root = @"C:\Users\Dev-2018-Oct-PC\Desktop\Colmart\RepoVPS\Colmart\Colmart\Sync\";
 
-        public void clsMessageServiceClient()
+        public void clsMessageServiceClient(int operation)
         {
-            // Move this to secrets ASAP
+            // TODO: Move this to secrets ASAP
             Client.Login("web", "Password123b");
-            var opps = Client.GetAvailableOperations().ToList();
 
-            var i = 15;
-            var Type = opps[i];
-            xmlDocument.Load(xmlPath + Type + ".xml");
+            // Variables
+            var ops = Client.GetAvailableOperations().ToList();
+            var Type = ops[operation];
+            var act = string.Empty;
+
+            switch (operation)
+            {
+                case 15: // "PersistWebSalesOrder"
+                    act = "INSERT";
+                    break; 
+                case 16: // "GetWebSalesOrder"
+                    act = "OTHER";
+                    break;
+                default:
+                    Debug.WriteLine("XMLPUSHER ERROR");
+                    break;
+            }
+
+            // GENERATE THE DOCUMENT
+
+
+            // Populate the doc
+
+
+            xmlDocument = GenerateXmlFromXsd(Type);
 
             // SETUP AND CREATE THE REQUEST
             var request = new Request
             {
-                Action = "INSERT",              // Compulsory ./
-                Identifier = "0",               // Optional consider using for BRANCH
-                Instance = "0",                 // Optional consider using for ?
-                MessageType = Type,             // Compulsory add layer of abstraction 
-                MessageXml = xmlDocument.OuterXml,     // Compulsory ./
-                PublishDate = DateTime.Now,     // Compulsory ./
-                SessionKey = "key",             // Grab the current web-session key
-                Source = "0"                    // Optional consider using for Location?
+                Action = act,                      // Compulsory ./
+                Identifier = "0",                       // Optional consider using for BRANCH
+                Instance = "0",                         // Optional consider using for ?
+                MessageType = Type,                     // Compulsory add layer of abstraction 
+                MessageXml = xmlDocument.OuterXml,      // Compulsory ./
+                PublishDate = DateTime.Now,             // Compulsory ./
+                SessionKey = "key",                     // TODO: Grab the current web-session key
+                Source = "0"                            // Optional consider using for Location?
             };
+
+
             // This executes the current request
             var response = Client.Execute(request);
 
-            Debug.WriteLine(PushLogger(logPath, response, request, Type, i));
+            Debug.WriteLine(PushLogger(logPath, response, request, Type, operation));
+        }
+
+        private XmlDocument GenerateXmlFromXsd(string opperation)
+        {
+            var xsdPath = $@"{root}Schemas\{opperation}.xsd";
+            var xmlPath = $@"{root}XML\{opperation}.xml";
+
+            var textWriter = new XmlTextWriter(xmlPath, null);
+            textWriter.Formatting = Formatting.Indented;
+            var qname = new XmlQualifiedName("PurchaseOrder", "http://tempuri.org");
+            var generator = new XmlSampleGenerator(xsdPath, qname);
+            generator.WriteXml(textWriter);
+
+            return xmlDocument;
         }
 
         public string PushLogger(string path, Response response, Request request, string type, int opp)

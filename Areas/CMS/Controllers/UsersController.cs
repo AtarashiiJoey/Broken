@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using Colmart.Model_Manager;
+﻿using Colmart.Model_Manager;
 using Colmart.Models;
-using ColmartCMS.View_Models;
+using ColmartCMS.Assistant_Classes;
 using ColmartCMS.View_Models.Users;
+using System;
 using System.Drawing;
-using System.IO;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
-using ColmartCMS.Assistant_Classes;
+using System.IO;
+using System.Web.Mvc;
 
 namespace ColmartCMS.Controllers
 {
@@ -90,7 +86,7 @@ namespace ColmartCMS.Controllers
                 }
 
                 //Smaller Image
-                Image smallImage = (Image)ResizeImage(image, 35, 35);
+                Image smallImage = ResizeImage(image, 35, 35);
                 //Save images
                 image.Save(strImagePath, System.Drawing.Imaging.ImageFormat.Png);
                 smallImage.Save(strSmallImagePath, System.Drawing.Imaging.ImageFormat.Png);
@@ -182,8 +178,7 @@ namespace ColmartCMS.Controllers
 
             clsUser.strFirstName = clsUserEdit.clsUser.strFirstName;
             clsUser.strSurname = clsUserEdit.clsUser.strSurname;
-            clsUser.strContactNumber = clsUserEdit.clsUser.strContactNumber;
-            clsUser.strBiographicalInfo = clsUserEdit.clsUser.strBiographicalInfo;
+            clsUser.strPrimaryContactNumber = clsUserEdit.clsUser.strPrimaryContactNumber;
 
             //Save image
             if (clsUserEdit.strCropImageData != null && clsUserEdit.strCropImageData != "")
@@ -232,7 +227,7 @@ namespace ColmartCMS.Controllers
                 }
 
                 //Smaller Image
-                Image smallImage = (Image)ResizeImage(image, 35, 35);
+                Image smallImage = ResizeImage(image, 35, 35);
                 //Save images
                 image.Save(strImagePath, System.Drawing.Imaging.ImageFormat.Png);
                 smallImage.Save(strSmallImagePath, System.Drawing.Imaging.ImageFormat.Png);

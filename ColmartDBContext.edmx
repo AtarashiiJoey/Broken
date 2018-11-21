@@ -4,7 +4,20 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ColmartDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="ColmartDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tblAreas">
+          <Key>
+            <PropertyRef Name="iAreaID" />
+          </Key>
+          <Property Name="iAreaID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="dtAdded" Type="datetime" />
+          <Property Name="iAddedBy" Type="int" />
+          <Property Name="dtEdited" Type="datetime" />
+          <Property Name="iEditedBy" Type="int" />
+          <Property Name="strAreaAbbreviation" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="strAreaName" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="bIsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="tblAssociations">
           <Key>
             <PropertyRef Name="iAssociationID" />
@@ -264,12 +277,15 @@
           <Property Name="iRoleTypeID" Type="int" Nullable="false" />
           <Property Name="strFirstName" Type="varchar" MaxLength="250" Nullable="false" />
           <Property Name="strSurname" Type="varchar" MaxLength="250" Nullable="false" />
-          <Property Name="strBiographicalInfo" Type="varchar" MaxLength="500" />
-          <Property Name="strContactNumber" Type="varchar" MaxLength="20" />
+          <Property Name="strPrimaryContact" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="strSecondaryContact" Type="varchar" MaxLength="250" />
+          <Property Name="strPrimaryContactNumber" Type="varchar" MaxLength="20" />
+          <Property Name="strSecondaryContactNumber" Type="varchar" MaxLength="20" />
           <Property Name="strEmailAddress" Type="varchar" MaxLength="120" Nullable="false" />
           <Property Name="strCompanyName" Type="varchar" MaxLength="100" />
-          <Property Name="strArea" Type="varchar" MaxLength="100" />
+          <Property Name="iAreaID" Type="int" />
           <Property Name="strVatNumber" Type="varchar" MaxLength="100" />
+          <Property Name="strTerms" Type="varchar" MaxLength="10" />
           <Property Name="strBusinessPurpose" Type="varchar" MaxLength="250" />
           <Property Name="strPassword" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="strPasswordConfirm" Type="varchar" MaxLength="50" Nullable="false" />
@@ -482,6 +498,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tblUsers_tblAreas">
+          <End Role="tblAreas" Type="Self.tblAreas" Multiplicity="0..1" />
+          <End Role="tblUsers" Type="Self.tblUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblAreas">
+              <PropertyRef Name="iAreaID" />
+            </Principal>
+            <Dependent Role="tblUsers">
+              <PropertyRef Name="iAreaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tblUsers_tblRoleTypes">
           <End Role="tblRoleTypes" Type="Self.tblRoleTypes" Multiplicity="1" />
           <End Role="tblUsers" Type="Self.tblUsers" Multiplicity="*" />
@@ -495,6 +523,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="ColmartDBModelStoreContainer">
+          <EntitySet Name="tblAreas" EntityType="Self.tblAreas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblAssociations" EntityType="Self.tblAssociations" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblCMSPages" EntityType="Self.tblCMSPages" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblCMSRoleTypes" EntityType="Self.tblCMSRoleTypes" Schema="dbo" store:Type="Tables" />
@@ -582,16 +611,33 @@
             <End Role="tblUsers" EntitySet="tblUsers" />
             <End Role="tblUserAccess" EntitySet="tblUserAccess" />
           </AssociationSet>
+          <AssociationSet Name="FK_tblUsers_tblAreas" Association="Self.FK_tblUsers_tblAreas">
+            <End Role="tblAreas" EntitySet="tblAreas" />
+            <End Role="tblUsers" EntitySet="tblUsers" />
+          </AssociationSet>
           <AssociationSet Name="FK_tblUsers_tblRoleTypes" Association="Self.FK_tblUsers_tblRoleTypes">
             <End Role="tblRoleTypes" EntitySet="tblRoleTypes" />
             <End Role="tblUsers" EntitySet="tblUsers" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ColmartDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tblAreas">
+          <Key>
+            <PropertyRef Name="iAreaID" />
+          </Key>
+          <Property Name="iAreaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="dtAdded" Type="DateTime" Precision="3" />
+          <Property Name="iAddedBy" Type="Int32" />
+          <Property Name="dtEdited" Type="DateTime" Precision="3" />
+          <Property Name="iEditedBy" Type="Int32" />
+          <Property Name="strAreaAbbreviation" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="strAreaName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="bIsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tblUsers" Relationship="Self.FK_tblUsers_tblAreas" FromRole="tblAreas" ToRole="tblUsers" />
+        </EntityType>
         <EntityType Name="tblAssociations">
           <Key>
             <PropertyRef Name="iAssociationID" />
@@ -884,12 +930,14 @@
           <Property Name="iRoleTypeID" Type="Int32" Nullable="false" />
           <Property Name="strFirstName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="strSurname" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="strBiographicalInfo" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="strContactNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="strPrimaryContact" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="strSecondaryContact" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="strPrimaryContactNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="strEmailAddress" Type="String" MaxLength="120" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="strCompanyName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="strArea" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="iAreaID" Type="Int32" />
           <Property Name="strVatNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="strTerms" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="strBusinessPurpose" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="strPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="strPasswordConfirm" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
@@ -897,10 +945,24 @@
           <Property Name="strImageName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="bIsConfirmed" Type="Boolean" Nullable="false" />
           <Property Name="bIsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tblAreas" Relationship="Self.FK_tblUsers_tblAreas" FromRole="tblUsers" ToRole="tblAreas" />
           <NavigationProperty Name="tblOrders" Relationship="Self.FK_tblOrders_tblUsers" FromRole="tblUsers" ToRole="tblOrders" />
           <NavigationProperty Name="tblRoleTypes" Relationship="Self.FK_tblUsers_tblRoleTypes" FromRole="tblUsers" ToRole="tblRoleTypes" />
           <NavigationProperty Name="tblUserAccess" Relationship="Self.FK_tblUserAccess_tblUsers" FromRole="tblUsers" ToRole="tblUserAccess" />
+          <Property Name="strSecondaryContactNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
+        <Association Name="FK_tblUsers_tblAreas">
+          <End Role="tblAreas" Type="Self.tblAreas" Multiplicity="0..1" />
+          <End Role="tblUsers" Type="Self.tblUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblAreas">
+              <PropertyRef Name="iAreaID" />
+            </Principal>
+            <Dependent Role="tblUsers">
+              <PropertyRef Name="iAreaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tblProductAssociationLinkTable_tblAssociations">
           <End Role="tblAssociations" Type="Self.tblAssociations" Multiplicity="1" />
           <End Role="tblProductAssociationLinkTable" Type="Self.tblProductAssociationLinkTable" Multiplicity="*" />
@@ -1118,6 +1180,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="ColmartDBContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tblAreas" EntityType="Self.tblAreas" />
           <EntitySet Name="tblAssociations" EntityType="Self.tblAssociations" />
           <EntitySet Name="tblCMSPages" EntityType="Self.tblCMSPages" />
           <EntitySet Name="tblCMSRoleTypes" EntityType="Self.tblCMSRoleTypes" />
@@ -1137,6 +1200,10 @@
           <EntitySet Name="tblRoleTypes" EntityType="Self.tblRoleTypes" />
           <EntitySet Name="tblUserAccess" EntityType="Self.tblUserAccess" />
           <EntitySet Name="tblUsers" EntityType="Self.tblUsers" />
+          <AssociationSet Name="FK_tblUsers_tblAreas" Association="Self.FK_tblUsers_tblAreas">
+            <End Role="tblAreas" EntitySet="tblAreas" />
+            <End Role="tblUsers" EntitySet="tblUsers" />
+          </AssociationSet>
           <AssociationSet Name="FK_tblProductAssociationLinkTable_tblAssociations" Association="Self.FK_tblProductAssociationLinkTable_tblAssociations">
             <End Role="tblAssociations" EntitySet="tblAssociations" />
             <End Role="tblProductAssociationLinkTable" EntitySet="tblProductAssociationLinkTable" />
@@ -1216,6 +1283,20 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="ColmartDBModelStoreContainer" CdmEntityContainer="ColmartDBContext">
+          <EntitySetMapping Name="tblAreas">
+            <EntityTypeMapping TypeName="ColmartDBModel.tblAreas">
+              <MappingFragment StoreEntitySet="tblAreas">
+                <ScalarProperty Name="iAreaID" ColumnName="iAreaID" />
+                <ScalarProperty Name="dtAdded" ColumnName="dtAdded" />
+                <ScalarProperty Name="iAddedBy" ColumnName="iAddedBy" />
+                <ScalarProperty Name="dtEdited" ColumnName="dtEdited" />
+                <ScalarProperty Name="iEditedBy" ColumnName="iEditedBy" />
+                <ScalarProperty Name="strAreaAbbreviation" ColumnName="strAreaAbbreviation" />
+                <ScalarProperty Name="strAreaName" ColumnName="strAreaName" />
+                <ScalarProperty Name="bIsDeleted" ColumnName="bIsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="tblAssociations">
             <EntityTypeMapping TypeName="ColmartDBModel.tblAssociations">
               <MappingFragment StoreEntitySet="tblAssociations">
@@ -1484,6 +1565,7 @@
           <EntitySetMapping Name="tblUsers">
             <EntityTypeMapping TypeName="ColmartDBModel.tblUsers">
               <MappingFragment StoreEntitySet="tblUsers">
+                <ScalarProperty Name="strSecondaryContactNumber" ColumnName="strSecondaryContactNumber" />
                 <ScalarProperty Name="iUserID" ColumnName="iUserID" />
                 <ScalarProperty Name="dtAdded" ColumnName="dtAdded" />
                 <ScalarProperty Name="iAddedBy" ColumnName="iAddedBy" />
@@ -1492,12 +1574,14 @@
                 <ScalarProperty Name="iRoleTypeID" ColumnName="iRoleTypeID" />
                 <ScalarProperty Name="strFirstName" ColumnName="strFirstName" />
                 <ScalarProperty Name="strSurname" ColumnName="strSurname" />
-                <ScalarProperty Name="strBiographicalInfo" ColumnName="strBiographicalInfo" />
-                <ScalarProperty Name="strContactNumber" ColumnName="strContactNumber" />
+                <ScalarProperty Name="strPrimaryContact" ColumnName="strPrimaryContact" />
+                <ScalarProperty Name="strSecondaryContact" ColumnName="strSecondaryContact" />
+                <ScalarProperty Name="strPrimaryContactNumber" ColumnName="strPrimaryContactNumber" />
                 <ScalarProperty Name="strEmailAddress" ColumnName="strEmailAddress" />
                 <ScalarProperty Name="strCompanyName" ColumnName="strCompanyName" />
-                <ScalarProperty Name="strArea" ColumnName="strArea" />
+                <ScalarProperty Name="iAreaID" ColumnName="iAreaID" />
                 <ScalarProperty Name="strVatNumber" ColumnName="strVatNumber" />
+                <ScalarProperty Name="strTerms" ColumnName="strTerms" />
                 <ScalarProperty Name="strBusinessPurpose" ColumnName="strBusinessPurpose" />
                 <ScalarProperty Name="strPassword" ColumnName="strPassword" />
                 <ScalarProperty Name="strPasswordConfirm" ColumnName="strPasswordConfirm" />

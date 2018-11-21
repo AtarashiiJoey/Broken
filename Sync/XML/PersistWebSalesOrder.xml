@@ -1,0 +1,20 @@
+<WebSalesOrder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/iSync.EAI.DTO">
+  <Comments xsi:nil="true" />
+  <DeliveryDetail xsi:nil="true" />
+  <DeliveryMethodID xsi:nil="true" />
+  <DeliveryMethodName xsi:nil="true" />
+  <EntitlementID xsi:nil="true" />
+  <IsGift xsi:nil="true" />
+  <IsXStock xsi:nil="true" />
+  <LineItems xsi:nil="true" />
+  <PONumber xsi:nil="true" />
+  <PaymentMethodID xsi:nil="true" />
+  <PrintInvoice xsi:nil="true" />
+  <RequiredDate xsi:nil="true" />
+  <SalesOrderID>1</SalesOrderID>
+  <SpecialInstructions xsi:nil="true" />
+  <StatusID xsi:nil="true" />
+  <TrackNo xsi:nil="true" />
+  <WebCustomerName xsi:nil="true" />
+  <WebSale xsi:nil="true" />
+</WebSalesOrder>

@@ -33,21 +33,24 @@ namespace Colmart.Controllers
         {
             if (ModelState.IsValid)
             {
-                var clsUsers = new clsUsers();
-                clsUsers.iUserID = clsAccountUpdate.iUserID;
-                clsUsers.dtAdded = clsAccountUpdate.dtAdded;
-                clsUsers.iAddedBy = clsAccountUpdate.iAddedBy;
-                clsUsers.iEditedBy = clsAccountUpdate.iEditedBy;
-                clsUsers.iRoleTypeID = clsAccountUpdate.iRoleTypeID;
-                clsUsers.strFirstName = clsAccountUpdate.strFirstName;
-                clsUsers.strSurname = clsAccountUpdate.strSurname;
-                clsUsers.strBiographicalInfo = clsAccountUpdate.strBiographicalInfo;
-                clsUsers.strContactNumber = clsAccountUpdate.strContactNumber;
-                clsUsers.strEmailAddress = clsAccountUpdate.strEmailAddress;
-                clsUsers.strCompanyName = clsAccountUpdate.strCompanyName;
-                clsUsers.strArea = clsAccountUpdate.strArea;
-                clsUsers.strVatNumber = clsAccountUpdate.strVatNumber;
-                clsUsers.strBusinessPurpose = clsAccountUpdate.strBusinessPurpose;
+                var clsUsers = new clsUsers
+                {
+                    iUserID = clsAccountUpdate.iUserID,
+                    dtAdded = clsAccountUpdate.dtAdded,
+                    iAddedBy = clsAccountUpdate.iAddedBy,
+                    iEditedBy = clsAccountUpdate.iEditedBy,
+                    iRoleTypeID = clsAccountUpdate.iRoleTypeID,
+                    strFirstName = clsAccountUpdate.strFirstName,
+                    strSurname = clsAccountUpdate.strSurname,
+                    iAreaID = clsAccountUpdate.iAreaID,
+                    strPrimaryContactNumber = clsAccountUpdate.strPrimaryContactNumber,
+                    strEmailAddress = clsAccountUpdate.strEmailAddress,
+                    strCompanyName = clsAccountUpdate.strCompanyName,
+                    strVatNumber = clsAccountUpdate.strVatNumber,
+                    strBusinessPurpose = clsAccountUpdate.strBusinessPurpose
+                };
+
+
                 if (clsAccountUpdate.strNewPassword != null && clsAccountUpdate.strNewPassword != "" && clsAccountUpdate.strConfirmNewPassword != null && clsAccountUpdate.strConfirmNewPassword != "")
                 {
                     clsUsers.strPassword = clsCommonFunctions.GetMd5Sum(clsAccountUpdate.strNewPassword);

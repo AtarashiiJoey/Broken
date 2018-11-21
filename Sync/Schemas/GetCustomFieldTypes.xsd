@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/iSync.EAI.DTO" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/iSync.EAI.DTO" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:complexType name="CustomFieldTypeQueryCriteria">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomFieldCategoryID" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="CustomFieldTypeID" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="InJob" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+    	<xs:element minOccurs="0" name="OnlyActive" nillable="true" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CustomFieldTypeQueryCriteria" nillable="true" type="tns:CustomFieldTypeQueryCriteria" />
+
+</xs:schema>

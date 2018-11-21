@@ -29,12 +29,15 @@ namespace Colmart
         public int iRoleTypeID { get; set; }
         public string strFirstName { get; set; }
         public string strSurname { get; set; }
-        public string strBiographicalInfo { get; set; }
-        public string strContactNumber { get; set; }
+        public string strPrimaryContact { get; set; }
+        public string strSecondaryContact { get; set; }
+        public string strPrimaryContactNumber { get; set; }
+        public string strSecondaryContactNumber { get; set; }
         public string strEmailAddress { get; set; }
         public string strCompanyName { get; set; }
-        public string strArea { get; set; }
+        public Nullable<int> iAreaID { get; set; }
         public string strVatNumber { get; set; }
+        public string strTerms { get; set; }
         public string strBusinessPurpose { get; set; }
         public string strPassword { get; set; }
         public string strPasswordConfirm { get; set; }
@@ -43,6 +46,7 @@ namespace Colmart
         public bool bIsConfirmed { get; set; }
         public bool bIsDeleted { get; set; }
     
+        public virtual tblAreas tblAreas { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblOrders> tblOrders { get; set; }
         public virtual tblRoleTypes tblRoleTypes { get; set; }
